@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.cricket.jwt.JwtUtils;
 import com.example.cricket.model.ERoles;
+import com.example.cricket.model.JwtBlacklist;
 import com.example.cricket.model.Role;
 import com.example.cricket.model.Users;
+import com.example.cricket.repository.JwtBlacklistRepository;
 import com.example.cricket.repository.RolesRepo;
 import com.example.cricket.repository.UsersRepository;
 import com.example.cricket.request.LoginRequest;
@@ -49,6 +54,9 @@ public class AuthenticationService {
 	
 	@Autowired
 	RolesRepo roleRepo;
+	
+	@Autowired
+	JwtBlacklistRepository jwtRepo;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -128,7 +136,26 @@ public class AuthenticationService {
 		
 		usersRepo.save(user);
 		return user;
-		
 	}
 	
-}
+	public MessageAndStatusResponse logout()
+	{
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		    String token = request.getHeader("Authorization").split(" ")[1];
+
+		    Authentication authentication=(Authentication) SecurityContextHolder.getContext().getAuthentication();
+			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+			int userId = userDetails.getUserId();
+			
+			
+		    JwtBlacklist blacklist = new JwtBlacklist();
+		    blacklist.setToken(token);
+		    blacklist.set_id(userId);
+		    jwtRepo.save(blacklist);
+		    
+		    return new MessageAndStatusResponse("Logged out", HttpStatus.OK);
+		    
+		}
+	}
+	
+

@@ -4,6 +4,7 @@ import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cricket.model.Users;
 import com.example.cricket.request.LoginRequest;
 import com.example.cricket.request.SignUpRequest;
 import com.example.cricket.response.JwtLoginResponse;
@@ -41,5 +43,18 @@ public class AuthController {
 	public MessageAndStatusResponse registerAdmin(@RequestParam String email) throws MailException, MessagingException
 	{
 		return authenticationService.registerAdmin(email);
+	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/adminUpdate")
+	public Users updateAdmin(@RequestBody SignUpRequest request)
+	{
+		return authenticationService.updateAdmin(request);
+	}
+	
+	@PostMapping("/logout")
+	public MessageAndStatusResponse logout()
+	{
+		return authenticationService.logout();
 	}
 }
