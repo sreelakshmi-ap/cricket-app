@@ -10,6 +10,7 @@ spring:
   h2:
     console:
       enabled: true
+
   mail:
     host: smtp.gmail.com
     username: cricketapplication61@gmail.com
