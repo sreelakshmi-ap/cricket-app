@@ -6,7 +6,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
-    hibernate.ddl-auto : update
+    hibernate.ddl-auto: update
   h2:
     console:
       enabled: true
@@ -15,7 +15,7 @@ spring:
     host: smtp.gmail.com
     username: cricketapplication61@gmail.com
     password: cricket@123
-    
+
     properties:
       mail:
         smtp:
@@ -24,22 +24,22 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
             port: 465
-          
+
 server:
   port: 5000
-  
+
 jwtSecret: cricketAppSecretKey
 jwtExpirationMs: 432000000
 
-  
 
-  servlet:
-        multipart:
-            enabled: true
-            file-size-threshold: 2KB
-            max-file-size: 200MB
-            max-request-size: 215MB    
+
+servlet:
+  multipart:
+    enabled: true
+    file-size-threshold: 2KB
+    max-file-size: 200MB
+    max-request-size: 215MB
 
 file:
-    upload-dir: downloadFile
+  upload-dir: downloadFile
 
