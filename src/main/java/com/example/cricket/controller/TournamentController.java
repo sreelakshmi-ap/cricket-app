@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.cricket.model.Tournament;
 import com.example.cricket.request.DateTimeEntry;
 import com.example.cricket.response.DateTimeResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cricket.model.Tournament;
 import com.example.cricket.response.TournamentResponse;
 import com.example.cricket.service.TournamentService;
 
@@ -37,5 +44,6 @@ public class TournamentController {
 	{
 		return tournamentService.AddTimings(tournamentId,entry.getStartDate(),entry.getStartOfTime(),entry.getEndDate(),entry.getEndOfTime());
 	}
+
 
 }
