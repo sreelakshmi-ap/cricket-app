@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.cricket.model.Tournament_umpire_mapping;
 
-
-public interface Tournament_umpire_mapping_Repository extends JpaRepository<Tournament_umpire_mapping,Integer>{
-	@Query(value = "select umpires.umpire_name,umpires.image_path from umpires where umpires.umpire_id in(select umpire_id from tournament_umpire_mapping where tournament_id=?)",nativeQuery = true)
+public interface Tournament_umpire_mapping_Repository extends JpaRepository<Tournament_umpire_mapping, Integer> {
+	@Query(value = "select umpires.umpire_name,umpires.image_path from umpires where umpires.umpire_id in(select umpire_id from tournament_umpire_mapping where tournament_id=?)", nativeQuery = true)
 	public List<String> getAllUmpiresOfTournament(int tournament_id);
+
+	@Query(value = "SELECT umpire_id FROM Cricket.tournament_umpire_mapping where tournament_id=?1", nativeQuery = true)
+	List<Integer> findUmpiresByTournamentId(int tournamentId);
 
 }
