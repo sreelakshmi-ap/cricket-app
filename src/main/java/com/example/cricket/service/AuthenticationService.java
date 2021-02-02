@@ -137,7 +137,7 @@ public class AuthenticationService {
 		usersRepo.save(user);
 		return user;
 	}
-	
+
 	public MessageAndStatusResponse logout()
 	{
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
