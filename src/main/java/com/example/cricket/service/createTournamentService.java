@@ -1,0 +1,50 @@
+package com.example.cricket.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.example.cricket.model.Tournament_umpire_mapping;
+import com.example.cricket.repository.Tournament_umpire_mapping_Repository;
+import com.example.cricket.response.MessageResponse;
+import com.example.cricket.response.UmpireResponse;
+
+
+
+@Service
+public class createTournamentService {
+	
+	@Autowired
+	Tournament_umpire_mapping_Repository repo;
+	
+	public MessageResponse addUmpireToTournament(int umpire_id,int tournament_id) {
+		Tournament_umpire_mapping mapping=new Tournament_umpire_mapping();
+		mapping.setTournament_id(tournament_id);
+		mapping.setUmpire_id(umpire_id);
+		repo.save(mapping);
+		return new MessageResponse("umpire saved successfully",HttpStatus.OK);
+		
+		
+	}
+	
+	public List<UmpireResponse> getAllUmpiresOfTournament(int tournamanet_id){
+		List<UmpireResponse> umpireNameAndImageList = new ArrayList<>();
+		List<String> umpairNameAndImage = repo.getAllUmpiresOfTournament(tournamanet_id);
+		String umpire_name,image_path;
+		UmpireResponse response;
+
+		for (String umpire :umpairNameAndImage) {
+			String[] umpireValues = umpire.split(",");
+			umpire_name = umpireValues[0];
+			image_path = umpireValues[1];
+			response = new UmpireResponse(umpire_name,image_path);
+			umpireNameAndImageList.add(response);
+
+		}
+		return umpireNameAndImageList;
+	}
+
+}
