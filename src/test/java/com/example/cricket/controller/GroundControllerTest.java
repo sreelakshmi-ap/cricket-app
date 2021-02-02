@@ -67,4 +67,23 @@ class GroundControllerTest {
                         MediaType.APPLICATION_JSON).content(json)).andExpect(
                 status().is2xxSuccessful());
     }
+
+    @Test
+    void deleteGround() throws Exception {
+        String json = "{\"tournamentId\":\"1\",\"groundId\":\"1\"}";
+        given(groundService.deleteGround(new TournamentGround())).willReturn(new ResponseEntity<>(HttpStatus.OK));
+        mockMvc.perform(
+                delete("/deleteGround").contentType(
+                        MediaType.APPLICATION_JSON).content(json)).andExpect(
+                status().is2xxSuccessful());
+    }
+
+    @Test
+    void getTournamentGround() throws Exception {
+        given(groundService.getTournamentGround(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
+        mockMvc.perform(
+                get("/getTournamentGround/{tournamentId}",1).contentType(
+                        MediaType.APPLICATION_JSON)).andExpect(
+                status().is2xxSuccessful());
+    }
 }

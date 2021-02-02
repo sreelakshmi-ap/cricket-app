@@ -80,4 +80,23 @@ class GroundServiceImplTest {
 
 
     }
+
+    @Test
+    void deleteGround() {
+        TournamentGround map = new TournamentGround();
+        map.setGroundId(1);
+        map.setTournamentId(1);
+        when(tournamentGroundRepository.findByGroundIdAndTournamentId(map.getGroundId(),map.getTournamentId())).thenReturn(Optional.empty());
+        ResponseEntity responseEntity = groundService.deleteGround(map);
+        MainResponse response = (MainResponse) responseEntity.getBody();
+        assertEquals("Ground ID or Tournament ID not found", response.getMessage());
+    }
+
+    @Test
+    void getTournamentGround() {
+        when(tournamentGroundRepository.findAllByTournamentId(1)).thenReturn(new ArrayList<>());
+        ResponseEntity responseEntity = groundService.getTournamentGround(1);
+        MainResponse response = (MainResponse) responseEntity.getBody();
+        assertEquals("Success", response.getMessage());
+    }
 }
