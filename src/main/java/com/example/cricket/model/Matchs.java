@@ -1,6 +1,7 @@
 package com.example.cricket.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,9 @@ public class Matchs{
 	String stopped_reason;
 	int umpire_1_id;
 	int umpire_2_id;
+	int innings;
+	LocalTime start_time;
+	LocalTime end_time;
 
 	public Matchs(int match_id, String match_name, int team_1_id,int team_2_id, int tournamentId,
 			int ground_id,String status,LocalDate match_date,String stopped_reason,int umpire_1_id,
@@ -116,8 +120,32 @@ public class Matchs{
 	public void setUmpire_2_id(int umpire_2_id) {
 		this.umpire_2_id = umpire_2_id;
 	}
-	
-	
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public int getInnings() {
+		return innings;
+	}
+
+	public void setInnings(int innings) {
+		this.innings = innings;
+	}
+
+	public LocalTime getStart_time() {
+		return start_time;
+	}
+
+	public void setStart_time(LocalTime start_time) {
+		this.start_time = start_time;
+	}
+
+	public LocalTime getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(LocalTime end_time) {
+		this.end_time = end_time;
+	}
 }
