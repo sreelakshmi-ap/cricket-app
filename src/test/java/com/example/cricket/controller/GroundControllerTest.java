@@ -68,6 +68,7 @@ class GroundControllerTest {
                 status().is2xxSuccessful());
     }
 
+
     @Test
     void deleteGround() throws Exception {
         String json = "{\"tournamentId\":\"1\",\"groundId\":\"1\"}";
@@ -86,4 +87,5 @@ class GroundControllerTest {
                         MediaType.APPLICATION_JSON)).andExpect(
                 status().is2xxSuccessful());
     }
+
 }

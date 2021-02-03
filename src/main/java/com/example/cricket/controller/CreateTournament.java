@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.cricket.model.Tournament;
 import com.example.cricket.model.Umpires;
 import com.example.cricket.repository.UmpiresRepository;
 import com.example.cricket.response.ListAndMessageResponse;
@@ -28,6 +29,10 @@ public class CreateTournament {
    
    @Autowired
    createTournamentService tournamentService;
+   
+   @Autowired
+   Tournament tournament;
+
 	
    @PostMapping("/addUmpire")
    public MessageResponse addUmpire(@RequestBody Umpires umpire) {
@@ -62,6 +67,19 @@ public class CreateTournament {
 	return new ListAndMessageResponse(umpireList, HttpStatus.OK, umpireList.size());
   }
    
+   @DeleteMapping("/deleteUmpireById")
+	   public MessageResponse deleteUmpireById(@RequestParam int umpire_id) {
+		   umpireRepository.deleteById(umpire_id);
+		   return new MessageResponse("umpire deleted successfully",HttpStatus.OK);
+		   
+	   }
+   
+  
+   
+   }
+   
+ 
+
  
 
 }
