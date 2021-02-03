@@ -14,4 +14,6 @@ public interface TeamRepo extends JpaRepository<Team, Integer> {
 
 	
 
+	@Query(value = "SELECT * FROM Cricket.teams where tournament_id=?1", nativeQuery = true)
+	List<Team> findAllByTournamentId(int tournamentId);
 }

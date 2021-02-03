@@ -48,18 +48,13 @@ public class Tournament {
 	@Column 
 	String tournamentLogo;
 	
+
 	@Column
 	String tournamentStatus;
 
 	public Tournament() {
 		super();
 	}
-	
-	
-	
-	
-
-
 
 
 	public Tournament(String tournamentName, String type, String tournamentLogo) {
@@ -68,12 +63,6 @@ public class Tournament {
 		this.type = type;
 		this.tournamentLogo = tournamentLogo;
 	}
-
-
-
-
-
-
 
 
 	public Tournament(String tournamentName, String type, String tournamentCode, String tournamentLogo,
@@ -85,14 +74,6 @@ public class Tournament {
 		this.tournamentLogo = tournamentLogo;
 		this.tournamentStatus = tournamentStatus;
 	}
-	
-	
-	
-
-
-
-
-
 
 
 	public Tournament(String tournamentName, String type, String tournamentCode, int overs, LocalDate startDate,
@@ -110,11 +91,6 @@ public class Tournament {
 		this.tournamentLogo = tournamentLogo;
 		this.tournamentStatus = tournamentStatus;
 	}
-
-
-
-
-
 
 
 	public Tournament(int tournamentId, String tournamentName, String type, String tournamentCode, int overs,
@@ -135,15 +111,9 @@ public class Tournament {
 	}
 
 
-
-
-
-
-
 	public int getTournamentId() {
 		return tournamentId;
 	}
-
 
 
 	public void setTournamentId(int tournamentId) {
@@ -151,11 +121,9 @@ public class Tournament {
 	}
 
 
-
 	public String getTournamentName() {
 		return tournamentName;
 	}
-
 
 
 	public void setTournamentName(String tournamentName) {
@@ -163,11 +131,9 @@ public class Tournament {
 	}
 
 
-
 	public String getType() {
 		return type;
 	}
-
 
 
 	public void setType(String type) {
@@ -175,11 +141,9 @@ public class Tournament {
 	}
 
 
-
 	public String getTournamentCode() {
 		return tournamentCode;
 	}
-
 
 
 	public void setTournamentCode(String tournamentCode) {
@@ -187,11 +151,9 @@ public class Tournament {
 	}
 
 
-
 	public int getOvers() {
 		return overs;
 	}
-
 
 
 	public void setOvers(int overs) {
@@ -199,11 +161,9 @@ public class Tournament {
 	}
 
 
-
 	public LocalDate getStartDate() {
 		return startDate;
 	}
-
 
 
 	public void setStartDate(LocalDate startDate) {
@@ -211,11 +171,9 @@ public class Tournament {
 	}
 
 
-
 	public LocalDate getEndDate() {
 		return endDate;
 	}
-
 
 
 	public void setEndDate(LocalDate endDate) {
@@ -223,11 +181,9 @@ public class Tournament {
 	}
 
 
-
 	public LocalTime getStartOfTime() {
 		return startOfTime;
 	}
-
 
 
 	public void setStartOfTime(LocalTime startOfTime) {
@@ -235,11 +191,9 @@ public class Tournament {
 	}
 
 
-
 	public LocalTime getEndOfTime() {
 		return endOfTime;
 	}
-
 
 
 	public void setEndOfTime(LocalTime endOfTime) {
@@ -247,11 +201,9 @@ public class Tournament {
 	}
 
 
-
 	public String getTournamentLogo() {
 		return tournamentLogo;
 	}
-
 
 
 	public void setTournamentLogo(String tournamentLogo) {
@@ -259,28 +211,13 @@ public class Tournament {
 	}
 
 
-
-
-
-
 	public String getTournamentStatus() {
 		return tournamentStatus;
 	}
 
 
-
-
-
-
 	public void setTournamentStatus(String tournamentStatus) {
 		this.tournamentStatus = tournamentStatus;
 	}
-	
-	
-	
-	 
-	
-	
-	
 
 }

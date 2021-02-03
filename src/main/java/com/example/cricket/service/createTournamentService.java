@@ -3,6 +3,12 @@ package com.example.cricket.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,10 +47,42 @@ public class createTournamentService {
 			umpire_name = umpireValues[0];
 			image_path = umpireValues[1];
 			response = new UmpireResponse(umpire_name,image_path);
+
 			umpireNameAndImageList.add(response);
 
 		}
 		return umpireNameAndImageList;
+	}
+
+
+	public OverviewResponse getOverview(@RequestParam int tournamentId) {
+		List<Team> teams = teamRepo.findAllByTournamentId(tournamentId);
+		int Overs = tournamentRepo.findOversByTournamentId(tournamentId);
+
+		List<Integer> groundList = tournamentGroundRepository.findGroundsByTournamentId(tournamentId);
+		List<GroundEntity> grounds = new ArrayList<>();
+		for (Integer i : groundList) {
+			GroundEntity ground = groundRepository.findGroundById(i);
+			grounds.add(ground);
+		}
+
+		List<Umpires> umpires = new ArrayList<>();
+		List<Integer> umpireList = tournament_umpire_mapping_Repository.findUmpiresByTournamentId(tournamentId);
+		for (Integer i : umpireList) {
+			Umpires umpire = umpiresRepository.findUmpiresById(i);
+			umpires.add(umpire);
+		}
+		Optional<Tournament> tournament = tournamentRepo.findById(tournamentId);
+		Tournament existing = tournament.get();
+
+		LocalDate startDate = existing.getStartDate();
+		LocalDate endDate = existing.getEndDate();
+
+		LocalTime startOfTime = existing.getStartOfTime();
+		LocalTime endOfTime = existing.getEndOfTime();
+
+		return new OverviewResponse(teams, Overs, grounds, umpires, startDate, endDate, startOfTime, endOfTime);
+
 	}
 
 }

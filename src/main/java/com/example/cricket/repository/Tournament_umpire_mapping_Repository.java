@@ -14,4 +14,9 @@ public interface Tournament_umpire_mapping_Repository extends JpaRepository<Tour
 
 	@Query(value = "select tournament_umpire_mapping.umpire_id from tournament_umpire_mapping where tournament_umpire_mapping.tournament_id=?",nativeQuery = true)
 	public List<Integer> getAllUmpiresforMatch(int tournament_id);
+
+
+	@Query(value = "SELECT umpire_id FROM Cricket.tournament_umpire_mapping where tournament_id=?1", nativeQuery = true)
+	List<Integer> findUmpiresByTournamentId(int tournamentId);
+
 }

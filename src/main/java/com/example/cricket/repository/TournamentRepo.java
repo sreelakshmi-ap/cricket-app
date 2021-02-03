@@ -1,7 +1,6 @@
 package com.example.cricket.repository;
 
 import java.time.LocalDate;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,5 +12,11 @@ public interface TournamentRepo extends JpaRepository<Tournament, Integer> {
 	
 	@Query(value = "select tournament.end_date from tournament where tournament.tournament_id=?",nativeQuery = true)
 	public LocalDate getEndDate(int tournament_id);
+
+	@Query(value = "SELECT overs FROM Cricket.tournament where tournament_id=?1", nativeQuery = true)
+	int findOversByTournamentId(int tournamentId);
+	
+	@Query(value = "SELECT * FROM Cricket.tournament where tournament_id=?1", nativeQuery = true)
+	Tournament findTournamentId(int tournamentId);
 
 }
