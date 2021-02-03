@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.cricket.model.*;
+import com.example.cricket.repository.*;
+import com.example.cricket.response.OverviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.example.cricket.model.Tournament_umpire_mapping;
-import com.example.cricket.repository.Tournament_umpire_mapping_Repository;
 import com.example.cricket.response.MessageResponse;
 import com.example.cricket.response.UmpireResponse;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Service
@@ -25,6 +26,24 @@ public class createTournamentService {
 	
 	@Autowired
 	Tournament_umpire_mapping_Repository repo;
+
+	@Autowired
+	TournamentRepo tournamentRepo;
+
+	@Autowired
+	TeamRepo teamRepo;
+
+	@Autowired
+	TournamentGroundRepository tournamentGroundRepository;
+
+	@Autowired
+	GroundRepository groundRepository;
+
+	@Autowired
+	Tournament_umpire_mapping_Repository tournament_umpire_mapping_Repository;
+
+	@Autowired
+	UmpiresRepository umpiresRepository;
 	
 	public MessageResponse addUmpireToTournament(int umpire_id,int tournament_id) {
 		Tournament_umpire_mapping mapping=new Tournament_umpire_mapping();
