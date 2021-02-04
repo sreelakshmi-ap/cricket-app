@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface UpdateScoreService {
   public   ResponseEntity toss(Toss toss);
+
+    public ResponseEntity startMatch(int matchId);
 }
