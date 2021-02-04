@@ -1,13 +1,11 @@
 package com.example.cricket.service;
 
-import com.example.cricket.model.Matchs;
-import com.example.cricket.model.PlayerScore;
-import com.example.cricket.model.TeamPlayerEntity;
-import com.example.cricket.model.TeamScore;
+import com.example.cricket.model.*;
 import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
 import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.request.Playing;
 import com.example.cricket.request.Toss;
 import com.example.cricket.response.MainResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class UpdateScoreServiceImpl implements UpdateScoreService {
         Optional<TeamScore> tossWinner = Optional.ofNullable(teamScoreRepository.findByMatchIdAndTeamId(toss.getMatchId(), toss.getTeamId()));
         if (tossWinner.isPresent()) {
             tossWinner.get().setBattingOrder(toss.isTossWinner());
-            teamScoreRepository.save(tossWinner.get());
+           teamScoreRepository.save(tossWinner.get());
             return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", ""));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID or Team ID not found", ""));
@@ -53,6 +51,9 @@ public class UpdateScoreServiceImpl implements UpdateScoreService {
         Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
         if (currentMatch.isPresent()) {
             Matchs match = currentMatch.get();
+            if(match.getStatus().equals("Live")){
+                return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Match has already started",""));
+            }
             match.setStatus("Live");
             match.setStart_time(LocalTime.now());
             matchRepository.save(match);
@@ -66,10 +67,68 @@ public class UpdateScoreServiceImpl implements UpdateScoreService {
             players.addAll(teamOnePlayers);
             players.addAll(teamTwoPlayers);
             for (TeamPlayerEntity player : players) {
-                PlayerScore score = new PlayerScore(player.getTeamId(), player.getPlayerId(),false,false,false,0,0,0,0,0,0,0,0,0,false);
+                PlayerScore score = new PlayerScore(player.getTeamId(), player.getPlayerId(),matchId,false,false,false,0,0,0,0,0,0,0,0,0,false);
                 playerScoreRepository.save(score);
             }
             return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",""));
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));
+    }
+
+    @Override
+    public ResponseEntity batsmenList(int matchId) {
+        Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
+        if(currentMatch.isPresent()){
+            if(currentMatch.get().getStatus().equals("Live")){
+                List<?> batsmen = new ArrayList<>();
+                if(currentMatch.get().getInnings() == 1){
+                    batsmen = playerScoreRepository.findAllBatsmen(matchId,true);
+                }else if(currentMatch.get().getInnings() == 2){
+                     batsmen = playerScoreRepository.findAllBatsmen(matchId,false);
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",batsmen));
+
+            }
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));
+    }
+
+    @Override
+    public ResponseEntity bowlerList(int matchId) {
+        Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
+        if(currentMatch.isPresent()){
+            if(currentMatch.get().getStatus().equals("Live")){
+                List<?> bowlers = new ArrayList<>();
+                if(currentMatch.get().getInnings() == 1){
+                    bowlers = playerScoreRepository.findAllPlayer(matchId,false);
+                }else if(currentMatch.get().getInnings() == 2){
+                    bowlers = playerScoreRepository.findAllPlayer(matchId,true);
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",bowlers));
+
+            }
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));
+    }
+
+    @Override
+    public ResponseEntity currentPlaying(List<Playing> playingList, int matchId) {
+        Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
+        if(currentMatch.isPresent()){
+            if(currentMatch.get().getStatus().equals("Live")){
+             for(Playing player : playingList){
+                 PlayerScore score = playerScoreRepository.findByPlayerIdAndMatchId(player.getPlayerId(),matchId);
+                 score.setBatting(player.isBatting());
+                 score.setBowling(player.isBowling());
+                 score.setOnCrease(player.isOnCrease());
+                 playerScoreRepository.save(score);
+             }
+                return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",""));
+
+            }
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));

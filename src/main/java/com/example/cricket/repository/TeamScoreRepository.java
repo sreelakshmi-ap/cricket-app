@@ -5,4 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamScoreRepository extends JpaRepository<TeamScore,Integer> {
    public TeamScore findByMatchIdAndTeamId(int matchId, int teamId);
+
+
+
+
 }
+
