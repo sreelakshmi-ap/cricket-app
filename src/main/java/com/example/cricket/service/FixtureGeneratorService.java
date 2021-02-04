@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Fixture;
@@ -14,6 +15,8 @@ import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TournamentGroundRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.repository.Tournament_umpire_mapping_Repository;
+import com.example.cricket.request.AddFixtureRequest;
+import com.example.cricket.response.MessageResponse;
 
 @Service
 public class FixtureGeneratorService<T extends Object> {
@@ -72,6 +75,7 @@ public class FixtureGeneratorService<T extends Object> {
 		        match.setMatch_date(start_date);
 		        match.setUmpire_1_id(array[in]);
 		        match.setUmpire_2_id(array[in+1]);
+		        match.setStatus("Upcoming");
 		        matchRepository.save(match);
 		        r=r+1;
 		        if(index==grounds.size()-1) {
@@ -164,4 +168,25 @@ public class FixtureGeneratorService<T extends Object> {
         return rounds;
     }
 
+	
+	public MessageResponse addFixture(AddFixtureRequest matchList,int tournament_id) {
+		System.out.println(matchList);
+		List<Matchs> match=matchList.getMatchsList();
+		for(Matchs m:match) {
+			Matchs matchs=new Matchs();
+			matchs.setGround_id(m.getGround_id());
+		    matchs.setMatch_date(m.getMatch_date());
+			matchs.setMatch_name(m.getMatch_name());
+			matchs.setStatus("Upcoming");
+			matchs.setTeam_1_id(m.getTeam_1_id());
+			matchs.setTeam_2_id(m.getTeam_2_id());
+			matchs.setTournamentId(tournament_id);
+			matchs.setUmpire_1_id(m.getUmpire_1_id());
+			matchs.setUmpire_2_id(m.getUmpire_2_id());
+			matchRepository.save(matchs);
+		}
+		
+		return new MessageResponse("fixture has been added successfully",HttpStatus.OK);
+	}
+	
 }
