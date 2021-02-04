@@ -17,6 +17,9 @@ public class PlayerScore {
     @Column(name = "playerId")
     private int playerId;
 
+    @Column(name = "matchId")
+    private int matchId;
+
     @Column(name = "onCrease")
     private boolean onCrease;
 
@@ -59,9 +62,10 @@ public class PlayerScore {
     public PlayerScore() {
     }
 
-    public PlayerScore(int teamId, int playerId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut) {
+    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut) {
         this.teamId = teamId;
         this.playerId = playerId;
+        this.matchId=matchId;
         this.onCrease = onCrease;
         this.batting = batting;
         this.bowling = bowling;
@@ -77,6 +81,8 @@ public class PlayerScore {
         this.batsmenOut = batsmenOut;
     }
 
+
+
     public int getTeamId() {
         return teamId;
     }
@@ -87,6 +93,14 @@ public class PlayerScore {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
     }
 
     public void setPlayerId(int playerId) {
