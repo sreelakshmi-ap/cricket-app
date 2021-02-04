@@ -28,7 +28,7 @@ public class LiveUpdate {
 	int bowler_id;
 	
 	@Column
-	String batsman_out;
+	boolean batsman_out;
 	
 	@Column
 	String ball_type;
@@ -56,7 +56,7 @@ public class LiveUpdate {
 
 
 
-	public LiveUpdate(Long liveUpdateId, int ballno, int runs, int batsman_id, int bowler_id, String batsman_out,
+	public LiveUpdate(Long liveUpdateId, int ballno, int runs, int batsman_id, int bowler_id, boolean batsman_out,
 			String ball_type, int fielder_id, int match_id, int team_id, String wicket_reason, String commentary) {
 		super();
 		this.liveUpdateId = liveUpdateId;
@@ -135,13 +135,13 @@ public class LiveUpdate {
 
 
 
-	public String getBatsman_out() {
+	public boolean getBatsman_out() {
 		return batsman_out;
 	}
 
 
 
-	public void setBatsman_out(String batsman_out) {
+	public void setBatsman_out(boolean batsman_out) {
 		this.batsman_out = batsman_out;
 	}
 
