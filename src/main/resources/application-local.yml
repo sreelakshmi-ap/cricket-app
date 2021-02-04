@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://cricket.c76fg1uzltxz.ap-south-1.rds.amazonaws.com/Cricket
+    url: jdbc:mysql://cricket.c76fg1uzltxz.ap-south-1.rds.amazonaws.com/Cricket?useSSL=false
     username: admin
     password: cricketProject
   jpa:
