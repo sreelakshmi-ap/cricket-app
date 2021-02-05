@@ -23,38 +23,33 @@ import com.example.cricket.service.AuthenticationService;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	
+
 	@Autowired
 	AuthenticationService authenticationService;
-	
+
 	@PostMapping("/login")
-	public JwtLoginResponse login(@RequestBody LoginRequest loginRequest)
-	{
+	public JwtLoginResponse login(@RequestBody LoginRequest loginRequest) {
 		return authenticationService.authenticateUser(loginRequest);
 	}
-	
+
 	@PostMapping("/signUp")
-	public MessageAndStatusResponse signUp(@RequestBody SignUpRequest newUser)
-	{
+	public MessageAndStatusResponse signUp(@RequestBody SignUpRequest newUser) {
 		return authenticationService.signUpUser(newUser);
 	}
-	
+
 	@PostMapping("/adminRegister")
-	public MessageAndStatusResponse registerAdmin(@RequestParam String email) throws MailException, MessagingException
-	{
+	public MessageAndStatusResponse registerAdmin(@RequestParam String email) throws MailException, MessagingException {
 		return authenticationService.registerAdmin(email);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/adminUpdate")
-	public Users updateAdmin(@RequestBody SignUpRequest request)
-	{
+	public Users updateAdmin(@RequestBody SignUpRequest request) {
 		return authenticationService.updateAdmin(request);
 	}
-	
+
 	@PostMapping("/logout")
-	public MessageAndStatusResponse logout()
-	{
+	public MessageAndStatusResponse logout() {
 		return authenticationService.logout();
 	}
 }
