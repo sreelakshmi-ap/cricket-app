@@ -61,13 +61,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/auth/**").permitAll()
 			.antMatchers("/test/**").permitAll()
 
+
 			.antMatchers("/ForgotPassword/**","/getTournamentGround/{tournamentId}","/deleteGround","/tournamentGround","/getAllGround","/addGround","/startMatch/{matchId}","/toss","/batsmenList/{matchId}","/bowlerList/{matchId}","/currentPlaying/{matchId}").permitAll()
 			.antMatchers("/umpireDetails","/getLiveScore/{matchId}").permitAll()
+
+			.antMatchers("/UpdateLiveScore").permitAll()
 			.anyRequest().authenticated();
 		
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
+	
 	
 	
 }
