@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.cricket.model.Matchs;
 import com.example.cricket.model.Tournament;
+import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.TournamentRepo;
 
 import com.example.cricket.response.DateTimeResponse;
@@ -32,6 +35,9 @@ public class TournamentService {
 	
 	@Autowired
 	TournamentRepo tournamentRepo;
+	
+	@Autowired
+	MatchRepository matchRepo;
 	
 	public TournamentResponse CreateTournament(Tournament tournament)
 	{
@@ -96,5 +102,10 @@ public class TournamentService {
 		return generatedOTP.toString();
 
 	}
+	
+
+	
+		
+	
 
 }
