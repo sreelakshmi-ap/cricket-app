@@ -76,7 +76,7 @@ public class UpdateScoreServiceImpl implements UpdateScoreService {
 			players.addAll(teamTwoPlayers);
 			for (TeamPlayerEntity player : players) {
 				PlayerScore score = new PlayerScore(player.getTeamId(), player.getPlayerId(), matchId, false, false,
-						false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+						false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false,0);
 				playerScoreRepository.save(score);
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", ""));

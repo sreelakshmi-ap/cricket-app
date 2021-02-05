@@ -59,10 +59,13 @@ public class PlayerScore {
     @Column(name = "batsmenOut")
     private boolean batsmenOut;
 
+    @Column(name = "batsmenSR")
+    private float batsmenSR;
+
     public PlayerScore() {
     }
 
-    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut) {
+    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut,float batsmenSR) {
         this.teamId = teamId;
         this.playerId = playerId;
         this.matchId=matchId;
@@ -79,6 +82,7 @@ public class PlayerScore {
         this.wickets = wickets;
         this.economyRate = economyRate;
         this.batsmenOut = batsmenOut;
+        this.batsmenSR = batsmenSR;
     }
 
 
@@ -209,5 +213,13 @@ public class PlayerScore {
 
     public void setBatsmenOut(boolean batsmenOut) {
         this.batsmenOut = batsmenOut;
+    }
+
+    public float getBatsmenSR() {
+        return batsmenSR;
+    }
+
+    public void setBatsmenSR(float batsmenSR) {
+        this.batsmenSR = batsmenSR;
     }
 }
