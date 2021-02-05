@@ -56,22 +56,9 @@ public class GroundServiceImpl implements  GroundService {
     }
 
 
-    @Override
-    public ResponseEntity<?> deleteGround(TournamentGround del) {
-        Optional<TournamentGround> deleteGround = tournamentGroundRepository.findByGroundIdAndTournamentId(del.getGroundId(),del.getTournamentId());
-        if(deleteGround.isPresent()){
-            tournamentGroundRepository.delete(deleteGround.get());
-            return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200,"Success",""));
+    
 
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409,"Ground ID or Tournament ID not found",""));
-    }
-
-    @Override
-    public ResponseEntity<?> getTournamentGround(int tournamentId) {
-        List<TournamentGround> maps = tournamentGroundRepository.findAllByTournamentId(tournamentId);
-        return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200,"Success",maps));
-    }
+    
 
 
 }

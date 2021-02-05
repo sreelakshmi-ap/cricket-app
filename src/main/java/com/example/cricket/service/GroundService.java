@@ -10,9 +10,5 @@ public interface GroundService {
     public ResponseEntity<?> getAllGround();
 
 
-    public ResponseEntity<?> tournamentGround(TournamentGround map);
 
-    public ResponseEntity<?> deleteGround(TournamentGround del);
-
-   public ResponseEntity<?> getTournamentGround(int tournamentId);
 }
