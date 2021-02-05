@@ -42,4 +42,16 @@ public class GroundController {
         return groundService.tournamentGround(map);
     }
 
+
+    @DeleteMapping("/deleteGround")
+    public ResponseEntity<?> deleteGround(@RequestBody TournamentGround del){
+        return groundService.deleteGround(del);
+    }
+
+    @GetMapping("/getTournamentGround/{tournamentId}")
+    public ResponseEntity<?> getTournamentGround(@PathVariable int tournamentId){
+        return  groundService.getTournamentGround(tournamentId);
+
+    }
+
 }
