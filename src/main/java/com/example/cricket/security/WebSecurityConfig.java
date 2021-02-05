@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/auth/**").permitAll()
 			.antMatchers("/test/**").permitAll()
-			.antMatchers("/ForgotPassword/**").permitAll()
+			.antMatchers("/groundDetails","/ForgotPassword/**","/getTournamentGround/{tournamentId}","/deleteGround","/tournamentGround","/getAllGround","/addGround","/startMatch/{matchId}","/toss","/batsmenList/{matchId}","/bowlerList/{matchId}","/currentPlaying/{matchId}").permitAll()
 			.anyRequest().authenticated();
 		
 
