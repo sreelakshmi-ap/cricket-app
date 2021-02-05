@@ -59,7 +59,7 @@ public class PlayerScore {
     @Column(name = "batsmenOut")
     private boolean batsmenOut;
 
-    @Column(name = "batsmenSR")
+    @Column(name = "batsmenSr")
     private float batsmenSR;
 
     public PlayerScore() {
