@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 
-	
+
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
-	
+
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -54,23 +54,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and()
-			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
 
-			.authorizeRequests().antMatchers("/auth/**").permitAll()
-			.antMatchers("/test/**").permitAll()
+				.authorizeRequests().antMatchers("/auth/**").permitAll()
+				.antMatchers("/test/**").permitAll()
 
 
-			.antMatchers("/ForgotPassword/**","/getTournamentGround/{tournamentId}","/deleteGround","/tournamentGround","/getAllGround","/addGround","/startMatch/{matchId}","/toss","/batsmenList/{matchId}","/bowlerList/{matchId}","/currentPlaying/{matchId}").permitAll()
-			.antMatchers("/umpireDetails","/getLiveScore/{matchId}").permitAll()
+				.antMatchers("/ForgotPassword/**", "/getTournamentGround/{tournamentId}", "/deleteGround", "/tournamentGround", "/getAllGround", "/addGround", "/startMatch/{matchId}", "/toss", "/batsmenList/{matchId}", "/bowlerList/{matchId}", "/currentPlaying/{matchId}").permitAll()
+				.antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
-			.antMatchers("/UpdateLiveScore").permitAll()
-			.anyRequest().authenticated();
-		
+				.antMatchers("/UpdateLiveScore").permitAll()
+				.anyRequest().authenticated();
+
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-	
-	
-	
+
+
+	}
 }
