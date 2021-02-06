@@ -1,6 +1,11 @@
 package com.example.cricket.repository;
 
 import com.example.cricket.model.PlayerScore;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PlayerScoreRepository extends JpaRepository<PlayerScore,Integer> {
+
 import com.example.cricket.response.Batsmen;
 import com.example.cricket.response.Bowler;
 import com.example.cricket.response.Players;
@@ -25,4 +30,5 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
 
     @Query(value = "select x.player_name as playerName,p.economy_rate as economyRate ,p.player_id as Id,p.runs as runs,p.wickets as wickets,p.no_of_maidens as noOfMaidens,p.no_of_overs_bowled as noOfOversBowled from Cricket.player_score p,Cricket.players x where p.bowling=1 and p.on_crease=1 and x.player_id=p.player_id and p.match_id=?1 and p.team_id=?2", nativeQuery = true)
     List<Bowler> findPlayingBowler(int matchId, int teamId);
+
 }
