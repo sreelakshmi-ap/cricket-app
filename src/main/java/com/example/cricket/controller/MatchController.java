@@ -1,5 +1,6 @@
 package com.example.cricket.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ import com.example.cricket.response.InningsResponse;
 import com.example.cricket.response.ListAndMessageResponse;
 import com.example.cricket.response.MatchResponse;
 import com.example.cricket.response.MessageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cricket.response.InningsResponse;
 import com.example.cricket.service.MatchService;
 @RestController
 public class MatchController {
@@ -24,17 +30,20 @@ public class MatchController {
 	@Autowired
 	MatchService matchService;
 	
+
 	@Autowired
 	MatchRepository matchRepository;
 	
 	@Autowired
 	TournamentRepo tournamentRepo;
 	
+
 	@PostMapping("/setInnings")
 	public InningsResponse setInnings(int match_id,int innings)
 	{
 		return matchService.setInnings(match_id, innings);
 	}
+
 	
 	@GetMapping("/getAllMatchsForTournament")
 	public List<MatchResponse> getAllMatchsForTournament(@RequestParam String tournament_code) {
@@ -67,4 +76,7 @@ public class MatchController {
 		
 	
 
+
+
+}
 

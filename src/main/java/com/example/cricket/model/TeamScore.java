@@ -32,7 +32,29 @@ public class TeamScore {
     @Column(name = "requiredRunRate")
     private float requiredRunRate;
 
+    @Column(name = "overs")
+    private float overs;
+
+    @Column(name = "noOfBalls")
+    private int noOfBalls;
+
+    @Column(name = "extraRuns")
+    private int extraRuns;
+
     public TeamScore() {
+    }
+
+    public TeamScore(int matchId, int teamId, boolean battingOrder, int runs, int wickets, float currentRunRate, float requiredRunRate, float overs, int noOfBalls, int extraRuns) {
+        this.matchId = matchId;
+        this.teamId = teamId;
+        this.battingOrder = battingOrder;
+        this.runs = runs;
+        this.wickets = wickets;
+        this.currentRunRate = currentRunRate;
+        this.requiredRunRate = requiredRunRate;
+        this.overs = overs;
+        this.noOfBalls = noOfBalls;
+        this.extraRuns = extraRuns;
     }
 
     public int getMatchId() {
@@ -89,5 +111,29 @@ public class TeamScore {
 
     public void setRequiredRunRate(float requiredRunRate) {
         this.requiredRunRate = requiredRunRate;
+    }
+
+    public float getOvers() {
+        return overs;
+    }
+
+    public void setOvers(float overs) {
+        this.overs = overs;
+    }
+
+    public int getNoOfBalls() {
+        return noOfBalls;
+    }
+
+    public void setNoOfBalls(int noOfBalls) {
+        this.noOfBalls = noOfBalls;
+    }
+
+    public int getExtraRuns() {
+        return extraRuns;
+    }
+
+    public void setExtraRuns(int extraRuns) {
+        this.extraRuns = extraRuns;
     }
 }

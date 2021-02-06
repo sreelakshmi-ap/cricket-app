@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Matchs;
+
 import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
@@ -17,6 +18,9 @@ import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.response.InningsResponse;
 import com.example.cricket.response.MatchResponse;
+import com.example.cricket.repository.MatchRepository;
+import com.example.cricket.response.InningsResponse;
+
 
 @Service
 public class MatchService {
@@ -24,6 +28,7 @@ public class MatchService {
 	@Autowired
 	MatchRepository matchRepository;
 	
+
 	@Autowired
 	TournamentRepo tournamentRepo; 
 	
@@ -33,7 +38,10 @@ public class MatchService {
 	@Autowired
 	TeamScoreRepository teamScoreRepository;
 	                      
-	public InningsResponse setInnings(int match_id,int innings)                                 
+                                
+
+	public InningsResponse setInnings(int match_id,int innings)
+
 	{
 		Matchs matchs=matchRepository.findById(match_id).get();
 		matchs.setInnings(innings);
@@ -41,6 +49,7 @@ public class MatchService {
 		return new InningsResponse(match_id,innings,"Innings Added",HttpStatus.OK);
 		
 	}
+
 
 	public List<MatchResponse> getAllMatchsForTournament(String tournament_code) {
 		List<MatchResponse> matchResponse=new ArrayList<>();
@@ -153,4 +162,5 @@ public class MatchService {
 		
 		
 	
+}
 }
