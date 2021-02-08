@@ -26,8 +26,7 @@ public interface MatchRepository extends JpaRepository<Matchs,Integer>{
     @Query(value = "select match_id,match_name,status,match_date,stopped_reason,ground_id,team_1_id,team_2_id from matchs where tournament_id=?", nativeQuery = true)
     public List<String> getAllMatchs(int tournament_id);
 
-    @Query(value = "SELECT * FROM matchs where match_id=?1", nativeQuery = true)
-    public Optional<Matchs> findByMatchId(int matchId);
+
     
 	@Query(value = "SELECT * FROM Cricket.matchs where tournament_id=?1", nativeQuery = true)
 	List<Matchs> findTournamentsId(int tournamentId);

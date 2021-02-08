@@ -2,10 +2,6 @@ package com.example.cricket.repository;
 
 import com.example.cricket.model.PlayerScore;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface PlayerScoreRepository extends JpaRepository<PlayerScore,Integer> {
-
 import com.example.cricket.response.Batsmen;
 import com.example.cricket.response.Bowler;
 import com.example.cricket.response.Players;
@@ -13,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
 
 public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Integer> {
 
