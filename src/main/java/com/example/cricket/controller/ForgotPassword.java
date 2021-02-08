@@ -1,5 +1,6 @@
 package com.example.cricket.controller;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,19 +8,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cricket.model.LiveUpdate;
 import com.example.cricket.model.Users;
 import com.example.cricket.repository.UsersRepository;
 import com.example.cricket.request.OtpRequest;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.service.AuthenticationService;
 import com.example.cricket.service.ForgotPasswordService;
+import com.example.cricket.service.LiveUpadteService;
 import com.example.cricket.service.MailService;
 
 
@@ -47,6 +52,9 @@ public class ForgotPassword {
 	
 	@Autowired
 	AuthenticationService authenticationService;
+	
+	@Autowired
+	LiveUpadteService testing;
 
 	
 	
@@ -111,7 +119,14 @@ public class ForgotPassword {
 	}
 
 		
-	
+	@GetMapping("/testing")
+	@ResponseStatus(HttpStatus.CREATED)
+	public int testing(@RequestParam int value)  {
+		int kk= testing.maidenOver(1, 1, 1, 2);
+		System.out.println("finnnnnnnne....."+kk);
+		return kk;
+		
+	}
 	
 
 }

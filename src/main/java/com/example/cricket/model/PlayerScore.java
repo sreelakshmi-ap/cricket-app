@@ -58,36 +58,66 @@ public class PlayerScore {
 
     @Column(name = "batsmenOut")
     private boolean batsmenOut;
+    
+    @Column(name = "batsmenSr")
+    private float batsmenSr;
 
     public PlayerScore() {
     }
 
-    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut) {
-        this.teamId = teamId;
-        this.playerId = playerId;
-        this.matchId=matchId;
-        this.onCrease = onCrease;
-        this.batting = batting;
-        this.bowling = bowling;
-        this.runScored = runScored;
-        this.ballFaced = ballFaced;
-        this.noOfFours = noOfFours;
-        this.noOfSixes = noOfSixes;
-        this.noOfOversBowled = noOfOversBowled;
-        this.noOfMaidens = noOfMaidens;
-        this.runs = runs;
-        this.wickets = wickets;
-        this.economyRate = economyRate;
-        this.batsmenOut = batsmenOut;
-    }
+//    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut) {
+//        this.teamId = teamId;
+//        this.playerId = playerId;
+//        this.matchId=matchId;
+//        this.onCrease = onCrease;
+//        this.batting = batting;
+//        this.bowling = bowling;
+//        this.runScored = runScored;
+//        this.ballFaced = ballFaced;
+//        this.noOfFours = noOfFours;
+//        this.noOfSixes = noOfSixes;
+//        this.noOfOversBowled = noOfOversBowled;
+//        this.noOfMaidens = noOfMaidens;
+//        this.runs = runs;
+//        this.wickets = wickets;
+//        this.economyRate = economyRate;
+//        this.batsmenOut = batsmenOut;
+//    }
+
+    
+    
 
 
 
+
+    public PlayerScore(int teamId, int playerId, int matchId, boolean onCrease, boolean batting, boolean bowling,
+			int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens,
+			int runs, int wickets, float economyRate, boolean batsmenOut, float batsmenSr) {
+		super();
+		this.teamId = teamId;
+		this.playerId = playerId;
+		this.matchId = matchId;
+		this.onCrease = onCrease;
+		this.batting = batting;
+		this.bowling = bowling;
+		this.runScored = runScored;
+		this.ballFaced = ballFaced;
+		this.noOfFours = noOfFours;
+		this.noOfSixes = noOfSixes;
+		this.noOfOversBowled = noOfOversBowled;
+		this.noOfMaidens = noOfMaidens;
+		this.runs = runs;
+		this.wickets = wickets;
+		this.economyRate = economyRate;
+		this.batsmenOut = batsmenOut;
+		this.batsmenSr = batsmenSr;
+	}
+    
     public int getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(int teamId) {
+	public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
 
@@ -210,4 +240,14 @@ public class PlayerScore {
     public void setBatsmenOut(boolean batsmenOut) {
         this.batsmenOut = batsmenOut;
     }
+
+	public float getBatsmenSr() {
+		return batsmenSr;
+	}
+
+	public void setBatsmenSr(float batsmenSr) {
+		this.batsmenSr = batsmenSr;
+	}
+    
+    
 }
