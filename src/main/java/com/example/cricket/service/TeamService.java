@@ -1,13 +1,19 @@
 package com.example.cricket.service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.example.cricket.model.Matchs;
 import com.example.cricket.model.Team;
+import com.example.cricket.model.TeamScore;
+import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.TeamRepo;
+import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.response.MessageResponse;
 import com.example.cricket.response.TeamResponse;
 
 @Service
@@ -15,6 +21,13 @@ public class TeamService {
 	
 	@Autowired
 	TeamRepo teamRepo;
+	
+	@Autowired
+	TeamScoreRepository teamScoreRepository;
+	
+	@Autowired
+	MatchRepository matchRepository;
+	
 	
 	
 	public TeamResponse AddTeam(int tournamentId,Team team)
@@ -24,7 +37,7 @@ public class TeamService {
 		return new TeamResponse(team,"Team Added",HttpStatus.OK);
 	}
 
-       public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
+     public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
 		
 	TeamScore team1Score=teamScoreRepository.findByMatchIdAndTeamId(match_id, team_1_id);
 	int team1Run=team1Score.getRuns();
