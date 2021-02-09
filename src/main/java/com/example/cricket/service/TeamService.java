@@ -36,6 +36,7 @@ public class TeamService {
 		teamRepo.save(team);
 		return new TeamResponse(team,"Team Added",HttpStatus.OK);
 	}
+	
 
      public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
 		
@@ -51,19 +52,22 @@ public class TeamService {
 		Team team1= teamRepo.findById(team_1_id).get();
 		
 		
-		if(team1.getWins()==null &&  team1.getPoints()==null) {
+		if(team1.getWins()==null) { 
 		team1.setTeamId(team_1_id);
 		team1.setWins(1);
+		}
+		else {
+			team1.setTeamId(team_1_id);
+			team1.setWins(team1.getWins()+1);
+			
+		}
+		if( team1.getPoints()==null) {
 		team1.setPoints(2);
-		
 		teamRepo.save(team1);
 		}
 		
 		else {
-			team1.setTeamId(team_1_id);
-			team1.setWins(team1.getWins()+1);
 			team1.setPoints(team1.getPoints()+2);
-			
 			teamRepo.save(team1);
 			
 		}
@@ -101,17 +105,23 @@ public class TeamService {
 		
 		Team team2= teamRepo.findById(team_2_id).get();
 		
-		if(team2.getWins()!=null && team2.getPoints()!=null ) {
+		if(team2.getWins()!=null){
 		team2.setTeamId(team_2_id);
 		team2.setWins(team2.getWins()+1);
+		}
+		else {
+			team2.setTeamId(team_2_id);
+			team2.setWins(1);
+		}
+		
+		if(team2.getPoints()!=null) {
 		team2.setPoints(team2.getPoints()+2);
 		
 		teamRepo.save(team2);
 		}
 		else {
-			team2.setTeamId(team_2_id);
-			team2.setWins(1);
 			team2.setPoints(2);
+			teamRepo.save(team2);
 			
 		}
 		
@@ -149,8 +159,7 @@ public class TeamService {
 		
 		Team team2= teamRepo.findById(team_2_id).get();
 		Team team1= teamRepo.findById(team_1_id).get();
-		if(team2.getDraw_or_cancelled()!=null && team1.getDraw_or_cancelled()!=null
-			) {
+		if(team2.getDraw_or_cancelled()!=null) {
 		team2.setTeamId(team_2_id);
 		team2.setDraw_or_cancelled(team2.getDraw_or_cancelled()+1);
 		if(team2.getPoints()!=null) {
@@ -159,7 +168,22 @@ public class TeamService {
 			team2.setPoints(1);
 		}
 		teamRepo.save(team2);
+		}
+		else {
+			team2.setTeamId(team_2_id);
+			team2.setDraw_or_cancelled(1);
+			if(team2.getPoints()==null) {
+			team2.setPoints(1);
+			}
+			else {
+				team2.setPoints(team2.getPoints()+1);
+			}
+			teamRepo.save(team2);
+			
+			
+		}
 		
+		if(team1.getDraw_or_cancelled()!=null) {
 		team1.setTeamId(team_1_id);
 		team1.setDraw_or_cancelled(team1.getDraw_or_cancelled()+1);
 		if(team1.getPoints()!=null) {
@@ -173,17 +197,6 @@ public class TeamService {
 		}
 		
 		else {
-			team2.setTeamId(team_2_id);
-			team2.setDraw_or_cancelled(1);
-			if(team2.getPoints()==null) {
-			team2.setPoints(1);
-			}
-			else {
-				team2.setPoints(team2.getPoints()+1);
-			}
-			teamRepo.save(team2);
-			
-			
 			
 			team1.setTeamId(team_1_id);
 			team1.setDraw_or_cancelled(1);
