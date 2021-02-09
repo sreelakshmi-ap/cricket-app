@@ -31,4 +31,10 @@ public class TeamController {
 		return teamService.GetAllTeam(tournamentId);
 	}
 
+	@PostMapping("/endOfMatch/setTeamInfo")
+	public MessageResponse setTeamInfo(@RequestParam int team_1_id,int team_2_id,int match_id,String end_time) {
+	  return teamService.setTeamInfo(team_1_id, team_2_id, match_id, end_time);
+		
+		
+    }
 }
