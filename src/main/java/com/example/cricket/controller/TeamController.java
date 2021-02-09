@@ -37,4 +37,10 @@ public class TeamController {
 		
 		
     }
+	
+	@GetMapping("/getTeamInfo")
+		public Team getTeamInfo(@RequestParam int team_id) {
+			return teamService.getTeamInfo(team_id);
+			
+		}
 }
