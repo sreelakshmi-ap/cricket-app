@@ -206,7 +206,9 @@ public class TeamService {
 	{
 		return teamRepo.findAllByTournamentId(tournamentId);
 	}
-	
+	public Team getTeamInfo(int teamId) {
+		return teamRepo.findById(teamId).get();
+	}
 	
 
 }
