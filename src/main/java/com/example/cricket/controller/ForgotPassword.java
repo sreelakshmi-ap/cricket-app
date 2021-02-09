@@ -24,7 +24,7 @@ import com.example.cricket.request.OtpRequest;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.service.AuthenticationService;
 import com.example.cricket.service.ForgotPasswordService;
-import com.example.cricket.service.LiveUpadteService;
+import com.example.cricket.service.LiveUpdateService;
 import com.example.cricket.service.MailService;
 
 
@@ -54,7 +54,7 @@ public class ForgotPassword {
 	AuthenticationService authenticationService;
 	
 	@Autowired
-	LiveUpadteService testing;
+	LiveUpdateService testing;
 
 	
 	
@@ -125,8 +125,5 @@ public class ForgotPassword {
 		int kk= testing.maidenOver(1, 1, 1, 2);
 		System.out.println("finnnnnnnne....."+kk);
 		return kk;
-		
 	}
-	
-
 }
