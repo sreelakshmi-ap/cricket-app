@@ -4,6 +4,8 @@ import com.example.cricket.model.TeamScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface TeamScoreRepository extends JpaRepository<TeamScore,Integer> {
 	
    @Query(value = "SELECT * FROM Cricket.team_score where match_id=?1 and team_id=?2",nativeQuery = true)
@@ -27,7 +29,6 @@ public interface TeamScoreRepository extends JpaRepository<TeamScore,Integer> {
    
 
 
-
-
+  public   List<TeamScore> findAllByMatchId(int matchId);
 }
 
