@@ -1,6 +1,11 @@
 package com.example.cricket.repository;
 
 import java.time.LocalDate;
+
+
+import java.util.List;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,6 +24,7 @@ public interface TournamentRepo extends JpaRepository<Tournament, Integer> {
 	@Query(value = "SELECT * FROM Cricket.tournament where tournament_id=?1", nativeQuery = true)
 	Tournament findTournamentId(int tournamentId);
 	
+
 	 @Query(value = "select tournament.tournament_id from tournament where tournament_code=?", nativeQuery = true)
 	 public int findByTournamentCode(String tournament_code);
 

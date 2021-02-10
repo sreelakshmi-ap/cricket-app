@@ -1,11 +1,22 @@
 package com.example.cricket.service;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.example.cricket.model.Matchs;
 import com.example.cricket.model.Team;
+import com.example.cricket.model.TeamScore;
+import com.example.cricket.repository.MatchRepository;
+import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.TeamRepo;
+import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.response.MessageResponse;
+import com.example.cricket.response.TeamInfoResponse;
 import com.example.cricket.response.TeamResponse;
 
 @Service
@@ -14,6 +25,16 @@ public class TeamService {
 	@Autowired
 	TeamRepo teamRepo;
 	
+	@Autowired
+	TeamScoreRepository teamScoreRepository;
+	
+	@Autowired
+	MatchRepository matchRepository;
+	
+	@Autowired
+	PlayerRepository playerRepo;
+	
+	
 	
 	public TeamResponse AddTeam(int tournamentId,Team team)
 	{
@@ -21,8 +42,9 @@ public class TeamService {
 		teamRepo.save(team);
 		return new TeamResponse(team,"Team Added",HttpStatus.OK);
 	}
+	
 
-       public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
+     public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
 		
 	TeamScore team1Score=teamScoreRepository.findByMatchIdAndTeamId(match_id, team_1_id);
 	int team1Run=team1Score.getRuns();
@@ -36,19 +58,22 @@ public class TeamService {
 		Team team1= teamRepo.findById(team_1_id).get();
 		
 		
-		if(team1.getWins()==null &&  team1.getPoints()==null) {
+		if(team1.getWins()==null) { 
 		team1.setTeamId(team_1_id);
 		team1.setWins(1);
+		}
+		else {
+			team1.setTeamId(team_1_id);
+			team1.setWins(team1.getWins()+1);
+			
+		}
+		if( team1.getPoints()==null) {
 		team1.setPoints(2);
-		
 		teamRepo.save(team1);
 		}
 		
 		else {
-			team1.setTeamId(team_1_id);
-			team1.setWins(team1.getWins()+1);
 			team1.setPoints(team1.getPoints()+2);
-			
 			teamRepo.save(team1);
 			
 		}
@@ -86,17 +111,23 @@ public class TeamService {
 		
 		Team team2= teamRepo.findById(team_2_id).get();
 		
-		if(team2.getWins()!=null && team2.getPoints()!=null ) {
+		if(team2.getWins()!=null){
 		team2.setTeamId(team_2_id);
 		team2.setWins(team2.getWins()+1);
+		}
+		else {
+			team2.setTeamId(team_2_id);
+			team2.setWins(1);
+		}
+		
+		if(team2.getPoints()!=null) {
 		team2.setPoints(team2.getPoints()+2);
 		
 		teamRepo.save(team2);
 		}
 		else {
-			team2.setTeamId(team_2_id);
-			team2.setWins(1);
 			team2.setPoints(2);
+			teamRepo.save(team2);
 			
 		}
 		
@@ -134,8 +165,7 @@ public class TeamService {
 		
 		Team team2= teamRepo.findById(team_2_id).get();
 		Team team1= teamRepo.findById(team_1_id).get();
-		if(team2.getDraw_or_cancelled()!=null && team1.getDraw_or_cancelled()!=null
-			) {
+		if(team2.getDraw_or_cancelled()!=null) {
 		team2.setTeamId(team_2_id);
 		team2.setDraw_or_cancelled(team2.getDraw_or_cancelled()+1);
 		if(team2.getPoints()!=null) {
@@ -144,7 +174,22 @@ public class TeamService {
 			team2.setPoints(1);
 		}
 		teamRepo.save(team2);
+		}
+		else {
+			team2.setTeamId(team_2_id);
+			team2.setDraw_or_cancelled(1);
+			if(team2.getPoints()==null) {
+			team2.setPoints(1);
+			}
+			else {
+				team2.setPoints(team2.getPoints()+1);
+			}
+			teamRepo.save(team2);
+			
+			
+		}
 		
+		if(team1.getDraw_or_cancelled()!=null) {
 		team1.setTeamId(team_1_id);
 		team1.setDraw_or_cancelled(team1.getDraw_or_cancelled()+1);
 		if(team1.getPoints()!=null) {
@@ -158,17 +203,6 @@ public class TeamService {
 		}
 		
 		else {
-			team2.setTeamId(team_2_id);
-			team2.setDraw_or_cancelled(1);
-			if(team2.getPoints()==null) {
-			team2.setPoints(1);
-			}
-			else {
-				team2.setPoints(team2.getPoints()+1);
-			}
-			teamRepo.save(team2);
-			
-			
 			
 			team1.setTeamId(team_1_id);
 			team1.setDraw_or_cancelled(1);
@@ -200,6 +234,37 @@ public class TeamService {
 
     }
 	
+	public List<Team> GetAllTeam(int tournamentId)
+	{
+		return teamRepo.findAllByTournamentId(tournamentId);
+	}
 	
-
+	public List<TeamInfoResponse> getTeamInfo(int teamId) {
+        List<String> teamInfo= teamRepo.getTeamInfo(teamId);
+        List<TeamInfoResponse> teamInfos=new ArrayList<>();
+        TeamInfoResponse response;
+        String city;
+    	Integer wins;
+    	Integer losses;
+    	Integer draw_or_cancelled;
+    	Integer points;
+        for(String teamInformation:teamInfo) {
+    		String[] orderValues = teamInformation.split(",");
+    		city=orderValues[0];
+    		draw_or_cancelled=Integer.parseInt(orderValues[1]);
+    		losses= Integer.parseInt(orderValues[2]);
+    		wins=Integer.parseInt(orderValues[3]);
+    		
+    		points=Integer.parseInt(orderValues[4]);
+	        int captainId=teamRepo.getTeamCaptain(teamId);
+	        String captain=playerRepo.getPlayerName(captainId);
+	        int count=teamRepo.getMatchCount1(teamId);
+	        int count1=teamRepo.getMatchCount2(teamId);
+	        int counts=count+count1;
+	        response= new TeamInfoResponse(city,counts,wins,losses,draw_or_cancelled,points,captain);
+		    teamInfos.add(response);
+	}
+        return teamInfos;
+	
+	}
 }

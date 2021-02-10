@@ -17,6 +17,9 @@ public class PlayerScore {
     @Column(name = "playerId")
     private int playerId;
 
+    @Column(name = "matchId")
+    private int matchId;
+
     @Column(name = "onCrease")
     private boolean onCrease;
 
@@ -53,8 +56,36 @@ public class PlayerScore {
     @Column(name = "economyRate")
     private float economyRate;
 
+    @Column(name = "batsmenOut")
+    private boolean batsmenOut;
+
+    @Column(name = "batsmenSr")
+    private float batsmenSR;
+
     public PlayerScore() {
     }
+
+    public PlayerScore(int teamId, int playerId,int matchId, boolean onCrease, boolean batting, boolean bowling, int runScored, int ballFaced, int noOfFours, int noOfSixes, float noOfOversBowled, int noOfMaidens, int runs, int wickets, float economyRate, boolean batsmenOut,float batsmenSR) {
+        this.teamId = teamId;
+        this.playerId = playerId;
+        this.matchId=matchId;
+        this.onCrease = onCrease;
+        this.batting = batting;
+        this.bowling = bowling;
+        this.runScored = runScored;
+        this.ballFaced = ballFaced;
+        this.noOfFours = noOfFours;
+        this.noOfSixes = noOfSixes;
+        this.noOfOversBowled = noOfOversBowled;
+        this.noOfMaidens = noOfMaidens;
+        this.runs = runs;
+        this.wickets = wickets;
+        this.economyRate = economyRate;
+        this.batsmenOut = batsmenOut;
+        this.batsmenSR = batsmenSR;
+    }
+
+
 
     public int getTeamId() {
         return teamId;
@@ -66,6 +97,14 @@ public class PlayerScore {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
     }
 
     public void setPlayerId(int playerId) {
@@ -166,5 +205,21 @@ public class PlayerScore {
 
     public void setEconomyRate(float economyRate) {
         this.economyRate = economyRate;
+    }
+
+    public boolean isBatsmenOut() {
+        return batsmenOut;
+    }
+
+    public void setBatsmenOut(boolean batsmenOut) {
+        this.batsmenOut = batsmenOut;
+    }
+
+    public float getBatsmenSR() {
+        return batsmenSR;
+    }
+
+    public void setBatsmenSR(float batsmenSR) {
+        this.batsmenSR = batsmenSR;
     }
 }
