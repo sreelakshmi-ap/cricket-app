@@ -17,4 +17,10 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore,Integer
 
     @Query(value = "SELECT x.player_name as playerName,p.player_id as id from Cricket.players x ,Cricket.player_score p, Cricket.team_score t where t.batting_order=?2 and t.match_id=?1 and p.match_id=?1 and p.batsmen_out=0 and p.team_id=t.team_id and x.player_id=p.player_id",nativeQuery = true)
     List<Players> findAllBatsmen(int matchId, boolean b);
+    
+    @Query(value = "SELECT * FROM Cricket.player_score where match_id=?1 and team_id=?2 and player_id=?3",nativeQuery = true)
+    PlayerScore findByTeamIdAndMatchId(int matchId,int teamId,int playerId);
+    
+    @Query(value = "SELECT * FROM Cricket.player_score where match_id=?1 and batsmen_out=0 and batting=1 and team_id=?2 and on_crease=0",nativeQuery = true)
+    PlayerScore ChangeCrease(int matchId,int teamId);
 }

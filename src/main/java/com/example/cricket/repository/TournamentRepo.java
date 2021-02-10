@@ -21,6 +21,9 @@ public interface TournamentRepo extends JpaRepository<Tournament, Integer> {
 	@Query(value = "SELECT * FROM Cricket.tournament where tournament_id=?1", nativeQuery = true)
 	Tournament findTournamentId(int tournamentId);
 	
+	@Query(value = "SELECT overs  FROM Cricket.tournament where tournament_id=?1",nativeQuery = true)
+	int findTotalOver(int tournamentId);
+	
 
 
 }
