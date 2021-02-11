@@ -65,7 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/ForgotPassword/**", "/getTournamentGround/{tournamentId}", "/deleteGround", "/tournamentGround", "/getAllGround", "/addGround", "/startMatch/{matchId}", "/toss", "/batsmenList/{matchId}", "/bowlerList/{matchId}", "/currentPlaying/{matchId}").permitAll()
 				.antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
+
 				.antMatchers("/UpdateLiveScore","/getScoreBoard/{matchId}").permitAll()
+
+				.antMatchers("/getCountOfExtras").permitAll()
+				
 				.anyRequest().authenticated();
 
 

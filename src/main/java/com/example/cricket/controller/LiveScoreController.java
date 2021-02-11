@@ -18,8 +18,10 @@ public class LiveScoreController {
         return liveScoreService.getLiveScore(matchId);
     }
 
+
     @GetMapping("/getScoreBoard/{matchId}")
     public ResponseEntity getScoreBoard(@PathVariable int matchId){
         return liveScoreService.getScoreBoard(matchId);
     }
+
 }

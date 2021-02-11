@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,11 @@ import com.example.cricket.model.Matchs;
 import com.example.cricket.model.Tournament;
 import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.TournamentRepo;
-
+import com.example.cricket.request.LiveUpdateRequest;
 import com.example.cricket.response.DateTimeResponse;
+import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.TournamentResponse;
+import com.example.cricket.response.ViewTournamentResponse;
 
 @Service
 public class TournamentService {
@@ -78,6 +81,17 @@ public class TournamentService {
 		tournamentRepo.save(tournament);
 		System.out.println(tournament.getStartOfTime());
 		return new DateTimeResponse(tournament.getTournamentId(),"Tournament Date Time Added",HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> ViewTournamentByCode(String tournamentCode)
+	{
+		Optional<Tournament> tournament=tournamentRepo.findAllByTournamentCode(tournamentCode);
+		if(tournament.isPresent())
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(new ViewTournamentResponse(tournament.get(), HttpStatus.OK));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Tournament Not Found", ""));
+		 
 	}
 	
 	
