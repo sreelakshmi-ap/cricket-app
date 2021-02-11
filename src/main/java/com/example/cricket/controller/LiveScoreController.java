@@ -17,4 +17,5 @@ public class LiveScoreController {
     public ResponseEntity getLiveScore(@PathVariable int matchId){
         return liveScoreService.getLiveScore(matchId);
     }
+    
 }
