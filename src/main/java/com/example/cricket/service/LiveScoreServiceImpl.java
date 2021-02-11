@@ -2,6 +2,7 @@ package com.example.cricket.service;
 
 import com.example.cricket.model.Matchs;
 import com.example.cricket.model.TeamScore;
+import com.example.cricket.repository.LiveUpdateRepository;
 import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamScoreRepository;
@@ -29,6 +30,9 @@ public class LiveScoreServiceImpl implements LiveScoreService {
     @Autowired
     private PlayerScoreRepository playerScoreRepository;
 
+    @Autowired
+    private LiveUpdateRepository liveUpdateRepository;
+
     @Override
     public ResponseEntity getLiveScore(int matchId) {
         Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
@@ -46,11 +50,14 @@ public class LiveScoreServiceImpl implements LiveScoreService {
 
                     if (teamOne.isBattingOrder() == true) {
                         teamOneScore.setBatsmen(playerScoreRepository.findPlayingBatsmen(matchId, teamOne.getTeamId()));
+                        teamOneScore.setCommentary(liveUpdateRepository.findAllByMatchIdAndTeamId(matchId,teamOne.getTeamId()));
                     } else if (teamOne.isBattingOrder() == false) {
                         teamTwoScore.setBowlers(playerScoreRepository.findPlayingBowler(matchId, teamOne.getTeamId()));
                     }
                     if (teamTwo.isBattingOrder() == true) {
                         teamTwoScore.setBatsmen(playerScoreRepository.findPlayingBatsmen(matchId, teamTwo.getTeamId()));
+                        teamTwoScore.setCommentary(liveUpdateRepository.findAllByMatchIdAndTeamId(matchId,teamTwo.getTeamId()));
+
 
                     } else if (teamTwo.isBattingOrder() == false) {
                         teamOneScore.setBowlers(playerScoreRepository.findPlayingBowler(matchId, teamTwo.getTeamId()));
@@ -68,11 +75,14 @@ public class LiveScoreServiceImpl implements LiveScoreService {
 
                     if (teamOne.isBattingOrder() == false) {
                         teamOneScore.setBatsmen(playerScoreRepository.findPlayingBatsmen(matchId, teamOne.getTeamId()));
+                        teamOneScore.setCommentary(liveUpdateRepository.findAllByMatchIdAndTeamId(matchId,teamOne.getTeamId()));
                     } else if (teamOne.isBattingOrder() == true) {
                         teamTwoScore.setBowlers(playerScoreRepository.findPlayingBowler(matchId, teamOne.getTeamId()));
                     }
                     if (teamTwo.isBattingOrder() == false) {
                         teamTwoScore.setBatsmen(playerScoreRepository.findPlayingBatsmen(matchId, teamTwo.getTeamId()));
+                        teamTwoScore.setCommentary(liveUpdateRepository.findAllByMatchIdAndTeamId(matchId,teamTwo.getTeamId()));
+
 
                     } else if (teamTwo.isBattingOrder() == true) {
                         teamOneScore.setBowlers(playerScoreRepository.findPlayingBowler(matchId, teamTwo.getTeamId()));

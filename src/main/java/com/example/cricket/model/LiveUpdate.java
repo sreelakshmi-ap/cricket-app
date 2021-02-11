@@ -51,6 +51,26 @@ public class LiveUpdate {
 	public LiveUpdate() {
 		super();
 	}
+	
+	
+
+	public LiveUpdate(int ballno, int runs, int batsman_id, int bowler_id, boolean batsman_out, String ball_type,
+			int fielder_id, int match_id, int team_id, String wicket_reason, String commentary) {
+		super();
+		this.ballno = ballno;
+		this.runs = runs;
+		this.batsman_id = batsman_id;
+		this.bowler_id = bowler_id;
+		this.batsman_out = batsman_out;
+		this.ball_type = ball_type;
+		this.fielder_id = fielder_id;
+		this.match_id = match_id;
+		this.team_id = team_id;
+		this.wicket_reason = wicket_reason;
+		this.commentary = commentary;
+	}
+
+
 
 	public LiveUpdate(Long liveUpdateId, int ballno, int runs, int batsman_id, int bowler_id, boolean batsman_out,
 			String ball_type, int fielder_id, int match_id, int team_id, String wicket_reason, String commentary) {

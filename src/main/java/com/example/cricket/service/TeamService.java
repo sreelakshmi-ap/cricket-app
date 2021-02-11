@@ -16,6 +16,7 @@ import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.response.MessageResponse;
+import com.example.cricket.response.StandingResponse;
 import com.example.cricket.response.TeamInfoResponse;
 import com.example.cricket.response.TeamResponse;
 
@@ -266,5 +267,84 @@ public class TeamService {
 	}
         return teamInfos;
 	
+	}
+	
+	
+	
+	public List<StandingResponse> getTeamStandings(int tournament_id) {
+		
+		List<String> teamStandings=teamRepo.getTeamStandings(tournament_id);
+		List<StandingResponse> standingResponse=new ArrayList<>();
+		
+		StandingResponse response;
+		int team_id;
+		String teamName;
+		int matchs;
+		Integer wins;
+		Integer losses;
+		Integer points;
+		Integer NR;
+		int runs;
+		float overs;
+		int match_id;
+		int runs1;
+		float overs1;
+		
+		double net_run_rate;
+		for(String teamStanding:teamStandings) {
+			int run=0;
+			float over=0;
+			int total_run=0;
+			float total_overs=0;
+			
+			
+    		String[] orderValues =teamStanding.split(",");
+    		team_id=Integer.parseInt(orderValues[0]);
+    		teamName=orderValues[1];
+    		NR=Integer.parseInt(orderValues[2]);
+    		losses= Integer.parseInt(orderValues[3]);
+    		points=Integer.parseInt(orderValues[4]);
+    		wins=Integer.parseInt(orderValues[5]);
+    	    
+	        int count=teamRepo.getMatchCount1(team_id);
+	        int count1=teamRepo.getMatchCount2(team_id);
+	        matchs=count+count1;
+	        
+	        List<String> RunAndOvers=teamRepo.getTeamRR(team_id);
+	        for(String runAndOvers:RunAndOvers) {
+	        
+	        	String[] arr =runAndOvers.split(",");
+	        	runs=Integer.parseInt(arr[0]);
+	        	overs=Float.parseFloat(arr[1]);
+	        	match_id=Integer.parseInt(arr[2]);
+	        	run=run+runs;
+	        	over=over+overs;
+	        	
+	        	List<String> RunAndOvers1=teamRepo.getTeamRR1(match_id, team_id);
+	        	for(String runAndOvers1:RunAndOvers1) {
+	        		String[] arr1 =runAndOvers1.split(",");
+	        		runs1=Integer.parseInt(arr1[0]);
+	        		overs1=Float.parseFloat(arr1[1]);
+	        		total_run=total_run+runs1;
+	        		total_overs=total_overs+overs1;
+	        		
+	        	}
+	        	
+	        	
+	        }
+	        
+	        float RunRate1=run/over;
+	        float RunRate2=total_run/total_overs;
+	        net_run_rate=RunRate1-RunRate2;
+	        Team team=teamRepo.findById(team_id).get();
+	        team.setTeamId(team_id);
+	        team.setNet_run_rate(net_run_rate);
+	        teamRepo.save(team);
+	        
+		    response=new StandingResponse(team_id,teamName,matchs,wins,losses,points,NR,net_run_rate);
+		    standingResponse.add(response);
+		
+	}
+		return standingResponse;
 	}
 }
