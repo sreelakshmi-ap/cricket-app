@@ -6,9 +6,7 @@ import com.example.cricket.repository.LiveUpdateRepository;
 import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamScoreRepository;
-import com.example.cricket.response.LiveScore;
-import com.example.cricket.response.MainResponse;
-import com.example.cricket.response.MatchLiveScore;
+import com.example.cricket.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,5 +98,52 @@ public class LiveScoreServiceImpl implements LiveScoreService {
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));
+    }
+
+    @Override
+    public ResponseEntity getScoreBoard(int matchId) {
+        Optional<Matchs> currentMatch = matchRepository.findByMatchId(matchId);
+        if (currentMatch.isPresent()) {
+            TeamScore teamOne = teamScoreRepository.findByMatchIdAndTeamId(matchId, currentMatch.get().getTeam_1_id());
+            TeamScore teamTwo = teamScoreRepository.findByMatchIdAndTeamId(matchId, currentMatch.get().getTeam_2_id());
+            ScoreBoard teamOneScore = new ScoreBoard();
+            ScoreBoard teamTwoScore = new ScoreBoard();
+            teamOneScore.setTeam(teamOne);
+            teamTwoScore.setTeam(teamTwo);
+            List<Batsman> teamOneBatsman = playerScoreRepository.findAllBatsmen(matchId, teamOne.getTeamId());
+            List<BatsmanDetails> teamOneBatsmanDetails = new ArrayList<>();
+            for(Batsman batsman1 :teamOneBatsman){
+                if(batsman1.getBatsmanOut() == true){
+                   OutReason reason = liveUpdateRepository.findOutReason(matchId,teamOne.getTeamId(),batsman1.getId());
+                    teamOneBatsmanDetails.add(new BatsmanDetails(batsman1.getId(),batsman1.getPlayerName(),batsman1.getRunScored(),batsman1.getBallFaced(),batsman1.getBatsmenSr(),batsman1.getNoOfFours(),batsman1.getNoOfSixes(),batsman1.getOnCrease(),batsman1.getBatsmanOut(),reason.getFielderName(),reason.getWicketReason()));
+                }else {
+                    teamOneBatsmanDetails.add(new BatsmanDetails(batsman1.getId(),batsman1.getPlayerName(),batsman1.getRunScored(),batsman1.getBallFaced(),batsman1.getBatsmenSr(),batsman1.getNoOfFours(),batsman1.getNoOfSixes(),batsman1.getOnCrease(),batsman1.getBatsmanOut(),null,null));
+                }
+            }
+            teamOneScore.setBatsmen(teamOneBatsmanDetails);
+            teamOneScore.setBowlers(playerScoreRepository.findALLBowler(matchId, teamTwo.getTeamId()));
+            List<Batsman> teamTwoBatsman = playerScoreRepository.findAllBatsmen(matchId, teamTwo.getTeamId());
+            List<BatsmanDetails> teamTwoBatsmanDetails = new ArrayList<>();
+            for(Batsman batsman1 :teamTwoBatsman){
+                if(batsman1.getBatsmanOut() == true){
+                    OutReason reason = liveUpdateRepository.findOutReason(matchId,teamTwo.getTeamId(),batsman1.getId());
+                    teamTwoBatsmanDetails.add(new BatsmanDetails(batsman1.getId(),batsman1.getPlayerName(),batsman1.getRunScored(),batsman1.getBallFaced(),batsman1.getBatsmenSr(),batsman1.getNoOfFours(),batsman1.getNoOfSixes(),batsman1.getOnCrease(),batsman1.getBatsmanOut(),reason.getFielderName(),reason.getWicketReason()));
+                }else {
+                    teamTwoBatsmanDetails.add(new BatsmanDetails(batsman1.getId(),batsman1.getPlayerName(),batsman1.getRunScored(),batsman1.getBallFaced(),batsman1.getBatsmenSr(),batsman1.getNoOfFours(),batsman1.getNoOfSixes(),batsman1.getOnCrease(),batsman1.getBatsmanOut(),null,null));
+                }
+            }
+            teamTwoScore.setBatsmen(teamTwoBatsmanDetails);
+            teamTwoScore.setBowlers(playerScoreRepository.findALLBowler(matchId, teamOne.getTeamId()));
+            MatchScoreBoard scoreBoard = new MatchScoreBoard();
+            scoreBoard.setTeamOne(teamOneScore);
+            scoreBoard.setTeamTwo(teamTwoScore);
+
+            return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", scoreBoard));
+
+
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Match ID not found", ""));
+
     }
 }
