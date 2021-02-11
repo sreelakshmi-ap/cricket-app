@@ -41,6 +41,9 @@ public class LiveUpdateService {
 
 	@Autowired
 	FallOfWicketService fallOfWicketService;
+	
+	@Autowired
+	BattingPartnershipService battingPartnershipService;
 
 	public ResponseEntity<?> UpdateLiveScore(LiveUpdateRequest liveReq) {
 
@@ -126,9 +129,21 @@ public class LiveUpdateService {
 				liveUpdate.getTeam_id());
 
 		if (liveReq.getLiveUpdate().getBall_type().equalsIgnoreCase("Wide")
-				|| liveReq.getLiveUpdate().getBall_type().equalsIgnoreCase("No ball")) {
+				|| liveReq.getLiveUpdate().getBall_type().equalsIgnoreCase("No ball"))
+		{
 			TotalRuns += 1;
+			PlayerScore Runner = playerScoreRepo.ChangeCrease(liveUpdate.getMatch_id(), liveUpdate.getTeam_id());
+			int RunnerId=Runner.getPlayerId();
+			battingPartnershipService.PartnershipUpdate(liveUpdate.getBatsman_id(), RunnerId, liveUpdate.getMatch_id(), liveUpdate.getTeam_id(), TotalRuns, 0,true);
 		}
+		
+		else
+		{
+			PlayerScore Runner = playerScoreRepo.ChangeCrease(liveUpdate.getMatch_id(), liveUpdate.getTeam_id());
+			int RunnerId=Runner.getPlayerId();
+			battingPartnershipService.PartnershipUpdate(liveUpdate.getBatsman_id(), RunnerId, liveUpdate.getMatch_id(), liveUpdate.getTeam_id(), TotalRuns, 1,true);
+		}
+		
 
 		int runs = teamScoreRepo.getRuns() + TotalRuns;
 		int balls = liveUpdate.getBallno();
@@ -150,13 +165,23 @@ public class LiveUpdateService {
 		}
 
 		if (liveReq.getWicketId() != 0) {
+			
 			if (!((liveReq.getLiveUpdate().getBall_type().equalsIgnoreCase("No ball")
 					|| (liveReq.getLiveUpdate().getBall_type().equalsIgnoreCase("Free Hit"))))) {
 				wicket += 1;
 				fallOfWicketService.setRunsAndWickets(liveReq, runs, wicket, over);
+				PlayerScore Runner = playerScoreRepo.ChangeCrease(liveUpdate.getMatch_id(), liveUpdate.getTeam_id());
+				int RunnerId=Runner.getPlayerId();
+				battingPartnershipService.PartnershipUpdate(liveUpdate.getBatsman_id(), RunnerId, liveUpdate.getMatch_id(), liveUpdate.getTeam_id(), TotalRuns, 1,false);
 			} else if (liveUpdate.getWicket_reason().equalsIgnoreCase("Run Out")) {
 				wicket += 1;
 				fallOfWicketService.setRunsAndWickets(liveReq, runs, wicket, over);
+				//battingPartnershipService.BatsmanWicket(liveUpdate.getMatch_id(), liveUpdate.getTeam_id());
+				
+				PlayerScore Runner = playerScoreRepo.ChangeCrease(liveUpdate.getMatch_id(), liveUpdate.getTeam_id());
+				int RunnerId=Runner.getPlayerId();
+				battingPartnershipService.PartnershipUpdate(liveUpdate.getBatsman_id(), RunnerId, liveUpdate.getMatch_id(), liveUpdate.getTeam_id(), TotalRuns, 1,false);
+				
 			}
 		}
 
@@ -460,6 +485,7 @@ public class LiveUpdateService {
 		ExtrasCount counts = new ExtrasCount(wide,noBall,legBye,bye);			
 		return counts;
 	}
+	
 	
 
 

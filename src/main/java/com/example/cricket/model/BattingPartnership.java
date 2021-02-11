@@ -46,6 +46,20 @@ public class BattingPartnership {
 		this.balls = balls;
 		this.status = status;
 	}
+	
+	
+
+	public BattingPartnership(int matchId, int teamId, int batmanOneId, int batmanTwoId, int runs, int balls,
+			boolean status) {
+		super();
+		this.matchId = matchId;
+		this.teamId = teamId;
+		this.batmanOneId = batmanOneId;
+		this.batmanTwoId = batmanTwoId;
+		this.runs = runs;
+		this.balls = balls;
+		this.status = status;
+	}
 
 	public boolean isStatus() {
 		return status;
