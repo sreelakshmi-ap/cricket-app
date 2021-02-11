@@ -19,6 +19,7 @@ import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.request.LiveUpdateRequest;
+import com.example.cricket.response.ExtrasCount;
 import com.example.cricket.response.MainResponse;
 
 @Service
@@ -446,5 +447,20 @@ public class LiveUpdateService {
 //	{
 //		return null;
 //	}
+
+	
+	//--------------------------------------------------> count of extra <-----------------------------
+	
+	public ExtrasCount getCountOfExtras(int matchId, int teamId) {
+		
+		int wide = liveUpdateRepository.countOfExtras("Wide", matchId, teamId);
+		int noBall = liveUpdateRepository.countOfExtras("no ball", matchId, teamId);
+		int legBye = liveUpdateRepository.countOfExtras("legbye", matchId, teamId);
+		int bye = liveUpdateRepository.countOfExtras("bye", matchId, teamId);
+		ExtrasCount counts = new ExtrasCount(wide,noBall,legBye,bye);			
+		return counts;
+	}
+	
+
 
 }

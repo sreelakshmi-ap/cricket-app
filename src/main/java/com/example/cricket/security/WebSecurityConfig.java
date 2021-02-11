@@ -66,6 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
 				.antMatchers("/UpdateLiveScore").permitAll()
+				.antMatchers("/getCountOfExtras").permitAll()
+				
 				.anyRequest().authenticated();
 
 
