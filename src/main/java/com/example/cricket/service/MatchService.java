@@ -1,6 +1,7 @@
 package com.example.cricket.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Matchs;
-
 import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
@@ -18,8 +18,7 @@ import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.response.InningsResponse;
 import com.example.cricket.response.MatchResponse;
-import com.example.cricket.repository.MatchRepository;
-import com.example.cricket.response.InningsResponse;
+import com.example.cricket.response.MessageResponse;
 
 
 @Service
@@ -160,6 +159,18 @@ public class MatchService {
 		return matchResponse;
  }
 		
+	public MessageResponse stopMatch(int match_id,String reason,String end_time) {
+		Matchs match=matchRepository.findByMatchId(match_id).get();
+		match.setMatch_id(match_id);
+		match.setStopped_reason(reason);
+		LocalTime endTime=LocalTime.parse(end_time);
+		match.setEnd_time(endTime);
+		match.setStatus("Abondoned");
+		
+		matchRepository.save(match);
+		return new MessageResponse("match information saved successfully",HttpStatus.OK);
+		
+	}
 		
 	
 }
