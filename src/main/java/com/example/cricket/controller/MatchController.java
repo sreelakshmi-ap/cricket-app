@@ -16,14 +16,8 @@ import com.example.cricket.model.Matchs;
 import com.example.cricket.repository.MatchRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.response.InningsResponse;
-import com.example.cricket.response.ListAndMessageResponse;
 import com.example.cricket.response.MatchResponse;
 import com.example.cricket.response.MessageResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.cricket.response.InningsResponse;
 import com.example.cricket.service.MatchService;
 @RestController
 public class MatchController {
