@@ -11,13 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Matchs;
+import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
 
 import com.example.cricket.repository.PlayerRepository;
+import com.example.cricket.repository.PlayersAchievementsRepository;
 import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.request.PlayersAchievementsRequest;
 import com.example.cricket.response.MessageResponse;
 import com.example.cricket.response.StandingResponse;
 import com.example.cricket.response.TeamInfoResponse;
@@ -44,6 +47,8 @@ public class TeamService {
 	@Autowired
 	PlayerRepository playerRepo;
 	
+	@Autowired
+	PlayersAchievementsRepository repo;
 	
 	
 	public TeamResponse AddTeam(int tournamentId,Team team)
@@ -54,7 +59,8 @@ public class TeamService {
 	}
 	
 
-     public MessageResponse setTeamInfo(int team_1_id,int team_2_id,int match_id,String end_time) {
+    public MessageResponse setTeamInfo(int tournament_id,int team_1_id,int team_2_id,int match_id,String end_time,
+    		PlayersAchievementsRequest request) {
 		
 	TeamScore team1Score=teamScoreRepository.findByMatchIdAndTeamId(match_id, team_1_id);
 	int team1Run=team1Score.getRuns();
@@ -113,6 +119,20 @@ public class TeamService {
 		int runs=team1Run-team2Run;
 		match.setStopped_reason(team1Name+" "+"won by"+" "+runs+" "+"runs");
 		matchRepository.save(match);
+		
+		List<PlayersAchievements> list=request.getRequest();
+		for(PlayersAchievements achievements:list) {
+			int player_id=achievements.getPlayer_id();
+			String achievement_name=achievements.getAchievement_name();
+			PlayersAchievements achievement=new PlayersAchievements();
+			achievement.setAchievement_name(achievement_name);
+			achievement.setPlayer_id(player_id);
+			achievement.setMatch_id(match_id);
+			achievement.setTournament_id(tournament_id);
+			repo.save(achievement);
+			
+			
+		}
 	
  
 	}
@@ -168,6 +188,19 @@ public class TeamService {
 		match.setStopped_reason(team2Name+" "+"won by"+" "+runs+" "+"runs");
 		matchRepository.save(match);
 		
+		List<PlayersAchievements> list=request.getRequest();
+		for(PlayersAchievements achievements:list) {
+			int player_id=achievements.getPlayer_id();
+			String achievement_name=achievements.getAchievement_name();
+			PlayersAchievements achievement=new PlayersAchievements();
+			achievement.setAchievement_name(achievement_name);
+			achievement.setPlayer_id(player_id);
+			achievement.setMatch_id(match_id);
+			achievement.setTournament_id(tournament_id);
+			repo.save(achievement);
+			
+			
+		}
 		
 	}
 	
@@ -236,6 +269,20 @@ public class TeamService {
 		match.setStatus("Past");
 		matchRepository.save(match);
 		
+		List<PlayersAchievements> list=request.getRequest();
+		for(PlayersAchievements achievements:list) {
+			int player_id=achievements.getPlayer_id();
+			String achievement_name=achievements.getAchievement_name();
+			PlayersAchievements achievement=new PlayersAchievements();
+			achievement.setAchievement_name(achievement_name);
+			achievement.setPlayer_id(player_id);
+			achievement.setMatch_id(match_id);
+			achievement.setTournament_id(tournament_id);
+			repo.save(achievement);
+			
+			
+		}
+		
 	}
 	
 	
@@ -243,12 +290,16 @@ public class TeamService {
 	return new MessageResponse("team information updated successfully",HttpStatus.OK);
 
     }
+    
+    
 	
 	public List<Team> GetAllTeam(int tournamentId)
 	{
 		return teamRepo.findAllByTournamentId(tournamentId);
 	}
 
+	
+	
 	
 	public List<TeamInfoResponse> getTeamInfo(int teamId) {
         List<String> teamInfo= teamRepo.getTeamInfo(teamId);
