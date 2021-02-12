@@ -27,6 +27,5 @@ public interface TeamPlayerRepository  extends JpaRepository<TeamPlayerEntity, I
     @Query(value = "SELECT exists( select * from Cricket.team_player where player_id=?1 and designation=\"Captain\" and team_id in(select team_id from Cricket.teams where tournament_id=?2))",nativeQuery = true)
     int CheckForCaptain(int playerId,int tournamentId);
     
-    @Query(value = "SELECT * FROM Cricket.players_achievements where player_id=?1 and tournament_id=?2",nativeQuery = true)
-    PlayersAchievements achievements(int playerId,int tournamentId);
+    
 }

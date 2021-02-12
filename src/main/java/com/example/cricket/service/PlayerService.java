@@ -14,7 +14,9 @@ import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
+import com.example.cricket.repository.PlayersAchievementsRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
+import com.example.cricket.response.AchievementResponse;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MessageAndStatusResponse;
 import com.example.cricket.response.PlayerInfoResponse;
@@ -32,6 +34,9 @@ public class PlayerService {
     
     @Autowired
     PlayerScoreRepository playerScoreRepository;
+    
+    @Autowired
+    PlayersAchievementsRepository playersAchievementsRepository;
 
     public ResponseEntity<?> playersList() {
 
@@ -131,9 +136,11 @@ public class PlayerService {
     		
     		int Wickets=scoreInfo.getWickets();
     		
-    		//PlayersAchievements achievements=teamPlayerRepository.achievements(playerId, tournamentId);
     		
-    		return ResponseEntity.ok(new PlayerInfoResponse(PlayerName,PlayerPicture, City, TeamName, Captain, Role, BattingStyle, Bowling, Matches, Runs, Wickets));
+    		List<AchievementResponse> achievementList=playersAchievementsRepository.GetAchievement(playerId, tournamentId);
+    		
+    		
+    		return ResponseEntity.ok(new PlayerInfoResponse(PlayerName,PlayerPicture, City, TeamName, Captain, Role, BattingStyle, Bowling, Matches, Runs, Wickets,achievementList));
     	}
     	return ResponseEntity.status(400).body(new MessageAndStatusResponse("Player is Not Playing In This Tournament", HttpStatus.BAD_REQUEST));
     }
