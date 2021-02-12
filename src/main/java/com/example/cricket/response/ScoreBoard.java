@@ -11,6 +11,8 @@ public class ScoreBoard {
 
     private List<?> bowlers;
 
+    private List<?> fallOfWicket;
+
     public ScoreBoard() {
     }
 
@@ -36,5 +38,13 @@ public class ScoreBoard {
 
     public void setBowlers(List<?> bowlers) {
         this.bowlers = bowlers;
+    }
+
+    public List<?> getFallOfWicket() {
+        return fallOfWicket;
+    }
+
+    public void setFallOfWicket(List<?> fallOfWicket) {
+        this.fallOfWicket = fallOfWicket;
     }
 }
