@@ -16,4 +16,28 @@ public interface TeamRepo extends JpaRepository<Team, Integer> {
 
 	@Query(value = "SELECT * FROM Cricket.teams where tournament_id=?1", nativeQuery = true)
 	List<Team> findAllByTournamentId(int tournamentId);
+
+	
+	@Query(value = "select team_player_id from team_player where designation=\"Captain\" and team_id=?", nativeQuery = true)
+	int getTeamCaptain(int team_id);
+	
+	@Query(value = "SELECT city,draw_or_cancelled,losses,wins,points from teams where team_id=?", nativeQuery = true)
+	List<String> getTeamInfo(int team_id);
+	
+	@Query(value = "SELECT count(match_id) from matchs  where status=\"Past\" and  team_2_id=?", nativeQuery = true)
+	int getMatchCount1(int team_2_id);
+	
+	@Query(value = "SELECT count(match_id) from matchs  where status=\"Past\" and  team_1_id=?", nativeQuery = true)
+	int getMatchCount2(int team_1_id);
+	
+	@Query(value = "select team_id,team_name,draw_or_cancelled,losses,points,wins from teams where tournament_id=?", nativeQuery = true)
+	List<String> getTeamStandings(int tournament_id);
+	
+	@Query(value = "select t.runs,t.overs,t.match_id as match_ids,m.match_id as matchs_id from team_score t,matchs m where t.team_id=? and m.status=\"Past\" and m.match_id=t.match_id", nativeQuery = true)
+	List<String> getTeamRR(int team_id);
+	
+	@Query(value = "select runs,overs from team_score where match_id=?1 and team_id!=?2", nativeQuery = true)
+	List<String> getTeamRR1(int match_id,int team_id);
+	
+
 }
