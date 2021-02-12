@@ -1,7 +1,9 @@
 package com.example.cricket.service;
 
 import java.time.LocalTime;
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,18 @@ import com.example.cricket.model.Matchs;
 import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
+
 import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.response.MessageResponse;
 import com.example.cricket.response.StandingResponse;
 import com.example.cricket.response.TeamInfoResponse;
+
+import com.example.cricket.repository.TeamRepo;
+import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.response.MessageResponse;
+
 import com.example.cricket.response.TeamResponse;
 
 @Service
@@ -32,6 +40,7 @@ public class TeamService {
 	@Autowired
 	MatchRepository matchRepository;
 	
+
 	@Autowired
 	PlayerRepository playerRepo;
 	
@@ -239,6 +248,7 @@ public class TeamService {
 	{
 		return teamRepo.findAllByTournamentId(tournamentId);
 	}
+
 	
 	public List<TeamInfoResponse> getTeamInfo(int teamId) {
         List<String> teamInfo= teamRepo.getTeamInfo(teamId);
@@ -347,4 +357,9 @@ public class TeamService {
 	}
 		return standingResponse;
 	}
+
+	public Team getTeamInfo(int teamId) {
+		return teamRepo.findById(teamId).get();
+	}
+	
 }

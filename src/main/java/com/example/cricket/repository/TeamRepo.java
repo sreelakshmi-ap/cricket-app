@@ -16,6 +16,7 @@ public interface TeamRepo extends JpaRepository<Team, Integer> {
 
 	@Query(value = "SELECT * FROM Cricket.teams where tournament_id=?1", nativeQuery = true)
 	List<Team> findAllByTournamentId(int tournamentId);
+
 	
 	@Query(value = "select team_player_id from team_player where designation=\"Captain\" and team_id=?", nativeQuery = true)
 	int getTeamCaptain(int team_id);
@@ -38,4 +39,5 @@ public interface TeamRepo extends JpaRepository<Team, Integer> {
 	@Query(value = "select runs,overs from team_score where match_id=?1 and team_id!=?2", nativeQuery = true)
 	List<String> getTeamRR1(int match_id,int team_id);
 	
+
 }

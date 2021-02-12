@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cricket.model.Team;
 import com.example.cricket.response.MessageResponse;
+
 import com.example.cricket.response.StandingResponse;
 import com.example.cricket.response.TeamInfoResponse;
+
 import com.example.cricket.response.TeamResponse;
 import com.example.cricket.service.TeamService;
 
@@ -41,6 +43,7 @@ public class TeamController {
 		
     }
 	
+
 	@GetMapping("/getTeamStandings")
 	public List<StandingResponse> getTeamStandings(@RequestParam int tournament_id) {
 		return teamService.getTeamStandings(tournament_id);
@@ -49,6 +52,7 @@ public class TeamController {
 	
 	@GetMapping("/getTeamInfo")
 		public List<TeamInfoResponse> getTeamInfo(@RequestParam int team_id) {
+	
 			return teamService.getTeamInfo(team_id);
 			
 		}
