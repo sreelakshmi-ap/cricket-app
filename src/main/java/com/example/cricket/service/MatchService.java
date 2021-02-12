@@ -171,6 +171,20 @@ public class MatchService {
 		return new MessageResponse("match information saved successfully",HttpStatus.OK);
 		
 	}
+	
+	public MessageResponse stopMatch(int match_id,String reason,String end_time) {
+		Matchs match=matchRepository.findByMatchId(match_id).get();
+		match.setMatch_id(match_id);
+		match.setStopped_reason(reason);
+		LocalTime endTime=LocalTime.parse(end_time);
+		match.setEnd_time(endTime);
+		match.setStatus("Abondoned");
+		
+		matchRepository.save(match);
+		return new MessageResponse("match information saved successfully",HttpStatus.OK);
+		
+	}
+		
 		
 	
 }
