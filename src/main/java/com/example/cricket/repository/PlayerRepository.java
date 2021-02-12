@@ -18,6 +18,9 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Integer>{
     @Query(value = "select player_name from players where player_id=?" , nativeQuery = true)
     String getPlayerName(long phoneNumber);
     
+    
+    
+    
 
 
 
