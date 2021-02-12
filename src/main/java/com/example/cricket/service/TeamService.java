@@ -358,8 +358,6 @@ public class TeamService {
 		return standingResponse;
 	}
 
-	public Team getTeamInfo(int teamId) {
-		return teamRepo.findById(teamId).get();
-	}
+
 	
 }
