@@ -66,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
 
-				.antMatchers("/UpdateLiveScore","/getScoreBoard/{matchId}").permitAll()
+				.antMatchers("/UpdateLiveScore","/getScoreBoard/{matchId}","/addNewPlayer").permitAll()
 
-				.antMatchers("/getCountOfExtras").permitAll()
+				.antMatchers("/getCountOfExtras","/getHighestScore/{tournamentId}","/getBestBattingStrikeRate/{tournamentId}","/getBestEconomy/{tournamentId}").permitAll()
 				
 				.anyRequest().authenticated();
 
