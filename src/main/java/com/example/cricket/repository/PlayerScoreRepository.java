@@ -5,6 +5,7 @@ import com.example.cricket.model.PlayerScore;
 import com.example.cricket.response.Batsmen;
 import com.example.cricket.response.Batsman;
 import com.example.cricket.response.Bowler;
+import com.example.cricket.response.PlayerScoreInfo;
 import com.example.cricket.response.Players;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -42,5 +43,15 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
 
     @Query(value = "select x.player_name as playerName,p.economy_rate as economyRate ,p.player_id as Id,p.runs as runs,p.wickets as wickets,p.no_of_maidens as noOfMaidens,p.no_of_overs_bowled as noOfOversBowled from Cricket.player_score p,Cricket.players x where p.bowling=1  and x.player_id=p.player_id and p.match_id=?1 and p.team_id=?2", nativeQuery = true)
     List<Bowler> findALLBowler(int matchId, int teamId);
+    
+    @Query(value = "SELECT sum(run_scored) as runs,count(match_id) as matches,sum(wickets) as wickets FROM Cricket.player_score where player_id=?1 and match_id in(select match_id from Cricket.matchs where tournament_id=?2)",nativeQuery = true)
+    PlayerScoreInfo getPlayerScoreInfo(int playerId,int tournamentId);
+    
+    @Query(value = "select player_id from player_score where match_id=?", nativeQuery = true)
+	List<Integer> getMatchPlayers(int match_id);
+	
+	@Query(value = "select no_of_fours,no_of_sixes,run_scored,wickets from player_score where player_id=?1 and\n" + 
+			"match_id=?2", nativeQuery = true)
+	String getPlayerInfo(int player_id,int match_id);
 
 }

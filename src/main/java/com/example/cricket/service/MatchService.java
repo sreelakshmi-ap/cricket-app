@@ -10,9 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Matchs;
+import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.Team;
+import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
+import com.example.cricket.repository.PlayerRepository;
+import com.example.cricket.repository.PlayerScoreRepository;
+import com.example.cricket.repository.PlayersAchievementsRepository;
+import com.example.cricket.repository.TeamPlayerRepository;
 import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.repository.TournamentRepo;
@@ -36,6 +42,18 @@ public class MatchService {
 	
 	@Autowired
 	TeamScoreRepository teamScoreRepository;
+
+	@Autowired
+	PlayerRepository playerRepo;
+	
+	@Autowired
+	PlayersAchievementsRepository repo;
+	
+	@Autowired
+	TeamPlayerRepository teamPlayerRepository;
+	
+	@Autowired
+	PlayerScoreRepository playerScoreRepository;
 	                      
                                 
 
@@ -159,7 +177,137 @@ public class MatchService {
 		return matchResponse;
  }
 		
-	public MessageResponse stopMatch(int match_id,String reason,String end_time) {
+
+	
+	public MessageResponse stopMatch(int match_id,String reason,String end_time,int team_1_id,int team_2_id,
+			int tournament_id) {
+		
+		
+		Team team2= teamRepo.findById(team_2_id).get();
+		Team team1= teamRepo.findById(team_1_id).get();
+		if(team2.getDraw_or_cancelled()!=null) {
+		team2.setTeamId(team_2_id);
+		team2.setDraw_or_cancelled(team2.getDraw_or_cancelled()+1);
+		if(team2.getPoints()!=null) {
+		team2.setPoints(team2.getPoints()+1);
+		}else {
+			team2.setPoints(1);
+		}
+		teamRepo.save(team2);
+		}
+		else {
+			team2.setTeamId(team_2_id);
+			team2.setDraw_or_cancelled(1);
+			if(team2.getPoints()==null) {
+			team2.setPoints(1);
+			}
+			else {
+				team2.setPoints(team2.getPoints()+1);
+			}
+			teamRepo.save(team2);
+			
+			
+		}
+		
+		if(team1.getDraw_or_cancelled()!=null) {
+		team1.setTeamId(team_1_id);
+		team1.setDraw_or_cancelled(team1.getDraw_or_cancelled()+1);
+		if(team1.getPoints()!=null) {
+		team1.setPoints(team1.getPoints()+1);
+		}
+		else {
+			team1.setPoints(1);
+			
+		}
+		teamRepo.save(team1);
+		}
+		
+		else {
+			
+			team1.setTeamId(team_1_id);
+			team1.setDraw_or_cancelled(1);
+			if(team1.getPoints()==null) {
+			team1.setPoints(1);
+			}
+			else {
+				team1.setPoints(team1.getPoints()+1);
+			}
+			teamRepo.save(team1);
+			
+		}
+		
+		int no_of_fours;
+		int no_of_sixes;
+		int run_scored;
+		int wickets;
+		
+		List<Integer> players=playerScoreRepository.getMatchPlayers(match_id);
+		System.out.println(players);
+		for(Integer player:players) {
+			System.out.println(player);
+			String info=playerScoreRepository.getPlayerInfo(player,match_id);
+			System.out.println(info);
+	    		String[] arr =info.split(",");
+	    		no_of_fours=Integer.parseInt(arr[0]);
+	    		no_of_sixes=Integer.parseInt(arr[1]);
+	    		run_scored=Integer.parseInt(arr[2]);
+	    		wickets= Integer.parseInt(arr[3]);
+	    		
+	    	
+			
+			TeamPlayerEntity teamPlayer=teamPlayerRepository.getTeamPlayer(player,tournament_id);
+			System.out.println(teamPlayer);
+			
+			if(teamPlayer.getFours()!=null) {
+			teamPlayer.setFours(teamPlayer.getFours()+no_of_fours);
+			}
+			else {
+				teamPlayer.setFours(no_of_fours);
+			}
+			
+			if(teamPlayer.getSixes()!=null) {
+			teamPlayer.setSixes(teamPlayer.getSixes()+no_of_sixes);
+			}
+			else {
+				teamPlayer.setSixes(no_of_sixes);
+			}
+			
+			if(teamPlayer.getWickets()!=null) {
+			teamPlayer.setWickets(teamPlayer.getWickets()+wickets);
+			}
+			else {
+				teamPlayer.setWickets(wickets);
+			}
+			
+			if(teamPlayer.getRuns()!=null) {
+			teamPlayer.setRuns(teamPlayer.getRuns()+run_scored);
+			}
+			
+			else {
+				teamPlayer.setRuns(run_scored);
+			}
+			
+			if(run_scored>=50 && run_scored<100) {
+				teamPlayer.setFifties(teamPlayer.getFifties()+1);
+			}
+			
+			if(run_scored>=100) {
+				teamPlayer.setHundreds(teamPlayer.getHundreds()+1);
+			}
+			
+		    if(wickets>=5) {
+		    	if(teamPlayer.getFive_wickets_hauls()!=null) {
+		    	teamPlayer.setFive_wickets_hauls(teamPlayer.getFive_wickets_hauls()+1);
+		    	}
+		    	else {
+		    		teamPlayer.setFive_wickets_hauls(0);
+		    	}
+		    }
+			
+		    teamPlayerRepository.save(teamPlayer);
+			
+		}
+		
 		Matchs match=matchRepository.findByMatchId(match_id).get();
 		match.setMatch_id(match_id);
 		match.setStopped_reason(reason);
@@ -168,10 +316,12 @@ public class MatchService {
 		match.setStatus("Abondoned");
 		
 		matchRepository.save(match);
+		
+		
 		return new MessageResponse("match information saved successfully",HttpStatus.OK);
 		
 	}
-		
+	
 	
 }
 

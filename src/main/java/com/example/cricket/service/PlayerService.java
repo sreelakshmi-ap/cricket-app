@@ -5,14 +5,22 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.PlayerEntity;
+import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.repository.PlayerRepository;
+import com.example.cricket.repository.PlayerScoreRepository;
+import com.example.cricket.repository.PlayersAchievementsRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
+import com.example.cricket.response.AchievementResponse;
 import com.example.cricket.response.MainResponse;
+import com.example.cricket.response.MessageAndStatusResponse;
+import com.example.cricket.response.PlayerInfoResponse;
+import com.example.cricket.response.PlayerScoreInfo;
 import com.example.cricket.response.PlayersOfTeamResponse;
 
 @Service
@@ -23,6 +31,12 @@ public class PlayerService {
 
     @Autowired
     private TeamPlayerRepository teamPlayerRepository;
+    
+    @Autowired
+    PlayerScoreRepository playerScoreRepository;
+    
+    @Autowired
+    PlayersAchievementsRepository playersAchievementsRepository;
 
     public ResponseEntity<?> playersList() {
 
@@ -76,5 +90,58 @@ public class PlayerService {
         }
         return playersOfTeam;
 
+    }
+    
+    public ResponseEntity<?> PlayerInfo(int playerId,int tournamentId)
+    {
+    	Optional<TeamPlayerEntity> player=teamPlayerRepository.CheckPlayerForTournament(playerId, tournamentId);
+    	if(player.isPresent())
+    	{
+    		PlayerEntity playerDetails=playerRepository.findById(playerId).get();
+    		
+    		String PlayerName=playerDetails.getPlayerName();
+    		
+    		String PlayerPicture=playerDetails.getImagePath();
+    		
+    		String City=playerDetails.getLocation();
+    		
+    		String Role=playerDetails.getExpertise();
+    		
+    		String BattingStyle=playerDetails.getBatting();
+    		
+    		String Bowling=playerDetails.getBowling()+" "+playerDetails.getBowlingType();
+    		
+    		String TeamName=teamPlayerRepository.TeamNameByPlayerId(playerId, tournamentId);
+    		
+    		int captainCheck=teamPlayerRepository.CheckForCaptain(playerId, tournamentId);
+    		
+    		boolean Captain;
+    		
+    		if(captainCheck>0)
+    		{
+    			Captain=true;
+    		}
+    		
+    		else
+    		{
+    			Captain=false;
+    		}
+    		
+    		
+    		PlayerScoreInfo scoreInfo=playerScoreRepository.getPlayerScoreInfo(playerId, tournamentId);
+    		
+    		int Runs=scoreInfo.getRuns();
+    		
+    		int Matches=scoreInfo.getMatches();
+    		
+    		int Wickets=scoreInfo.getWickets();
+    		
+    		
+    		List<AchievementResponse> achievementList=playersAchievementsRepository.GetAchievement(playerId, tournamentId);
+    		
+    		
+    		return ResponseEntity.ok(new PlayerInfoResponse(PlayerName,PlayerPicture, City, TeamName, Captain, Role, BattingStyle, Bowling, Matches, Runs, Wickets,achievementList));
+    	}
+    	return ResponseEntity.status(400).body(new MessageAndStatusResponse("Player is Not Playing In This Tournament", HttpStatus.BAD_REQUEST));
     }
 }

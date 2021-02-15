@@ -40,6 +40,7 @@ public class Team {
 	@Column
 	Integer draw_or_cancelled;
 	
+
 	@Column
 	Double net_run_rate;
 	
@@ -96,7 +97,10 @@ public class Team {
 
 
 	public Team(int teamId, String teamName, String city, String teamLogo, int tournamentId, Integer wins, Integer losses,
+
 			Integer points, Integer draw_or_cancelled,Double net_run_rate) {
+			
+
 		super();
 		this.teamId = teamId;
 		this.teamName = teamName;
@@ -107,7 +111,9 @@ public class Team {
 		this.losses = losses;
 		this.points = points;
 		this.draw_or_cancelled = draw_or_cancelled;
+
 		this.net_run_rate=net_run_rate;
+
 	}
 	
 	
@@ -303,6 +309,7 @@ public class Team {
 
 
 
+
 	public Double getNet_run_rate() {
 		return net_run_rate;
 	}
@@ -318,6 +325,7 @@ public class Team {
 
 
     
+
 
 
 

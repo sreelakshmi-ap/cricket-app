@@ -56,13 +56,13 @@ public class MatchController {
 	}
 	
 	@PutMapping("/stopMatch")
-	public MessageResponse stopMatch(@RequestParam int match_id, String reason,String end_time){
-		return  matchService.stopMatch(match_id, reason, end_time);
+	public MessageResponse stopMatch(@RequestParam int match_id, String reason,String end_time,int team_1_id,
+			int team_2_id,int tournament_id){
+		return  matchService.stopMatch(match_id, reason, end_time,team_1_id,team_2_id,tournament_id);
 		
 	}
-
      
-	
+
 	
 }
 			

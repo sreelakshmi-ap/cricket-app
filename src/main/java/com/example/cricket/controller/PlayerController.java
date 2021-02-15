@@ -38,4 +38,9 @@ public class PlayerController {
         return playerService.addExistingPlayer(teamPlayerEntity);
 
     }
+    @GetMapping("/getPlayerInfo")
+    public ResponseEntity<?> PlayerInfo(@RequestParam int playerId,@RequestParam int tournamentId)
+    {
+    	return playerService.PlayerInfo(playerId, tournamentId);
+    }
 }

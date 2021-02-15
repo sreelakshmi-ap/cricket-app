@@ -1,5 +1,7 @@
 package com.example.cricket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +14,14 @@ import javax.persistence.Table;
 public class BattingPartnership {
 	@Id
 	@Column(name = "parnership_id")
+	@JsonIgnore
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int parnershipId;
 	@Column
+			@JsonIgnore
 	int matchId;
 	@Column
+			@JsonIgnore
 	int teamId;
 	@Column
 	int batmanOneId;
