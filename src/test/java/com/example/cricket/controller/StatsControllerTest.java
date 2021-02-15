@@ -1,7 +1,7 @@
 package com.example.cricket.controller;
 
 import com.example.cricket.service.LiveScoreService;
-import com.example.cricket.service.UpdateScoreService;
+import com.example.cricket.service.StatsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,36 +23,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @EnableWebMvc
-class LiveScoreControllerTest {
+class StatsControllerTest {
 
     private MockMvc mockMvc;
 
     @MockBean
-    LiveScoreService liveScoreService;
+    StatsService statsService;
 
     @Autowired
-    LiveScoreController liveScoreController;
+    StatsController statsController;
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.liveScoreController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.statsController).build();
     }
 
 
     @Test
-    void getLiveScore() throws Exception {
-        given(liveScoreService.getLiveScore(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
+    void getHighestScore() throws Exception {
+        given(statsService.getHighestScore(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
         mockMvc.perform(
-                get("/getLiveScore/{matchId}",1).contentType(
+                get("/getHighestScore/{tournamentId}",1).contentType(
                         MediaType.APPLICATION_JSON)).andExpect(
                 status().is2xxSuccessful());
     }
 
     @Test
-    void getScoreBoard() throws Exception {
-        given(liveScoreService.getScoreBoard(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
+    void getBestBattingStrikeRate() throws Exception {
+        given(statsService.getBestBattingStrikeRate(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
         mockMvc.perform(
-                get("/getScoreBoard/{matchId}",1).contentType(
+                get("/getBestBattingStrikeRate/{tournamentId}",1).contentType(
+                        MediaType.APPLICATION_JSON)).andExpect(
+                status().is2xxSuccessful());
+    }
+
+    @Test
+    void getBestEconomy() throws Exception {
+        given(statsService.getBestEconomy(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
+        mockMvc.perform(
+                get("/getBestEconomy/{tournamentId}",1).contentType(
                         MediaType.APPLICATION_JSON)).andExpect(
                 status().is2xxSuccessful());
     }

@@ -3,11 +3,9 @@ package com.example.cricket.service;
 import com.example.cricket.model.Matchs;
 import com.example.cricket.model.PlayerScore;
 import com.example.cricket.model.TeamScore;
-import com.example.cricket.repository.MatchRepository;
-import com.example.cricket.repository.PlayerScoreRepository;
-import com.example.cricket.repository.TeamPlayerRepository;
-import com.example.cricket.repository.TeamScoreRepository;
+import com.example.cricket.repository.*;
 import com.example.cricket.response.MainResponse;
+import com.example.cricket.response.OutReason;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -35,6 +33,14 @@ class LiveScoreServiceImplTest {
     @Mock
     private PlayerScoreRepository playerScoreRepository;
 
+    @Mock
+    private BattingPartnershipRepository battingPartnershipRepository;
+
+    @Mock
+    private FallOfWicketRepository fallOfWicketRepository;
+
+    @Mock
+    private LiveUpdateRepository liveUpdateRepository;
 
     @InjectMocks
     private LiveScoreServiceImpl liveScoreService;
@@ -55,8 +61,39 @@ class LiveScoreServiceImplTest {
         when(matchRepository.findByMatchId(1)).thenReturn(Optional.of(matchs));
         when(teamScoreRepository.findByMatchIdAndTeamId(1,1)).thenReturn(teamScore);
         when(playerScoreRepository.findPlayingBatsmen(1,1)).thenReturn(new ArrayList<>());
+        when(battingPartnershipRepository.findAllByMatchIdAndTeamId(1,1)).thenReturn(new ArrayList<>());
+        when(fallOfWicketRepository.findAllByMatchIdAndTeamId(1,1)).thenReturn(new ArrayList<>());
+        when(liveUpdateRepository.findAllByMatchIdAndTeamId(1,1)).thenReturn(new ArrayList<>());
         ResponseEntity responseEntity = liveScoreService.getLiveScore(1);
         MainResponse response = (MainResponse) responseEntity.getBody();
         assertEquals("Success", response.getMessage());
+    }
+
+    @Test
+    void getScoreBoard() {
+        Matchs matchs = new Matchs(1, "", 1, 1, 1, 1, "Live", null, null, 1, 1);
+        matchs.setInnings(1);
+        TeamScore teamScore = new TeamScore();
+        teamScore.setBattingOrder(true);
+        when(matchRepository.findByMatchId(1)).thenReturn(Optional.of(matchs));
+        when(teamScoreRepository.findByMatchIdAndTeamId(1,1)).thenReturn(teamScore);
+        when(playerScoreRepository.findAllBatsmen(1,1)).thenReturn(new ArrayList<>());
+        when(liveUpdateRepository.findOutReason(1,1,1)).thenReturn(new OutReason() {
+            @Override
+            public String getFielderName() {
+                return "Bob";
+            }
+
+            @Override
+            public String getWicketReason() {
+                return "Catch";
+            }
+        });
+        when(playerScoreRepository.findALLBowler(1,1)).thenReturn(new ArrayList<>());
+        when(fallOfWicketRepository.findAllByMatchIdAndTeamId(1,1)).thenReturn(new ArrayList<>());
+        ResponseEntity responseEntity = liveScoreService.getScoreBoard(1);
+        MainResponse response = (MainResponse) responseEntity.getBody();
+        assertEquals("Success", response.getMessage());
+
     }
 }
