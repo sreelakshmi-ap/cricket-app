@@ -53,4 +53,10 @@ public class StatsController {
     {
     	return statsService.getTopTenWicketTakers(tournamentId);
     }
+    
+    @GetMapping("/getBestBowling")
+    public ResponseEntity<?> getBesBowling(@RequestParam int tournamentId)
+    {
+    	return statsService.getBesBowling(tournamentId);
+    }
 }
