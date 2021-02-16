@@ -13,6 +13,10 @@ public class LiveScore {
 
     private List<?> bowlers;
 
+    private List<?> partnership;
+
+    private List<?> fallOfWicket;
+
     private List<?> commentary;
 
     public LiveScore() {
@@ -40,6 +44,22 @@ public class LiveScore {
 
     public void setBowlers(List<?> bowlers) {
         this.bowlers = bowlers;
+    }
+
+    public List<?> getPartnership() {
+        return partnership;
+    }
+
+    public void setPartnership(List<?> partnership) {
+        this.partnership = partnership;
+    }
+
+    public List<?> getFallOfWicket() {
+        return fallOfWicket;
+    }
+
+    public void setFallOfWicket(List<?> fallOfWicket) {
+        this.fallOfWicket = fallOfWicket;
     }
 
     public List<?> getCommentary() {

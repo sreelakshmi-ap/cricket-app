@@ -56,21 +56,13 @@ public class MatchController {
 	}
 	
 	@PutMapping("/stopMatch")
-	public MessageResponse stopMatch(@RequestParam int match_id, String reason,String end_time){
-		Matchs match=matchRepository.findByMatchId(match_id).get();
-		match.setMatch_id(match_id);
-		match.setStopped_reason(reason);
-		LocalTime endTime=LocalTime.parse(end_time);
-		match.setEnd_time(endTime);
-		match.setStatus("Abondoned");
-		
-		matchRepository.save(match);
-		return new MessageResponse("match stopped",HttpStatus.OK);
+	public MessageResponse stopMatch(@RequestParam int match_id, String reason,String end_time,int team_1_id,
+			int team_2_id,int tournament_id){
+		return  matchService.stopMatch(match_id, reason, end_time,team_1_id,team_2_id,tournament_id);
 		
 	}
-
      
-	
+
 	
 }
 			

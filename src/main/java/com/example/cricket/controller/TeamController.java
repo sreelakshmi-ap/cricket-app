@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cricket.model.Team;
+import com.example.cricket.request.PlayersAchievementsRequest;
 import com.example.cricket.response.MessageResponse;
+
+import com.example.cricket.response.StandingResponse;
+import com.example.cricket.response.TeamInfoResponse;
+
 import com.example.cricket.response.TeamResponse;
 import com.example.cricket.service.TeamService;
 
@@ -33,14 +38,23 @@ public class TeamController {
 	}
 
 	@PostMapping("/endOfMatch/setTeamInfo")
-	public MessageResponse setTeamInfo(@RequestParam int team_1_id,int team_2_id,int match_id,String end_time) {
-	  return teamService.setTeamInfo(team_1_id, team_2_id, match_id, end_time);
+	public MessageResponse setTeamInfo(@RequestParam int tournament_id,int team_1_id,int team_2_id,int match_id,String end_time,
+			@RequestBody PlayersAchievementsRequest request) {
+	  return teamService.setTeamInfo(tournament_id,team_1_id, team_2_id, match_id, end_time,request);
 		
 		
     }
 	
+
+	@GetMapping("/getTeamStandings")
+	public List<StandingResponse> getTeamStandings(@RequestParam int tournament_id) {
+		return teamService.getTeamStandings(tournament_id);
+	}
+	
+	
 	@GetMapping("/getTeamInfo")
-		public Team getTeamInfo(@RequestParam int team_id) {
+		public List<TeamInfoResponse> getTeamInfo(@RequestParam int team_id) {
+	
 			return teamService.getTeamInfo(team_id);
 			
 		}
