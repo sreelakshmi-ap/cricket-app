@@ -25,7 +25,6 @@ public class TeamPlayerEntity {
     private String designation;
     
     @Column
-
     Integer runs;
     
     @Column
