@@ -13,11 +13,14 @@ import org.springframework.stereotype.Service;
 import com.example.cricket.model.Matchs;
 import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.Team;
+import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.model.TeamScore;
 import com.example.cricket.repository.MatchRepository;
 
 import com.example.cricket.repository.PlayerRepository;
+import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.PlayersAchievementsRepository;
+import com.example.cricket.repository.TeamPlayerRepository;
 import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.request.PlayersAchievementsRequest;
@@ -49,6 +52,13 @@ public class TeamService {
 	
 	@Autowired
 	PlayersAchievementsRepository repo;
+	
+	@Autowired
+	TeamPlayerRepository teamPlayerRepository;
+	
+	@Autowired
+	PlayerScoreRepository playerScoreRepository;
+	
 	
 	
 	public TeamResponse AddTeam(int tournamentId,Team team)
@@ -108,6 +118,80 @@ public class TeamService {
 			teamRepo.save(team2);
 			
 		}
+		int no_of_fours;
+		int no_of_sixes;
+		int run_scored;
+		int wickets;
+		
+		List<Integer> players=playerScoreRepository.getMatchPlayers(match_id);
+		System.out.println(players);
+		for(Integer player:players) {
+			System.out.println(player);
+			String info=playerScoreRepository.getPlayerInfo(player,match_id);
+			System.out.println(info);
+	    		String[] arr =info.split(",");
+	    		no_of_fours=Integer.parseInt(arr[0]);
+	    		no_of_sixes=Integer.parseInt(arr[1]);
+	    		run_scored=Integer.parseInt(arr[2]);
+	    		wickets= Integer.parseInt(arr[3]);
+	    		
+	    	
+			
+			TeamPlayerEntity teamPlayer=teamPlayerRepository.getTeamPlayer(player,tournament_id);
+			System.out.println(teamPlayer);
+			
+			if(teamPlayer.getFours()!=null) {
+			teamPlayer.setFours(teamPlayer.getFours()+no_of_fours);
+			}
+			else {
+				teamPlayer.setFours(no_of_fours);
+			}
+			
+			if(teamPlayer.getSixes()!=null) {
+			teamPlayer.setSixes(teamPlayer.getSixes()+no_of_sixes);
+			}
+			else {
+				teamPlayer.setSixes(no_of_sixes);
+			}
+			
+			if(teamPlayer.getWickets()!=null) {
+			teamPlayer.setWickets(teamPlayer.getWickets()+wickets);
+			}
+			else {
+				teamPlayer.setWickets(wickets);
+			}
+			
+			if(teamPlayer.getRuns()!=null) {
+			teamPlayer.setRuns(teamPlayer.getRuns()+run_scored);
+			}
+			
+			else {
+				teamPlayer.setRuns(run_scored);
+			}
+			
+			if(run_scored>=50 && run_scored<100) {
+				teamPlayer.setFifties(teamPlayer.getFifties()+1);
+			}
+			
+			if(run_scored>=100) {
+				teamPlayer.setHundreds(teamPlayer.getHundreds()+1);
+			}
+			
+		    if(wickets>=5) {
+		    	if(teamPlayer.getFive_wickets_hauls()!=null) {
+		    	teamPlayer.setFive_wickets_hauls(teamPlayer.getFive_wickets_hauls()+1);
+		    	}
+		    	else {
+		    		teamPlayer.setFive_wickets_hauls(0);
+		    	}
+		    }
+			
+		    teamPlayerRepository.save(teamPlayer);
+			
+		}
+		
+	
+		
 		
 		Matchs match=matchRepository.findById(match_id).get();
 		match.setMatch_id(match_id);
@@ -176,6 +260,79 @@ public class TeamService {
 			
 		}
 		
+		int no_of_fours;
+		int no_of_sixes;
+		int run_scored;
+		int wickets;
+		
+		List<Integer> players=playerScoreRepository.getMatchPlayers(match_id);
+		System.out.println(players);
+		for(Integer player:players) {
+			System.out.println(player);
+			String info=playerScoreRepository.getPlayerInfo(player,match_id);
+			System.out.println(info);
+	    		String[] arr =info.split(",");
+	    		no_of_fours=Integer.parseInt(arr[0]);
+	    		no_of_sixes=Integer.parseInt(arr[1]);
+	    		run_scored=Integer.parseInt(arr[2]);
+	    		wickets= Integer.parseInt(arr[3]);
+	    		
+	    	
+			
+			TeamPlayerEntity teamPlayer=teamPlayerRepository.getTeamPlayer(player,tournament_id);
+			System.out.println(teamPlayer);
+			
+			if(teamPlayer.getFours()!=null) {
+			teamPlayer.setFours(teamPlayer.getFours()+no_of_fours);
+			}
+			else {
+				teamPlayer.setFours(no_of_fours);
+			}
+			
+			if(teamPlayer.getSixes()!=null) {
+			teamPlayer.setSixes(teamPlayer.getSixes()+no_of_sixes);
+			}
+			else {
+				teamPlayer.setSixes(no_of_sixes);
+			}
+			
+			if(teamPlayer.getWickets()!=null) {
+			teamPlayer.setWickets(teamPlayer.getWickets()+wickets);
+			}
+			else {
+				teamPlayer.setWickets(wickets);
+			}
+			
+			if(teamPlayer.getRuns()!=null) {
+			teamPlayer.setRuns(teamPlayer.getRuns()+run_scored);
+			}
+			
+			else {
+				teamPlayer.setRuns(run_scored);
+			}
+			
+			if(run_scored>=50 && run_scored<100) {
+				teamPlayer.setFifties(teamPlayer.getFifties()+1);
+			}
+			
+			if(run_scored>=100) {
+				teamPlayer.setHundreds(teamPlayer.getHundreds()+1);
+			}
+			
+		    if(wickets>=5) {
+		    	if(teamPlayer.getFive_wickets_hauls()!=null) {
+		    	teamPlayer.setFive_wickets_hauls(teamPlayer.getFive_wickets_hauls()+1);
+		    	}
+		    	else {
+		    		teamPlayer.setFive_wickets_hauls(0);
+		    	}
+		    }
+			
+		    teamPlayerRepository.save(teamPlayer);
+			
+		}
+		
+	
 		Matchs match=matchRepository.findById(match_id).get();
 		match.setMatch_id(match_id);
 		LocalTime endTime=LocalTime.parse(end_time);
@@ -259,6 +416,79 @@ public class TeamService {
 			
 		}
 		
+		int no_of_fours;
+		int no_of_sixes;
+		int run_scored;
+		int wickets;
+		
+		List<Integer> players=playerScoreRepository.getMatchPlayers(match_id);
+		System.out.println(players);
+		for(Integer player:players) {
+			System.out.println(player);
+			String info=playerScoreRepository.getPlayerInfo(player,match_id);
+			System.out.println(info);
+	    		String[] arr =info.split(",");
+	    		no_of_fours=Integer.parseInt(arr[0]);
+	    		no_of_sixes=Integer.parseInt(arr[1]);
+	    		run_scored=Integer.parseInt(arr[2]);
+	    		wickets= Integer.parseInt(arr[3]);
+	    		
+	    	
+			
+			TeamPlayerEntity teamPlayer=teamPlayerRepository.getTeamPlayer(player,tournament_id);
+			System.out.println(teamPlayer);
+			
+			if(teamPlayer.getFours()!=null) {
+			teamPlayer.setFours(teamPlayer.getFours()+no_of_fours);
+			}
+			else {
+				teamPlayer.setFours(no_of_fours);
+			}
+			
+			if(teamPlayer.getSixes()!=null) {
+			teamPlayer.setSixes(teamPlayer.getSixes()+no_of_sixes);
+			}
+			else {
+				teamPlayer.setSixes(no_of_sixes);
+			}
+			
+			if(teamPlayer.getWickets()!=null) {
+			teamPlayer.setWickets(teamPlayer.getWickets()+wickets);
+			}
+			else {
+				teamPlayer.setWickets(wickets);
+			}
+			
+			if(teamPlayer.getRuns()!=null) {
+			teamPlayer.setRuns(teamPlayer.getRuns()+run_scored);
+			}
+			
+			else {
+				teamPlayer.setRuns(run_scored);
+			}
+			
+			if(run_scored>=50 && run_scored<100) {
+				teamPlayer.setFifties(teamPlayer.getFifties()+1);
+			}
+			
+			if(run_scored>=100) {
+				teamPlayer.setHundreds(teamPlayer.getHundreds()+1);
+			}
+			
+		    if(wickets>=5) {
+		    	if(teamPlayer.getFive_wickets_hauls()!=null) {
+		    	teamPlayer.setFive_wickets_hauls(teamPlayer.getFive_wickets_hauls()+1);
+		    	}
+		    	else {
+		    		teamPlayer.setFive_wickets_hauls(0);
+		    	}
+		    }
+			
+		    teamPlayerRepository.save(teamPlayer);
+			
+		}
+		
+	
 		
 		Matchs match=matchRepository.findById(match_id).get();
 		match.setMatch_id(match_id);
@@ -322,7 +552,9 @@ public class TeamService {
 	        String captain=playerRepo.getPlayerName(captainId);
 	        int count=teamRepo.getMatchCount1(teamId);
 	        int count1=teamRepo.getMatchCount2(teamId);
-	        int counts=count+count1;
+	        int count3=teamRepo.getMatchCount3(teamId);
+	        int count4=teamRepo.getMatchCount4(teamId);
+	        int counts=count+count1+count3+count4;
 	        response= new TeamInfoResponse(city,counts,wins,losses,draw_or_cancelled,points,captain);
 		    teamInfos.add(response);
 	}
@@ -369,7 +601,9 @@ public class TeamService {
     	    
 	        int count=teamRepo.getMatchCount1(team_id);
 	        int count1=teamRepo.getMatchCount2(team_id);
-	        matchs=count+count1;
+	        int count3=teamRepo.getMatchCount3(team_id);
+	        int count4=teamRepo.getMatchCount4(team_id);
+	        matchs=count+count1+count3+count4;
 	        
 	        List<String> RunAndOvers=teamRepo.getTeamRR(team_id);
 	        for(String runAndOvers:RunAndOvers) {
@@ -382,6 +616,7 @@ public class TeamService {
 	        	over=over+overs;
 	        	
 	        	List<String> RunAndOvers1=teamRepo.getTeamRR1(match_id, team_id);
+	        	
 	        	for(String runAndOvers1:RunAndOvers1) {
 	        		String[] arr1 =runAndOvers1.split(",");
 	        		runs1=Integer.parseInt(arr1[0]);
