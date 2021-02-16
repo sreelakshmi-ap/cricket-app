@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.TeamPlayerEntity;
 
+
 public interface TeamPlayerRepository extends JpaRepository<TeamPlayerEntity, Integer> {
 
 	@Query(value = "SELECT * FROM team_player WHERE team_id = ?1", nativeQuery = true)
@@ -29,6 +30,9 @@ public interface TeamPlayerRepository extends JpaRepository<TeamPlayerEntity, In
 
 	@Query(value = "SELECT * FROM Cricket.team_player where team_id in (SELECT t.team_id FROM teams t where t.tournament_id=?1)", nativeQuery = true)
 	List<TeamPlayerEntity> listOfPlayersOfTournament(int tournamentId);
-
+  
+  @Query(value = "select * from team_player where player_id=?1 and team_id in(select team_id from tournament where tournament_id=?2)",nativeQuery = true)
+  TeamPlayerEntity getTeamPlayer(int playerId,int tournamentId);
+      
 
 }
