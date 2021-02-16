@@ -25,6 +25,7 @@ public class TeamPlayerEntity {
     private String designation;
     
     @Column
+
     Integer runs;
     
     @Column
@@ -65,6 +66,7 @@ public class TeamPlayerEntity {
 		this.five_wickets_hauls = five_wickets_hauls;
 	}
 	
+
 	public TeamPlayerEntity() {
 
     }
