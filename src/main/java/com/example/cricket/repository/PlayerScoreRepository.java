@@ -2,7 +2,15 @@ package com.example.cricket.repository;
 
 import com.example.cricket.model.PlayerScore;
 
+
+import com.example.cricket.response.Batsmen;
+import com.example.cricket.response.Batsman;
+import com.example.cricket.response.Bowler;
+import com.example.cricket.response.PlayerScoreInfo;
+import com.example.cricket.response.Players;
+
 import com.example.cricket.response.*;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -43,11 +51,20 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     @Query(value = "SELECT sum(run_scored) as runs,count(match_id) as matches,sum(wickets) as wickets FROM Cricket.player_score where player_id=?1 and match_id in(select match_id from Cricket.matchs where tournament_id=?2)",nativeQuery = true)
     PlayerScoreInfo getPlayerScoreInfo(int playerId,int tournamentId);
 
+    
+    @Query(value = "select player_id from player_score where match_id=?", nativeQuery = true)
+	List<Integer> getMatchPlayers(int match_id);
+	
+	@Query(value = "select no_of_fours,no_of_sixes,run_scored,wickets from player_score where player_id=?1 and\n" + 
+			"match_id=?2", nativeQuery = true)
+	String getPlayerInfo(int player_id,int match_id);
+
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.run_scored) as highestScore FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     HighestScore findHighestScore(int tournamentId);
 
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.batsmen_sr) as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     BestBattingStrikeRate findBestBattingStrikeRate(int tournamentId);
+
 
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.economy_rate) as bestEconomy FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     BestEconomy findBestEconomy(int tournamentId);

@@ -12,6 +12,7 @@ import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.response.FiferResponse;
 import com.example.cricket.response.MostWicketResponse;
 
+
 public interface TeamPlayerRepository  extends JpaRepository<TeamPlayerEntity, Integer>{
 
     @Query(value = "SELECT * FROM team_player WHERE team_id = ?1" , nativeQuery = true)
@@ -40,6 +41,11 @@ public interface TeamPlayerRepository  extends JpaRepository<TeamPlayerEntity, I
     
     @Query(value = "select tp.player_id as playerid,tp.wickets as wickets,p.player_name as playername,t.team_name as teamname from Cricket.team_player tp,Cricket.teams t,players p where tp.team_id=t.team_id and tp.player_id=p.player_id and t.tournament_id=?1 order by wickets desc limit 10",nativeQuery = true)
     List<MostWicketResponse> GetTopTenWicketTakers(int tournamentId);
-    
+  
+  @Query(value = "SELECT * FROM Cricket.team_player where team_id in (SELECT t.team_id FROM teams t where t.tournament_id=?1)", nativeQuery = true)
+	List<TeamPlayerEntity> listOfPlayersOfTournament(int tournamentId);
+  
+  @Query(value = "select * from team_player where player_id=?1 and team_id in(select team_id from tournament where tournament_id=?2)",nativeQuery = true)
+  TeamPlayerEntity getTeamPlayer(int playerId,int tournamentId);
 
 }

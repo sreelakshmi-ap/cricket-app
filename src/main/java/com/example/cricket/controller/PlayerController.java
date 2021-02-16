@@ -43,4 +43,11 @@ public class PlayerController {
     {
     	return playerService.PlayerInfo(playerId, tournamentId);
     }
+    
+    
+    @GetMapping("/getPlayerStat")
+    public ResponseEntity<?> PlayerStat(@RequestParam int tournamentId, @RequestParam String value)
+    {
+    	return playerService.PlayerStatInfo(tournamentId,value);
+    }
 }

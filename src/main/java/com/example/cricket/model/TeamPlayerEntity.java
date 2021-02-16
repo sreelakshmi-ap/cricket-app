@@ -25,40 +25,32 @@ public class TeamPlayerEntity {
     private String designation;
     
     @Column
-    int runs;
+    Integer runs;
     
     @Column
-    int hundreds;
+    Integer hundreds;
     
     @Column
-    int fifties;
+    Integer fifties;
     
     @Column
-    int fours;
+    Integer fours;
     
     @Column
-    int sixes;
+    Integer sixes;
     
     @Column
-    int wickets;
+    Integer wickets;
     
     @Column
-    int five_wickets_hauls;
+    Integer five_wickets_hauls;
     
     
-    
-    
-
-    
-	public int getFive_wickets_hauls() {
-		return five_wickets_hauls;
-	}
-	public void setFive_wickets_hauls(int five_wickets_hauls) {
-		this.five_wickets_hauls = five_wickets_hauls;
-	}
+   
 	
-	public TeamPlayerEntity(int teamPlayerId, int teamId, int playerId, String designation, int runs, int hundreds,
-			int fifties, int fours, int sixes, int wickets, int five_wickets_hauls) {
+	public TeamPlayerEntity(int teamPlayerId, int teamId, int playerId, String designation, Integer runs,
+			Integer hundreds, Integer fifties, Integer fours, Integer sixes, Integer wickets,
+			Integer five_wickets_hauls) {
 		super();
 		this.teamPlayerId = teamPlayerId;
 		this.teamId = teamId;
@@ -73,54 +65,18 @@ public class TeamPlayerEntity {
 		this.five_wickets_hauls = five_wickets_hauls;
 	}
 	
-	public int getRuns() {
-		return runs;
-	}
-	public void setRuns(int runs) {
-		this.runs = runs;
-	}
-	public int getHundreds() {
-		return hundreds;
-	}
-	
-	public void setHundreds(int hundreds) {
-		this.hundreds = hundreds;
-	}
-	public int getFifties() {
-		return fifties;
-	}
-	public void setFifties(int fifties) {
-		this.fifties = fifties;
-	}
-	public int getFours() {
-		return fours;
-	}
-	public void setFours(int fours) {
-		this.fours = fours;
-	}
-	public int getSixes() {
-		return sixes;
-	}
-	public void setSixes(int sixes) {
-		this.sixes = sixes;
-	}
-	public int getWickets() {
-		return wickets;
-	}
-	public void setWickets(int wickets) {
-		this.wickets = wickets;
-	}
-	
-	
+
 	public TeamPlayerEntity() {
 
     }
+	
     public TeamPlayerEntity(int teamId, int playerId, String designation) {
         super();
         this.teamId = teamId;
         this.playerId = playerId;
         this.designation = designation;
     }
+    
 
     public int getTeamPlayerId() {
         return teamPlayerId;
@@ -153,6 +109,64 @@ public class TeamPlayerEntity {
     public void setDesignation(String designation) {
         this.designation = designation;
     }
+
+	public Integer getRuns() {
+		return runs;
+	}
+
+	public void setRuns(Integer runs) {
+		this.runs = runs;
+	}
+
+	public Integer getHundreds() {
+		return hundreds;
+	}
+
+	public void setHundreds(Integer hundreds) {
+		this.hundreds = hundreds;
+	}
+
+	public Integer getFifties() {
+		return fifties;
+	}
+
+	public void setFifties(Integer fifties) {
+		this.fifties = fifties;
+	}
+
+	public Integer getFours() {
+		return fours;
+	}
+
+	public void setFours(Integer fours) {
+		this.fours = fours;
+	}
+
+	public Integer getSixes() {
+		return sixes;
+	}
+
+	public void setSixes(Integer sixes) {
+		this.sixes = sixes;
+	}
+
+	public Integer getWickets() {
+		return wickets;
+	}
+
+	public void setWickets(Integer wickets) {
+		this.wickets = wickets;
+	}
+
+	public Integer getFive_wickets_hauls() {
+		return five_wickets_hauls;
+	}
+
+	public void setFive_wickets_hauls(Integer five_wickets_hauls) {
+		this.five_wickets_hauls = five_wickets_hauls;
+	}
+    
+    
 
 
 }
