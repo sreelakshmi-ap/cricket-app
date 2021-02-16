@@ -62,10 +62,33 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.run_scored) as highestScore FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     HighestScore findHighestScore(int tournamentId);
 
+
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.batsmen_sr) as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     BestBattingStrikeRate findBestBattingStrikeRate(int tournamentId);
 
 
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.economy_rate) as bestEconomy FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     BestEconomy findBestEconomy(int tournamentId);
+    
+   
+    
+    @Query(value = "SELECT p.player_id, SUM(p.run_scored) / b1.NumOut as bat_avg\n" + 
+    		"FROM  player_score p\n" + 
+    		"INNER JOIN\n" + 
+    		"(\n" + 
+    		"  select player_id, COUNT(batsmen_out) as NumOut\n" + 
+    		"  from player_score\n" + 
+    		"  WHERE batsmen_out <> '0' and\n" + 
+    		"  team_id in(select team_id from teams where tournament_id=?)\n" + 
+    		"  GROUP BY player_id\n" + 
+    		") b1\n" + 
+    		"ON p.player_id = b1.player_id\n" + 
+    		"GROUP BY player_id\n" + 
+    		"Order BY bat_avg desc",nativeQuery = true)
+    List<String> getBestBattingAverage(int tournamentId);
+
+
+  
 }
+
+
