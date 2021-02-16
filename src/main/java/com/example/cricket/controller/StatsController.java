@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,5 +28,29 @@ public class StatsController {
     @GetMapping("/getBestEconomy/{tournamentId}")
     public ResponseEntity getBestEconomy(@PathVariable int tournamentId){
         return statsService.getBestEconomy(tournamentId);
+    }
+    
+    @GetMapping("/getHighestFifer")
+    public ResponseEntity<?> getHighestFifer(@RequestParam int tournamentId)
+    {
+    	return statsService.getHighestFifer(tournamentId);
+    }
+    
+    @GetMapping("/getMostWicketTaker")
+    public ResponseEntity<?> getMostWickets(@RequestParam int tournamentId)
+    {
+    	return statsService.getMostWickets(tournamentId);
+    }
+    
+    @GetMapping("/getTopTenFifers")
+    public ResponseEntity<?> getTopTenFifers(@RequestParam int tournamentId)
+    {
+    	return statsService.getTopTenFifers(tournamentId);
+    }
+    
+    @GetMapping("/getTopTenWicketTakers")
+    public ResponseEntity<?> getTopTenWicketTakers(@RequestParam int tournamentId)
+    {
+    	return statsService.getTopTenWicketTakers(tournamentId);
     }
 }
