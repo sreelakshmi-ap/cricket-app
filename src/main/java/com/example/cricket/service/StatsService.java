@@ -21,8 +21,7 @@ public interface StatsService {
    
    public ResponseEntity<?> getTopTenWicketTakers(int tournamentId);
    
-
-   public ListAndMessageResponse getBestBattingAverage(int tournament_id);
+   public ResponseEntity<?> getBesBowling(int tournamentId);
    
-
+   public ListAndMessageResponse getBestBattingAverage(int tournament_id);
 }

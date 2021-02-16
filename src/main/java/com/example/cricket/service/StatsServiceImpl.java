@@ -20,6 +20,7 @@ import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
 
 import com.example.cricket.response.BestBattingStrikeRate;
+import com.example.cricket.response.BestBowlingResponse;
 import com.example.cricket.response.BestEconomy;
 import com.example.cricket.response.FiferResponse;
 import com.example.cricket.response.HighestScore;
@@ -83,6 +84,12 @@ public class StatsServiceImpl implements StatsService {
 	public ResponseEntity<?> getTopTenWicketTakers(int tournamentId) {
 		List<MostWicketResponse> toptenwickettakers=teamPlayerRepository.GetTopTenWicketTakers(tournamentId);
 		return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", toptenwickettakers));
+	}
+
+	@Override
+	public ResponseEntity<?> getBesBowling(int tournamentId) {
+		List<BestBowlingResponse> bestBowling=playerScoreRepository.getBestBowling(tournamentId);
+		return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",bestBowling));
 	}
 	
 

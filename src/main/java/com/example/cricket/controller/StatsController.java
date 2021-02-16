@@ -62,9 +62,18 @@ public class StatsController {
     }
 
     
+    @GetMapping("/getBestBowling")
+    public ResponseEntity<?> getBesBowling(@RequestParam int tournamentId)
+    {
+    	return statsService.getBesBowling(tournamentId);
+    }
+
+
+    
     @GetMapping("/getBestBttingAverage")
     public ListAndMessageResponse getBestBattingAverage(@RequestParam int tournament_id){
     	return statsService.getBestBattingAverage(tournament_id);
     }
+
 
 }
