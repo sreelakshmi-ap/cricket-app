@@ -1,6 +1,8 @@
 package com.example.cricket.service;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +10,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
 import com.example.cricket.response.BattingAverageResponse;
+import com.example.cricket.model.TeamPlayerEntity;
+import com.example.cricket.repository.PlayerScoreRepository;
+import com.example.cricket.repository.TeamPlayerRepository;
+
 import com.example.cricket.response.BestBattingStrikeRate;
 import com.example.cricket.response.BestEconomy;
 import com.example.cricket.response.FiferResponse;
 import com.example.cricket.response.HighestScore;
-import com.example.cricket.response.ListAndMessageResponse;
+
+import com.example.cricket.response.ListAndMessageRespons;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MostWicketResponse;
 
@@ -28,6 +36,7 @@ public class StatsServiceImpl implements StatsService {
     
     @Autowired
     private TeamPlayerRepository teamPlayerRepository;
+
     
     @Autowired
     PlayerRepository playerRepository;
@@ -76,6 +85,7 @@ public class StatsServiceImpl implements StatsService {
 		return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", toptenwickettakers));
 	}
 	
+
 	@Override
 	public ListAndMessageResponse getBestBattingAverage(int tournament_id) {
 		List<String> battingAverage=playerScoreRepository.getBestBattingAverage(tournament_id);
@@ -101,5 +111,6 @@ public class StatsServiceImpl implements StatsService {
 	}
     
     
+
 	
 }

@@ -62,6 +62,7 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.run_scored) as highestScore FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     HighestScore findHighestScore(int tournamentId);
 
+
     @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.batsmen_sr) as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
     BestBattingStrikeRate findBestBattingStrikeRate(int tournamentId);
 
@@ -85,6 +86,9 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     		"GROUP BY player_id\n" + 
     		"Order BY bat_avg desc",nativeQuery = true)
     List<String> getBestBattingAverage(int tournamentId);
+
+
+  
 }
 
 

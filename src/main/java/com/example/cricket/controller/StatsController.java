@@ -1,5 +1,8 @@
 package com.example.cricket.controller;
 
+
+import com.example.cricket.service.StatsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.cricket.response.ListAndMessageResponse;
-import com.example.cricket.service.StatsService;
+
+
 
 @RestController
 public class StatsController {
@@ -55,9 +60,11 @@ public class StatsController {
     {
     	return statsService.getTopTenWicketTakers(tournamentId);
     }
+
     
     @GetMapping("/getBestBttingAverage")
     public ListAndMessageResponse getBestBattingAverage(@RequestParam int tournament_id){
     	return statsService.getBestBattingAverage(tournament_id);
     }
+
 }
