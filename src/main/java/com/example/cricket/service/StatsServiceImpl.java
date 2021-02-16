@@ -14,20 +14,25 @@ import org.springframework.stereotype.Service;
 import com.example.cricket.repository.PlayerRepository;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
+import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.response.BattingAverageResponse;
+import com.example.cricket.model.PlayerEntity;
+import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
 
 import com.example.cricket.response.BestBattingStrikeRate;
+import com.example.cricket.response.BestBowlingAverageResponse;
 import com.example.cricket.response.BestBowlingResponse;
 import com.example.cricket.response.BestEconomy;
 import com.example.cricket.response.FiferResponse;
 import com.example.cricket.response.HighestScore;
 
-import com.example.cricket.response.ListAndMessageRespons;
+import com.example.cricket.response.ListAndMessageResponse;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MostWicketResponse;
+import com.example.cricket.response.playerStatInfo;
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -41,6 +46,9 @@ public class StatsServiceImpl implements StatsService {
     
     @Autowired
     PlayerRepository playerRepository;
+    
+    @Autowired
+    private TeamRepo teamRepo;
 
     @Override
     public ResponseEntity getHighestScore(int tournamentId) {
@@ -95,26 +103,32 @@ public class StatsServiceImpl implements StatsService {
 
 	@Override
 	public ListAndMessageResponse getBestBattingAverage(int tournament_id) {
-		List<String> battingAverage=playerScoreRepository.getBestBattingAverage(tournament_id);
-		List<BattingAverageResponse> average=new ArrayList<>();
-		BattingAverageResponse response;
+		List<String> bowlingAverage=playerScoreRepository.getBestBowlingAverage(tournament_id);
+
+		List<BestBowlingAverageResponse> finalPlayersList = new ArrayList<>();
+
 		
 		int player_id;
-		String player_name;
-		Float batting_average;
+		int team_id;
+		Float bowling_average;
 		
 		
-		for(String battingAverages:battingAverage) {
-			String[] arr=battingAverages.split(",");
+		for(String bowlingAverages:bowlingAverage) {
+			String[] arr=bowlingAverages.split(",");
 			player_id=Integer.parseInt(arr[0]);
-			batting_average=Float.parseFloat(arr[1]);
-			player_name=playerRepository.getPlayerName(player_id);
-			                                                                                                                                                                                                               
-			response=new BattingAverageResponse(player_id,player_name,batting_average);
-			average.add(response);
+			team_id = Integer.parseInt(arr[1]); 
+			bowling_average=Float.parseFloat(arr[2]);
+			
+			
+			 PlayerEntity playerDetails=playerRepository.findById(player_id).get();
+			 Team teamDetails = teamRepo.getTeamDetails(tournament_id, team_id).get();
+			 BestBowlingAverageResponse playerInfo = new BestBowlingAverageResponse(playerDetails.getPlayerId(),playerDetails.getPlayerName(),playerDetails.getImagePath(),
+					 teamDetails.getTeamId(),teamDetails.getTeamName(),teamDetails.getTeamLogo(),
+					 bowling_average);
+			 finalPlayersList.add(playerInfo);
 			
 		}
-		return new ListAndMessageResponse(average,HttpStatus.OK,average.size());
+		return new ListAndMessageResponse(finalPlayersList,HttpStatus.OK,finalPlayersList.size());
 	}
     
     

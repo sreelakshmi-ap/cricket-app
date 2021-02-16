@@ -90,6 +90,25 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     		"GROUP BY player_id\n" + 
     		"Order BY bat_avg desc",nativeQuery = true)
     List<String> getBestBattingAverage(int tournamentId);
+    
+    
+    @Query(value = "SELECT p.player_id, p.team_id, SUM(p.runs) / sum(p.wickets) as bowl_avg\r\n" + 
+    		"FROM  player_score p \r\n" + 
+    		"INNER JOIN \r\n" + 
+    		"(\r\n" + 
+    		"select player_id\r\n" + 
+    		"from player_score \r\n" + 
+    		"WHERE wickets!=0 and\r\n" + 
+    		"team_id in(select team_id from teams where tournament_id=?1)\r\n" + 
+    		"GROUP BY player_id) \r\n" + 
+    		"b1 ON p.player_id = b1.player_id \r\n" + 
+    		"GROUP BY player_id Order BY bowl_avg asc",nativeQuery = true)
+    List<String> getBestBowlingAverage(int tournamentId);
+    
+    
+    
+    
+    
 
 }
 
