@@ -115,7 +115,7 @@ public class StatsServiceImpl implements StatsService {
 	
 
 	@Override
-	public ListAndMessageResponse getBestBattingAverage(int tournament_id) {
+	public ResponseEntity<?> getBestBowlingAverage(int tournament_id) {
 		List<String> bowlingAverage=playerScoreRepository.getBestBowlingAverage(tournament_id);
 
 		List<BestBowlingAverageResponse> finalPlayersList = new ArrayList<>();
@@ -141,7 +141,31 @@ public class StatsServiceImpl implements StatsService {
 			 finalPlayersList.add(playerInfo);
 			
 		}
-		return new ListAndMessageResponse(finalPlayersList,HttpStatus.OK,finalPlayersList.size());
+		return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",finalPlayersList));
+	}
+	
+	@Override
+	public ListAndMessageResponse getBestBattingAverage(int tournament_id) {
+		List<String> battingAverage=playerScoreRepository.getBestBattingAverage(tournament_id);
+		List<BattingAverageResponse> average=new ArrayList<>();
+		BattingAverageResponse response;
+		
+		int player_id;
+		String player_name;
+		Float batting_average;
+		
+		
+		for(String battingAverages:battingAverage) {
+			String[] arr=battingAverages.split(",");
+			player_id=Integer.parseInt(arr[0]);
+			batting_average=Float.parseFloat(arr[1]);
+			player_name=playerRepository.getPlayerName(player_id);
+			                                                                                                                                                                                                               
+			response=new BattingAverageResponse(player_id,player_name,batting_average);
+			average.add(response);
+			
+		}
+		return new ListAndMessageResponse(average,HttpStatus.OK,average.size());
 	}
     
     

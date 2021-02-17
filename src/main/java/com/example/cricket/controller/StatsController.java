@@ -82,8 +82,8 @@ public class StatsController {
     
     //best bowling average= runs/wickets
     @GetMapping("/getBestBowlingAverage")
-    public ListAndMessageResponse getBestBowlingAverage(@RequestParam int tournament_id){
-    	return statsService.getBestBattingAverage(tournament_id);
+    public ResponseEntity<?> getBestBowlingAverage(@RequestParam int tournament_id){
+    	return statsService.getBestBowlingAverage(tournament_id);
     }
 
 
