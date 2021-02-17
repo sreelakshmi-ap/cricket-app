@@ -63,6 +63,7 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     @Query(value = "select p.player_name as playerName, x.player_id as Id,x.run_scored as highestScore FROM Cricket.player_score x ,Cricket.players p where x.run_scored!=0 and p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1) order by highestScore desc limit 10",nativeQuery = true)
     List<HighestScore> findHighestScore(int tournamentId);
 
+
     @Query(value = "select p.player_name as playerName, x.player_id as Id,x.batsmen_sr as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where x.batsmen_sr!=0 and p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1) order by bestBattingStrikeRate desc limit 10",nativeQuery = true)
    List<BestBattingStrikeRate> findBestBattingStrikeRate(int tournamentId);
 
@@ -73,4 +74,47 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
 
     @Query(value = "select p.player_name as name, p.image_path as imagePath, ps.player_id as id, ps.wickets as wickets,round(((floor(ps.no_of_overs_bowled)*6)+((ps.no_of_overs_bowled-floor(ps.no_of_overs_bowled))*10))) as balls,ps.no_of_overs_bowled as overs,(round(((floor(ps.no_of_overs_bowled)*6)+((ps.no_of_overs_bowled-floor(ps.no_of_overs_bowled))*10)))/ps.wickets) as bestBowlingStrikeRate from Cricket.player_score ps ,Cricket.players p where p.player_id=ps.player_id and wickets!=0 and match_id in (select match_id from Cricket.matchs where tournament_id =?1) order by bestBowlingStrikeRate asc limit 10",nativeQuery = true)
     List<BestBowlingStrikeRate> findBestBowlingStrikeRate(int tournamentId);
+
+
+  
+
+   
+    
+    @Query(value = "SELECT p.player_id, SUM(p.run_scored) / b1.NumOut as bat_avg\n" + 
+    		"FROM  player_score p\n" + 
+    		"INNER JOIN\n" + 
+    		"(\n" + 
+    		"  select player_id, COUNT(batsmen_out) as NumOut\n" + 
+    		"  from player_score\n" + 
+    		"  WHERE batsmen_out <> '0' and\n" + 
+    		"  team_id in(select team_id from teams where tournament_id=?)\n" + 
+    		"  GROUP BY player_id\n" + 
+    		") b1\n" + 
+    		"ON p.player_id = b1.player_id\n" + 
+    		"GROUP BY player_id\n" + 
+    		"Order BY bat_avg desc",nativeQuery = true)
+    List<String> getBestBattingAverage(int tournamentId);
+    
+    
+    @Query(value = "SELECT p.player_id, p.team_id, SUM(p.runs) / sum(p.wickets) as bowl_avg\r\n" + 
+    		"FROM  player_score p \r\n" + 
+    		"INNER JOIN \r\n" + 
+    		"(\r\n" + 
+    		"select player_id\r\n" + 
+    		"from player_score \r\n" + 
+    		"WHERE wickets!=0 and\r\n" + 
+    		"team_id in(select team_id from teams where tournament_id=?1)\r\n" + 
+    		"GROUP BY player_id) \r\n" + 
+    		"b1 ON p.player_id = b1.player_id \r\n" + 
+    		"GROUP BY player_id Order BY bowl_avg asc",nativeQuery = true)
+    List<String> getBestBowlingAverage(int tournamentId);
+    
+    
+    
+    
+    
+
+
 }
+
+

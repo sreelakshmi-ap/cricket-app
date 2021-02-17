@@ -2,6 +2,10 @@ package com.example.cricket.service;
 
 import org.springframework.http.ResponseEntity;
 
+
+import com.example.cricket.response.ListAndMessageResponse;
+
+
 public interface StatsService {
    public ResponseEntity getHighestScore(int tournamentId);
 
@@ -18,5 +22,10 @@ public interface StatsService {
    public ResponseEntity<?> getTopTenFifers(int tournamentId);
    
    public ResponseEntity<?> getTopTenWicketTakers(int tournamentId);
+
+   
+   public ResponseEntity<?> getBesBowling(int tournamentId);
+   
+   public ListAndMessageResponse getBestBattingAverage(int tournament_id);
 
 }
