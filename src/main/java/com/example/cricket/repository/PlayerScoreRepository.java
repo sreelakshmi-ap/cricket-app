@@ -76,7 +76,8 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     List<BestBowlingStrikeRate> findBestBowlingStrikeRate(int tournamentId);
 
 
-  
+    @Query(value = "select p.runs as runs,p.wickets as wickets,ps.player_id as playerid,ps.player_name as playername,t.team_name as teamname from Cricket.player_score p,Cricket.players ps,Cricket.teams t where p.runs=(select min(runs) FROM Cricket.player_score where wickets=(select max(wickets) from Cricket.player_score)) and p.wickets=(select max(wickets) from Cricket.player_score) and p.player_id=ps.player_id and p.team_id=t.team_id and t.tournament_id=?1",nativeQuery = true)
+    List<BestBowlingResponse> getBestBowling(int tournamentId);
 
    
     
