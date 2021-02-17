@@ -36,22 +36,7 @@ class StatsServiceImplTest {
 
     @Test
     void getHighestScore() {
-        when(playerScoreRepository.findHighestScore(1)).thenReturn(new HighestScore() {
-            @Override
-            public Integer getId() {
-                return 1;
-            }
-
-            @Override
-            public String getPlayerName() {
-                return "Alex";
-            }
-
-            @Override
-            public Integer getHighestScore() {
-                return 100;
-            }
-        });
+        when(playerScoreRepository.findHighestScore(1)).thenReturn(new ArrayList<>());
         ResponseEntity responseEntity = statsService.getHighestScore(1);
         MainResponse response = (MainResponse) responseEntity.getBody();
         assertEquals("Success", response.getMessage());
@@ -59,22 +44,7 @@ class StatsServiceImplTest {
 
     @Test
     void getBestBattingStrikeRate() {
-        when(playerScoreRepository.findBestBattingStrikeRate(1)).thenReturn(new BestBattingStrikeRate() {
-            @Override
-            public Integer getId() {
-                return 1;
-            }
-
-            @Override
-            public String getPlayerName() {
-                return "Alex";
-            }
-
-            @Override
-            public Float getBestBattingStrikeRate() {
-                return Float.valueOf(125);
-            }
-        });
+        when(playerScoreRepository.findBestBattingStrikeRate(1)).thenReturn(new ArrayList<>());
         ResponseEntity responseEntity = statsService.getBestBattingStrikeRate(1);
         MainResponse response = (MainResponse) responseEntity.getBody();
         assertEquals("Success", response.getMessage());
@@ -82,23 +52,16 @@ class StatsServiceImplTest {
 
     @Test
     void getBestEconomy() {
-        when(playerScoreRepository.findBestEconomy(1)).thenReturn(new BestEconomy() {
-            @Override
-            public Integer getId() {
-                return 1;
-            }
-
-            @Override
-            public String getPlayerName() {
-                return "Alex";
-            }
-
-            @Override
-            public Float getBestEconomy() {
-                return Float.valueOf(10);
-            }
-        });
+        when(playerScoreRepository.findBestEconomy(1)).thenReturn(new ArrayList<>());
         ResponseEntity responseEntity = statsService.getBestEconomy(1);
+        MainResponse response = (MainResponse) responseEntity.getBody();
+        assertEquals("Success", response.getMessage());
+    }
+
+    @Test
+    void getBestBowlingStrikeRate() {
+        when(playerScoreRepository.findBestBowlingStrikeRate(1)).thenReturn(new ArrayList<>());
+        ResponseEntity responseEntity = statsService.getBestBowlingStrikeRate(1);
         MainResponse response = (MainResponse) responseEntity.getBody();
         assertEquals("Success", response.getMessage());
     }

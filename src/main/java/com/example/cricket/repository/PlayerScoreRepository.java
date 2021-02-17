@@ -14,6 +14,7 @@ import com.example.cricket.response.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 
@@ -59,13 +60,17 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
 			"match_id=?2", nativeQuery = true)
 	String getPlayerInfo(int player_id,int match_id);
 
-    @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.run_scored) as highestScore FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
-    HighestScore findHighestScore(int tournamentId);
+    @Query(value = "select p.player_name as playerName, x.player_id as Id,x.run_scored as highestScore FROM Cricket.player_score x ,Cricket.players p where x.run_scored!=0 and p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1) order by highestScore desc limit 10",nativeQuery = true)
+    List<HighestScore> findHighestScore(int tournamentId);
 
-    @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.batsmen_sr) as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
-    BestBattingStrikeRate findBestBattingStrikeRate(int tournamentId);
+    @Query(value = "select p.player_name as playerName, x.player_id as Id,x.batsmen_sr as bestBattingStrikeRate FROM Cricket.player_score x ,Cricket.players p where x.batsmen_sr!=0 and p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1) order by bestBattingStrikeRate desc limit 10",nativeQuery = true)
+   List<BestBattingStrikeRate> findBestBattingStrikeRate(int tournamentId);
 
 
-    @Query(value = "select p.player_name as playerName, x.player_id as Id,max(x.economy_rate) as bestEconomy FROM Cricket.player_score x ,Cricket.players p where p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1)",nativeQuery = true)
-    BestEconomy findBestEconomy(int tournamentId);
+    @Query(value = "select p.player_name as playerName, x.player_id as Id,x.economy_rate as bestEconomy FROM Cricket.player_score x ,Cricket.players p where x.economy_rate!=0 and p.player_id=x.player_id and  x.match_id in (select match_id from Cricket.matchs  where tournament_id=?1) order by bestEconomy asc limit 10",nativeQuery = true)
+   List<BestEconomy> findBestEconomy(int tournamentId);
+
+
+    @Query(value = "select p.player_name as name, p.image_path as imagePath, ps.player_id as id, ps.wickets as wickets,round(((floor(ps.no_of_overs_bowled)*6)+((ps.no_of_overs_bowled-floor(ps.no_of_overs_bowled))*10))) as balls,ps.no_of_overs_bowled as overs,(round(((floor(ps.no_of_overs_bowled)*6)+((ps.no_of_overs_bowled-floor(ps.no_of_overs_bowled))*10)))/ps.wickets) as bestBowlingStrikeRate from Cricket.player_score ps ,Cricket.players p where p.player_id=ps.player_id and wickets!=0 and match_id in (select match_id from Cricket.matchs where tournament_id =?1) order by bestBowlingStrikeRate asc limit 10",nativeQuery = true)
+    List<BestBowlingStrikeRate> findBestBowlingStrikeRate(int tournamentId);
 }
