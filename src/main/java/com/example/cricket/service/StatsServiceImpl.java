@@ -1,10 +1,15 @@
 package com.example.cricket.service;
 
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import java.util.ArrayList;
 
 import java.util.List;
 
+
+import com.example.cricket.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +27,7 @@ import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.repository.PlayerScoreRepository;
 import com.example.cricket.repository.TeamPlayerRepository;
 
+
 import com.example.cricket.response.BestBattingStrikeRate;
 import com.example.cricket.response.BestBowlingAverageResponse;
 import com.example.cricket.response.BestBowlingResponse;
@@ -33,6 +39,7 @@ import com.example.cricket.response.ListAndMessageResponse;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MostWicketResponse;
 import com.example.cricket.response.playerStatInfo;
+
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -52,21 +59,27 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public ResponseEntity getHighestScore(int tournamentId) {
-        HighestScore highestScore =playerScoreRepository.findHighestScore(tournamentId);
+        List<HighestScore> highestScore =playerScoreRepository.findHighestScore(tournamentId);
         return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", highestScore));
     }
 
     @Override
     public ResponseEntity getBestBattingStrikeRate(int tournamentId) {
-        BestBattingStrikeRate bestBattingStrikeRate = playerScoreRepository.findBestBattingStrikeRate(tournamentId);
+        List<BestBattingStrikeRate> bestBattingStrikeRate = playerScoreRepository.findBestBattingStrikeRate(tournamentId);
         return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", bestBattingStrikeRate));
     }
 
     @Override
     public ResponseEntity getBestEconomy(int tournamentId) {
-        BestEconomy bestEconomy = playerScoreRepository.findBestEconomy(tournamentId);
+        List<BestEconomy> bestEconomy = playerScoreRepository.findBestEconomy(tournamentId);
         return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success", bestEconomy));
     }
+
+	@Override
+	public ResponseEntity getBestBowlingStrikeRate(int tournamentId) {
+    	List<BestBowlingStrikeRate> best = playerScoreRepository.findBestBowlingStrikeRate(tournamentId);
+		return ResponseEntity.status(HttpStatus.OK).body(new MainResponse(200, "Success",best));
+	}
 
 	@Override
 	public ResponseEntity<?> getHighestFifer(int tournamentId) {

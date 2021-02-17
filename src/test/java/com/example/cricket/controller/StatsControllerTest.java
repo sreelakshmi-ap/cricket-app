@@ -65,4 +65,13 @@ class StatsControllerTest {
                         MediaType.APPLICATION_JSON)).andExpect(
                 status().is2xxSuccessful());
     }
+
+    @Test
+    void getBestBowlingStrikeRate() throws Exception {
+        given(statsService.getBestBowlingStrikeRate(1)).willReturn(new ResponseEntity<>(HttpStatus.OK));
+        mockMvc.perform(
+                get("/getBestBowlingStrikeRate/{tournamentId}",1).contentType(
+                        MediaType.APPLICATION_JSON)).andExpect(
+                status().is2xxSuccessful());
+    }
 }

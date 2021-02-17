@@ -70,7 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 				.antMatchers("/getCountOfExtras").permitAll()
+
+				.antMatchers("/getPlayerStat","/getBestBowlingStrikeRate/{tournamentId}").permitAll()
+
 				.antMatchers("/getPlayerStat","/getBestBowlingAverage").permitAll()
+
 				
 
 				.antMatchers("/getCountOfExtras","/getHighestScore/{tournamentId}","/getBestBattingStrikeRate/{tournamentId}","/getBestEconomy/{tournamentId}").permitAll()

@@ -36,6 +36,11 @@ public class StatsController {
     public ResponseEntity getBestEconomy(@PathVariable int tournamentId){
         return statsService.getBestEconomy(tournamentId);
     }
+
+    @GetMapping("/getBestBowlingStrikeRate/{tournamentId}")
+    public ResponseEntity getBestBowlingStrikeRate(@PathVariable int tournamentId){
+        return statsService.getBestBowlingStrikeRate(tournamentId);
+    }
     
     @GetMapping("/getHighestFifer")
     public ResponseEntity<?> getHighestFifer(@RequestParam int tournamentId)
