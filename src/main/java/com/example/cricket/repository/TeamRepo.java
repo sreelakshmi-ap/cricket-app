@@ -44,7 +44,7 @@ public interface TeamRepo extends JpaRepository<Team, Integer> {
 	@Query(value = "select team_id,team_name,draw_or_cancelled,losses,points,wins from teams where tournament_id=?", nativeQuery = true)
 	List<String> getTeamStandings(int tournament_id);
 	
-	@Query(value = "select t.runs,t.overs,t.match_id as match_ids,m.match_id as matchs_id from team_score t,matchs m where t.team_id=? and m.status=\"Past\" and m.match_id=t.match_id", nativeQuery = true)
+	@Query(value = "select t.runs,t.overs,t.match_id as match_ids,m.match_id as matchs_id from team_score t,matchs m where t.team_id=? and m.status IN ( 'Past', 'Abondoned')  and m.match_id=t.match_id", nativeQuery = true)
 	List<String> getTeamRR(int team_id);
 	
 	@Query(value = "select runs,overs from team_score where match_id=?1 and team_id!=?2", nativeQuery = true)
