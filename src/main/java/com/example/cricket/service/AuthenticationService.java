@@ -127,7 +127,7 @@ public class AuthenticationService {
 		user.setPassword("*******");
 		return user;
 	}
-	
+
 	public MessageAndStatusResponse logout()
 	{
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
