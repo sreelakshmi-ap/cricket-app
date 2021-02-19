@@ -63,7 +63,7 @@ class AuthControllerTest {
 	@Test
 	void adminRegisterTest() throws Exception
 	{
-				mockMvc.perform(post("/auth/adminRegister?email=abc@gmail.com"))
+				mockMvc.perform(post("/auth/adminRegister?email=admin@gmail.com"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 	}
@@ -71,9 +71,9 @@ class AuthControllerTest {
 	@Test
 	void adminUpdateTest() throws Exception
 	{
-		SignUpRequest request = new SignUpRequest("abc@gmail.com","b", "c",null,"e,","f","g","h");
+		SignUpRequest request = new SignUpRequest("admin@gmail.com","b", "c",null,"e,","f","g","h");
 		String jsonRequest = mapper.writeValueAsString(request);
-				mockMvc.perform(post("/auth/signUp")
+				mockMvc.perform(post("/auth/adminUpdate")
 				.content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
