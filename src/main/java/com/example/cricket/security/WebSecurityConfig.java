@@ -20,12 +20,10 @@ import com.example.cricket.jwt.AuthTokenFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-		prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
-
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -53,38 +51,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+		http.csrf().disable().cors().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
+				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/test/**").permitAll()
 
-				.authorizeRequests().antMatchers("/auth/**").permitAll()
-				.antMatchers("/test/**").permitAll()
+				.antMatchers("/ForgotPassword/**", "/getTournamentGround/{tournamentId}", "/deleteGround",
+						"/tournamentGround", "/getAllGround", "/addGround", "/startMatch/{matchId}", "/toss",
+						"/batsmenList/{matchId}", "/bowlerList/{matchId}", "/currentPlaying/{matchId}")
+				.permitAll().antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
-
-				.antMatchers("/ForgotPassword/**", "/getTournamentGround/{tournamentId}", "/deleteGround", "/tournamentGround", "/getAllGround", "/addGround", "/startMatch/{matchId}", "/toss", "/batsmenList/{matchId}", "/bowlerList/{matchId}", "/currentPlaying/{matchId}").permitAll()
-				.antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
-
-
-				.antMatchers("/UpdateLiveScore","/getScoreBoard/{matchId}","/addNewPlayer").permitAll()
-
+				.antMatchers("/UpdateLiveScore", "/getScoreBoard/{matchId}", "/addNewPlayer", "/getRecent").permitAll()
 
 				.antMatchers("/getCountOfExtras").permitAll()
+				.antMatchers("/getFeedback", "/deleteFeedback", "/feedback","/groundDetails").permitAll()//
 
-				.antMatchers("/getPlayerStat","/getBestBowlingStrikeRate/{tournamentId}").permitAll()
+				.antMatchers("/getPlayerStat", "/getBestBowlingStrikeRate/{tournamentId}").permitAll()
 
-				.antMatchers("/getPlayerStat","/getBestBowlingAverage").permitAll()
+				.antMatchers("/getPlayerStat", "/getBestBowlingAverage").permitAll()
 
-				
+				.antMatchers("/getCountOfExtras", "/getHighestScore/{tournamentId}",
+						"/getBestBattingStrikeRate/{tournamentId}", "/getBestEconomy/{tournamentId}","/CancelTournament")
+				.permitAll()
 
-				.antMatchers("/getCountOfExtras","/getHighestScore/{tournamentId}","/getBestBattingStrikeRate/{tournamentId}","/getBestEconomy/{tournamentId}").permitAll()
-
-				
 				.anyRequest().authenticated();
 
-
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
 
 	}
 }
