@@ -24,14 +24,36 @@ public class UserDetailsImpl implements UserDetails {
 	String imagePath;
 	private Collection<? extends GrantedAuthority> authorities;
 	
+	public UserDetailsImpl(Integer userId, String name, String email, String password, String city, String gender,
+			Long phoneNumber, String imagePath,Collection<? extends GrantedAuthority> authorities ) {
+		this.userId = userId;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.city = city;
+		this.gender = gender;
+		this.phoneNumber = phoneNumber;
+		this.imagePath = imagePath;
+		this.authorities = authorities;
+	}
+	
 	public static UserDetailsImpl build(Users user)
 	{
 
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());
-		return new UserDetailsImpl(user.getUserId(), user.getName(), user.getEmail(), user.getPassword(), user.getCity(),
-				user.getGender(), user.getPhoneNumber(), user.getImagePath(), authorities);
+		
+		return new UserDetailsImpl
+				(user.getUserId(), 
+						user.getName(),
+						user.getEmail(),
+						user.getPassword(),
+						user.getCity(),
+						user.getGender(), 
+						user.getPhoneNumber(), 
+						user.getImagePath(),
+						authorities);
 	}
 
 	public Integer getUserId() {
@@ -94,34 +116,9 @@ public class UserDetailsImpl implements UserDetails {
 		this.password = password;
 	}
 
-	public UserDetailsImpl(Integer userId, String name, String email, String password, String city, String gender,
-			Long phoneNumber, String imagePath) {
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.city = city;
-		this.gender = gender;
-		this.phoneNumber = phoneNumber;
-		this.imagePath = imagePath;
-	}
-
-	public UserDetailsImpl(Integer userId, String name, String email, String password, String city, String gender,
-			Long phoneNumber, String imagePath,Collection<? extends GrantedAuthority> authorities ) {
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.city = city;
-		this.gender = gender;
-		this.phoneNumber = phoneNumber;
-		this.imagePath = imagePath;
-		this.authorities = authorities;
-	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 
 	@Override
@@ -168,5 +165,9 @@ public class UserDetailsImpl implements UserDetails {
 			return false;
 		UserDetailsImpl that = (UserDetailsImpl) o;
 		return Objects.equals(userId, that.userId);
+	}
+
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 }

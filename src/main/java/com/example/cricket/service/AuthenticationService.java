@@ -1,7 +1,6 @@
 package com.example.cricket.service;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -61,16 +60,12 @@ public class AuthenticationService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
-	Random random = new Random();
-	
 	public JwtLoginResponse authenticateUser(LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		
 		return new JwtLoginResponse(userDetails.getName(), userDetails.getImagePath(),jwt, userDetails.getEmail(), HttpStatus.OK);
@@ -89,34 +84,28 @@ public class AuthenticationService {
 		String encryptedPwd = encoder.encode(password);
 		Users user = new Users(newUser.getName(), newUser.getEmail(),encryptedPwd , newUser.getCountryCode(), newUser.getPhoneNumber(),
 				newUser.getCity(), newUser.getGender(), newUser.getImagePath());
-	
 		Set<Role> role = new HashSet<>();
-		Role userRole = roleRepo.findByName(ERoles.ROLE_USER).get();
-				
+		Role userRole = roleRepo.findByName(ERoles.ROLE_USER).get();		
 		role.add(userRole);
 		user.setRoles(role);
 		usersRepo.save(user);
+		
 		return new MessageAndStatusResponse("User registered successfully", HttpStatus.OK);
 	}
 	
 	public MessageAndStatusResponse registerAdmin(String email) throws MailException, MessagingException
 	{
 		Users user = new Users();
-		
 		String password = passwordService.generatePassword();
 		String subject = "Admin Credentials";
 		String body = "Username :"+email+"---- Password :"+password;
-		
 		mailService.sendEmail(email, subject, body);
 		
 		String encPassword = encoder.encode(password);
-	
 		Set<Role> role = new HashSet<>();
-		Role userRole = roleRepo.findByName(ERoles.ROLE_ADMIN).get();
-				
+		Role userRole = roleRepo.findByName(ERoles.ROLE_ADMIN).get();		
 		role.add(userRole);
 		user.setRoles(role);
-		
 		user.setEmail(email);
 		user.setPassword(encPassword);
 		usersRepo.save(user);
@@ -135,6 +124,7 @@ public class AuthenticationService {
 		user.setPhoneNumber(request.getPhoneNumber());
 		
 		usersRepo.save(user);
+		user.setPassword("*******");
 		return user;
 	}
 	
@@ -142,11 +132,9 @@ public class AuthenticationService {
 	{
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		    String token = request.getHeader("Authorization").split(" ")[1];
-
 		    Authentication authentication=(Authentication) SecurityContextHolder.getContext().getAuthentication();
 			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 			int userId = userDetails.getUserId();
-			
 			
 		    JwtBlacklist blacklist = new JwtBlacklist();
 		    blacklist.setToken(token);
