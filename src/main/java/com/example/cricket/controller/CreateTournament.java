@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.cricket.model.Tournament;
+import com.example.cricket.model.Tournament_umpire_mapping;
 import com.example.cricket.model.Umpires;
+import com.example.cricket.repository.Tournament_umpire_mapping_Repository;
 import com.example.cricket.repository.UmpiresRepository;
 import com.example.cricket.response.ListAndMessageResponse;
 import com.example.cricket.response.MessageResponse;
@@ -32,6 +35,9 @@ public class CreateTournament {
    
    @Autowired
    Tournament tournament;
+   
+   @Autowired
+   Tournament_umpire_mapping_Repository repo;
 
 	
    @PostMapping("/addUmpire")
@@ -55,6 +61,7 @@ public class CreateTournament {
    
    @PostMapping("/addUmpireToTournament")
    public MessageResponse addUmpireToTournament(@RequestParam int umpire_id,int tournament_id) {
+	   
 	   return tournamentService.addUmpireToTournament(umpire_id, tournament_id);
 	   
    }
@@ -67,16 +74,17 @@ public class CreateTournament {
 	return new ListAndMessageResponse(umpireList, HttpStatus.OK, umpireList.size());
   }
    
-   @DeleteMapping("/deleteUmpireById")
-	   public MessageResponse deleteUmpireById(@RequestParam int umpire_id) {
-		   umpireRepository.deleteById(umpire_id);
+   
+   @SuppressWarnings("rawtypes")
+@DeleteMapping("/deleteUmpireById")
+	   public MessageResponse deleteUmpireById(@RequestParam int umpire_id,int tournament_id) {
+		   Tournament_umpire_mapping mapping=repo.findUmpire(umpire_id,tournament_id);
+		   System.out.println(mapping.getMap_id());
+		   repo.deleteById(mapping.getMap_id());
 		   return new MessageResponse("umpire deleted successfully",HttpStatus.OK);
 		   
 	   }
-   
-
-   
-   
+  
   
    
    }
