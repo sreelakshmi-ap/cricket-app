@@ -19,7 +19,7 @@ public class Tournament {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int tournamentId;
+    Integer tournamentId;
 	
 	@Column
 	String tournamentName;
@@ -93,7 +93,7 @@ public class Tournament {
 	}
 
 
-	public Tournament(int tournamentId, String tournamentName, String type, String tournamentCode, int overs,
+	public Tournament(Integer tournamentId, String tournamentName, String type, String tournamentCode, int overs,
 			LocalDate startDate, LocalDate endDate, LocalTime startOfTime, LocalTime endOfTime, String tournamentLogo,
 			String tournamentStatus) {
 		super();
@@ -111,12 +111,12 @@ public class Tournament {
 	}
 
 
-	public int getTournamentId() {
+	public Integer getTournamentId() {
 		return tournamentId;
 	}
 
 
-	public void setTournamentId(int tournamentId) {
+	public void setTournamentId(Integer tournamentId) {
 		this.tournamentId = tournamentId;
 	}
 

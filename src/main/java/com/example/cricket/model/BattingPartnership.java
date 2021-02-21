@@ -18,10 +18,10 @@ public class BattingPartnership {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int parnershipId;
 	@Column
-			@JsonIgnore
+	@JsonIgnore
 	int matchId;
 	@Column
-			@JsonIgnore
+	@JsonIgnore
 	int teamId;
 	@Column
 	int batmanOneId;
@@ -51,8 +51,6 @@ public class BattingPartnership {
 		this.balls = balls;
 		this.status = status;
 	}
-	
-	
 
 	public BattingPartnership(int matchId, int teamId, int batmanOneId, int batmanTwoId, int runs, int balls,
 			boolean status) {

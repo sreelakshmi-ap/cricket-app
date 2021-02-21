@@ -27,6 +27,7 @@ public class AuthController {
 	@Autowired
 	AuthenticationService authenticationService;
 
+	
 	@PostMapping("/login")
 	public JwtLoginResponse login(@RequestBody LoginRequest loginRequest) {
 		return authenticationService.authenticateUser(loginRequest);

@@ -15,7 +15,6 @@ public class LiveUpdate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     Long liveUpdateId;
 
     @Column
@@ -25,11 +24,9 @@ public class LiveUpdate {
     int runs;
 
     @Column
-    @JsonIgnore
     int batsman_id;
 
     @Column
-    @JsonIgnore
     int bowler_id;
 
     @Column
@@ -39,15 +36,12 @@ public class LiveUpdate {
     String ball_type;
 
     @Column
-    @JsonIgnore
     int fielder_id;
 
     @Column
-    @JsonIgnore
     int match_id;
 
     @Column
-    @JsonIgnore
     int team_id;
 
     @Column

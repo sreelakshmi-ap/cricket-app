@@ -46,14 +46,23 @@ public class createTournamentService {
 	UmpiresRepository umpiresRepository;
 	
 	public MessageResponse addUmpireToTournament(int umpire_id,int tournament_id) {
+		Tournament_umpire_mapping mapping1=repo.findUmpire(umpire_id, tournament_id);
+		if(mapping1==null) {
 		Tournament_umpire_mapping mapping=new Tournament_umpire_mapping();
 		mapping.setTournament_id(tournament_id);
 		mapping.setUmpire_id(umpire_id);
 		repo.save(mapping);
 		return new MessageResponse("umpire saved successfully",HttpStatus.OK);
+
+		}
+		
+		else {
+			return new MessageResponse("umpire already exist in the tournament",HttpStatus.BAD_REQUEST);
+		}
 		
 		
 	}
+	
 	
 	public List<UmpireResponse> getAllUmpiresOfTournament(int tournamanet_id){
 		List<UmpireResponse> umpireNameAndImageList = new ArrayList<>();

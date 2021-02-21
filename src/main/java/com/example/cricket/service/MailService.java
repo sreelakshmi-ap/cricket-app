@@ -17,18 +17,28 @@ public class MailService {
 		this.javaMailSender = javaMailSender;
 	}
 
+	public void sendFeedback(String email, String text) throws MailException {
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+
+		msg.setTo("vaishnavibhatt852@gmail.com");
+
+		msg.setSubject("you got the feedback from -- " + email);
+		msg.setText(text);
+
+		javaMailSender.send(msg);
+
+	}
 
 	public void sendEmail(String user, String subject, String body) throws MailException, MessagingException {
 		try {
-		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(user);
-		mail.setSubject(subject);
-		mail.setText(body);
+			SimpleMailMessage mail = new SimpleMailMessage();
+			mail.setTo(user);
+			mail.setSubject(subject);
+			mail.setText(body);
 
-		javaMailSender.send(mail);
-		}
-		catch(MailException mex)
-		{
+			javaMailSender.send(mail);
+		} catch (MailException mex) {
 			System.out.println(mex.getMessage());
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,25 +30,32 @@ public class UpdateScoreController {
     @Autowired
     private UpdateScoreService updateScoreService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/toss")
     public ResponseEntity toss(@RequestBody Toss toss){
         return updateScoreService.toss(toss);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/startMatch/{matchId}")
     public ResponseEntity startMatch(@PathVariable int matchId){
         return updateScoreService.startMatch(matchId);
     }
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/batsmenList/{matchId}")
     public ResponseEntity batsmenList(@PathVariable int matchId){
         return updateScoreService.batsmenList(matchId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/bowlerList/{matchId}")
     public ResponseEntity bowlerList(@PathVariable int matchId){
         return updateScoreService.bowlerList(matchId);
     }
-
+    
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/currentPlaying/{matchId}")
     public ResponseEntity currentPlaying(@RequestBody List<Playing> playingList,@PathVariable int matchId){
         return updateScoreService.currentPlaying(playingList,matchId);

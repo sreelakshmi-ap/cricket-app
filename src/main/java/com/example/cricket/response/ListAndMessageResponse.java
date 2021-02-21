@@ -17,6 +17,13 @@ public class ListAndMessageResponse {
 		this.responseStatus = responseStatus;
 		this.noOfItems = noOfItems;
 	}
+	
+	
+
+	public ListAndMessageResponse(HttpStatus responseStatus) {
+		super();
+		this.responseStatus = responseStatus;
+	}
 
 	public List<?> getResultList() {
 		return resultList;
