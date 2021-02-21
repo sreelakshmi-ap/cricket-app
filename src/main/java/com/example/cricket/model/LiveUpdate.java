@@ -15,7 +15,6 @@ public class LiveUpdate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     Long liveUpdateId;
 
     @Column

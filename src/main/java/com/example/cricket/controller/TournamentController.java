@@ -47,4 +47,21 @@ public class TournamentController {
 		return tournamentService.ViewTournamentByCode(tournamentCode);
 	}
 
+	// ========
+
+	@PostMapping("/Knockout")
+	public ResponseEntity<?> Knockout(@RequestParam int tournamentId) {
+		return tournamentService.Knockout(tournamentId);
+	}
+
+	@PostMapping("/FixtureForKnockoutNextRounds")
+	public ResponseEntity<?> FixtureForKnockoutNextRounds(@RequestParam int tournamentId, @RequestParam int rounds) {
+		return tournamentService.FixtureForKnockoutNextRounds(tournamentId, rounds);
+	}
+
+	@PutMapping("/RegenerateKnockoutFixture")
+	public ResponseEntity<?> RegenerateKnockoutFixture(@RequestParam int tournamentId) {
+		return tournamentService.RegenerateKnockoutFixture(tournamentId);
+	}
+
 }

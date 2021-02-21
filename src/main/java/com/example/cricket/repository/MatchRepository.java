@@ -3,7 +3,10 @@ package com.example.cricket.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +28,15 @@ public interface MatchRepository extends JpaRepository<Matchs, Integer> {
 
 	@Query(value = "SELECT * FROM Cricket.matchs where tournament_id=?1", nativeQuery = true)
 	List<Matchs> findTournamentsId(int tournamentId);
+	
+	
+	@Query(value = "SELECT count(*) FROM Cricket.matchs where tournament_id=?1", nativeQuery = true)
+	int CountNoOfMatches(int tournamentId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM Cricket.matchs where tournament_id=?1", nativeQuery = true)
+	void deleteMatch(int tournamentId);
 
 }
