@@ -240,6 +240,8 @@ public class LiveUpdateService {
 					PlayerScore OutbatsmanData = playerScoreRepo.findByTeamIdAndMatchId(liveUpdate.getMatch_id(),
 							liveUpdate.getTeam_id(), liveReq.getWicketId());
 					OutbatsmanData.setBatsmenOut(true);
+					batsmanOnCrease = false;
+					//OutbatsmanData.setOnCrease(false);
 					playerScoreRepo.save(OutbatsmanData);
 				}
 
@@ -247,6 +249,7 @@ public class LiveUpdateService {
 				PlayerScore OutbatsmanData = playerScoreRepo.findByTeamIdAndMatchId(liveUpdate.getMatch_id(),
 						liveUpdate.getTeam_id(), liveReq.getWicketId());
 				OutbatsmanData.setBatsmenOut(true);
+				batsmanOnCrease = false;
 				playerScoreRepo.save(OutbatsmanData);
 			}
 
@@ -355,7 +358,7 @@ public class LiveUpdateService {
 
 		BatsmanData.setRunScored(runScored);
 
-		BatsmanData.setBowling(false);
+		//BatsmanData.setBowling(false);
 
 		BatsmanData.setBatsmenSR(Strikerate);
 
@@ -363,7 +366,7 @@ public class LiveUpdateService {
 		BowlerData.setNoOfOversBowled(NoOfOvers);
 		BowlerData.setRuns(runs);
 		BowlerData.setWickets(wickets);
-		BowlerData.setBatting(false);
+		//BowlerData.setBatting(false);
 		BowlerData.setNoOfMaidens(BowlerMaiden);
 
 		playerScoreRepo.save(BatsmanData);
