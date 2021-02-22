@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.cricket.model.Matchs;
-import com.example.cricket.model.PlayersAchievements;
 import com.example.cricket.model.Team;
 import com.example.cricket.model.TeamPlayerEntity;
 import com.example.cricket.model.TeamScore;
@@ -23,8 +23,11 @@ import com.example.cricket.repository.TeamRepo;
 import com.example.cricket.repository.TeamScoreRepository;
 import com.example.cricket.repository.TournamentRepo;
 import com.example.cricket.response.InningsResponse;
+import com.example.cricket.response.ListAndMessageResponse;
+import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MatchResponse;
 import com.example.cricket.response.MessageResponse;
+import com.example.cricket.response.ViewTournamentResponse;
 
 
 @Service
@@ -68,10 +71,11 @@ public class MatchService {
 	}
 
 
-	public List<MatchResponse> getAllMatchsForTournament(String tournament_code) {
+	public ResponseEntity<?> getAllMatchsForTournament(String tournament_code) {
+		
+		Integer tournamentId=tournamentRepo.findByTournamentCode(tournament_code);
+		if(tournamentId!=null) {
 		List<MatchResponse> matchResponse=new ArrayList<>();
-			
-		int tournamentId=tournamentRepo.findByTournamentCode(tournament_code);
 		List<String> matchs=matchRepository.getAllMatchs(tournamentId);
 		String match_name,status,stopped_reason,team1Name,team2Name;
 		LocalDate match_date;
@@ -120,13 +124,19 @@ public class MatchService {
 		matchResponse.add(response);
 		
 	}
-		return matchResponse;
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ListAndMessageResponse(matchResponse, HttpStatus.OK,matchResponse.size()));
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(404, "Tournament Not Found", ""));
+		}
  }
 	
 	
-	public List<MatchResponse> getAllMatchs(int tournament_id){
+	public ResponseEntity<?> getAllMatchs(int tournament_id){
 		List<MatchResponse> matchResponse=new ArrayList<>();
 		List<String> matchs=matchRepository.getAllMatchs(tournament_id);
+		if(matchs!=null) {
 		String match_name,status,stopped_reason,team1Name,team2Name;
 		LocalDate match_date;
 		int ground_id,team_1_id,team_2_id,match_id,team_1_score,team_1_wicket,team_2_score,
@@ -174,7 +184,13 @@ public class MatchService {
 		matchResponse.add(response);
 		
 	}
-		return matchResponse;
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ListAndMessageResponse(matchResponse, HttpStatus.OK,matchResponse.size()));
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(404, "Tournament Not Found", ""));
+		}
+		
  }
 		
 

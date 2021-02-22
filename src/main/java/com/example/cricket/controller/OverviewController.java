@@ -1,6 +1,7 @@
 package com.example.cricket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ public class OverviewController {
 	@Autowired
 	createTournamentService service;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/Overview")
 	public OverviewResponse getOverview(@RequestParam int tournamentId) {
 		return service.getOverview(tournamentId);

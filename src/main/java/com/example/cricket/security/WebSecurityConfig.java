@@ -56,28 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/test/**").permitAll()
 
-				.antMatchers("/ForgotPassword/**", "/getTournamentGround/{tournamentId}", "/deleteGround",
-						"/tournamentGround", "/getAllGround", "/addGround", "/startMatch/{matchId}", "/toss",
-						"/batsmenList/{matchId}", "/bowlerList/{matchId}", "/currentPlaying/{matchId}")
-				.permitAll().antMatchers("/umpireDetails", "/getLiveScore/{matchId}").permitAll()
 
-				.antMatchers("/UpdateLiveScore", "/getScoreBoard/{matchId}", "/addNewPlayer", "/getRecent").permitAll()
-				
-				.antMatchers("/Knockout").permitAll()
-				.antMatchers("/FixtureForKnockoutNextRounds").permitAll()
-				.antMatchers("/RegenerateKnockoutFixture").permitAll()
-				
-
-				.antMatchers("/getCountOfExtras").permitAll()
-				.antMatchers("/getFeedback", "/deleteFeedback", "/feedback","/groundDetails").permitAll()//
-
-				.antMatchers("/getPlayerStat", "/getBestBowlingStrikeRate/{tournamentId}").permitAll()
-
-				.antMatchers("/getPlayerStat", "/getBestBowlingAverage").permitAll()
-
-				.antMatchers("/getCountOfExtras", "/getHighestScore/{tournamentId}",
-						"/getBestBattingStrikeRate/{tournamentId}", "/getBestEconomy/{tournamentId}","/CancelTournament")
+				.antMatchers("/ForgotPassword/**")
 				.permitAll()
+
 
 				.anyRequest().authenticated();
 

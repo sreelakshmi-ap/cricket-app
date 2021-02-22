@@ -29,8 +29,7 @@ public interface TournamentRepo extends JpaRepository<Tournament, Integer> {
 	
 
 	 @Query(value = "select tournament.tournament_id from tournament where tournament_code=?", nativeQuery = true)
-	 public int findByTournamentCode(String tournament_code);
-	 
+	 public Integer findByTournamentCode(String tournament_code);
 	 
 	 @Query(value = "SELECT * FROM Cricket.tournament where tournament_code=?1",nativeQuery = true)
 	 Optional<Tournament>  findAllByTournamentCode(String tournament_code);

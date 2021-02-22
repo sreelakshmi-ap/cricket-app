@@ -1,4 +1,4 @@
-package com.example.cricket.service;
+ package com.example.cricket.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
