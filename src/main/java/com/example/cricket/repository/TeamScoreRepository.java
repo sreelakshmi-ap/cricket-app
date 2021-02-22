@@ -14,10 +14,10 @@ public interface TeamScoreRepository extends JpaRepository<TeamScore,Integer> {
    @Query(value = "SELECT wickets FROM Cricket.team_score where match_id=?1 and batting_order=1",nativeQuery = true)
    public int FindWicket(int matchId);
    
-   @Query(value = "SELECT runs FROM Cricket.team_score where match_id=?1 and batting_order=0",nativeQuery = true )
+   @Query(value = "SELECT runs FROM Cricket.team_score where match_id=?1 and batting_order=1",nativeQuery = true )
    public int FindTarget(int matchId);
    
-   @Query(value = "SELECT runs FROM Cricket.team_score where match_id=?1 and batting_order=1",nativeQuery = true )
+   @Query(value = "SELECT runs FROM Cricket.team_score where match_id=?1 and batting_order=0",nativeQuery = true )
    public int CurrentRun(int matchId);
    
 //   @Query(value = "SELECT runs FROM Cricket.team_score where match_id=?1 and batting_order=0",nativeQuery = true)

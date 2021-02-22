@@ -87,6 +87,11 @@ public class LiveUpdateService {
 				}
 
 				else if (currentMatch.get().getInnings() == 2) {
+					System.out.println(CurrentRuns);
+					System.out.println(Target);
+					System.out.println(TotalOvers * 6);
+					System.out.println(liveReq.getLiveUpdate().getBallno());
+					System.out.println(wickets);
 
 					if (TotalOvers * 6 == liveReq.getLiveUpdate().getBallno() || wickets == 10
 							|| CurrentRuns > Target) {
@@ -295,8 +300,7 @@ public class LiveUpdateService {
 		// Bowlers Data
 
 		int BowlingTeamId = teamScoreRepository.GetBowlingTeamId(liveUpdate.getMatch_id());
-		PlayerScore BowlerData = playerScoreRepo.findByTeamIdAndMatchId(liveUpdate.getMatch_id(), BowlingTeamId,
-				liveUpdate.getBowler_id());
+		PlayerScore BowlerData = playerScoreRepo.findByPlayerIdAndMatchId(liveUpdate.getBowler_id(),liveUpdate.getMatch_id());
 
 		float NoOfOvers = BowlerData.getNoOfOversBowled();
 
