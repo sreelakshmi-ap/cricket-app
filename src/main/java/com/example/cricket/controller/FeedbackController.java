@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cricket.model.Feedback;
+import com.example.cricket.model.Rating;
 import com.example.cricket.repository.FeedbackRepository;
 import com.example.cricket.repository.UsersRepository;
 import com.example.cricket.request.feedbackRequest;
@@ -54,6 +55,15 @@ public class FeedbackController {
 	public ResponseEntity<?> deleteFeedback(@RequestParam long feedbackId) {
 		return feedbackService.deleteFeedback(feedbackId);
 	
+	}
+	
+	
+	// ratings
+	
+	@PostMapping("/rating")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> ratingDetails(@RequestBody Rating ratingValues) {
+		return feedbackService.ratingDetails(ratingValues);
 	}
 
 }

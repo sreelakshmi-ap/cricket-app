@@ -66,6 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/Knockout").permitAll()
 				.antMatchers("/FixtureForKnockoutNextRounds").permitAll()
 				.antMatchers("/RegenerateKnockoutFixture").permitAll()
+				.antMatchers("/rating").permitAll()
+				
 				
 
 				.antMatchers("/getCountOfExtras").permitAll()

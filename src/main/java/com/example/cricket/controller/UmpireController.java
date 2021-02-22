@@ -16,11 +16,6 @@ public class UmpireController {
 	@Autowired
 	UmpireDetailService umpireDetailsService;
 
-//	@GetMapping("/umpireDetails")
-//	List<UmpireDetailResponse> umpireDetails(@RequestParam int umpireId, @RequestParam int tournamentId) {
-//		return umpireDetailsService.umpireDetails(umpireId, tournamentId);
-//	}
-	
 	@GetMapping("/umpireDetails")
 	UmpireMatchResponse  umpireDetails(@RequestParam int umpireId, @RequestParam int tournamentId) {
 		return umpireDetailsService.umpireDetails(umpireId, tournamentId);

@@ -7,17 +7,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cricket.model.Feedback;
+import com.example.cricket.model.Rating;
 import com.example.cricket.model.Users;
 import com.example.cricket.repository.FeedbackRepository;
+import com.example.cricket.repository.RatingRepository;
 import com.example.cricket.repository.UsersRepository;
 import com.example.cricket.request.feedbackRequest;
 import com.example.cricket.response.MainResponse;
 import com.example.cricket.response.MessageResponse;
-
+import com.example.cricket.response.RatingResponse;
+@Service
 public class FeedbackService {
 	@Autowired
 	FeedbackRepository feedbackRepository;
@@ -27,6 +31,9 @@ public class FeedbackService {
 
 	@Autowired
 	public MailService emailService;
+
+	@Autowired	
+	RatingRepository ratingRepository;
 
 	public ResponseEntity<?> feedbackDetails(feedbackRequest feedbackValues) {
 
@@ -74,4 +81,29 @@ public class FeedbackService {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponse(409, "Feedback Not Found", ""));
 
 	}
+	
+	
+	//rating api
+	
+	public ResponseEntity<?> ratingDetails(Rating ratingValues) {
+		Rating rating =  new Rating();
+		Users user = userDao.findByUserID(ratingValues.getUser_id());
+		if (user == null) {
+			return ResponseEntity.status(404).body(new MessageResponse("user dosen't exist", HttpStatus.NOT_FOUND));
+
+		}
+		if ((ratingValues.getRating()>5) || (ratingValues.getRating() < 1)) {
+			return ResponseEntity.status(200).body(new MessageResponse("Rating value is out of bound(1-5)", HttpStatus.BAD_REQUEST));
+
+		}
+		rating.setUser_id(ratingValues.getUser_id());
+		rating.setRating(ratingValues.getRating());
+		rating.setRatingDate(LocalDate.now());
+		rating.setRatingTime(LocalTime.now());
+		ratingRepository.save(rating);
+		float overallRating = ratingRepository.findOverallRating();
+		return ResponseEntity.status(200).body(new RatingResponse("Rating added successfully", HttpStatus.OK,overallRating));
+	}
+	
+	
 }
