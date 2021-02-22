@@ -27,7 +27,8 @@ public class LiveScoreController {
         return liveScoreService.getScoreBoard(matchId);
     }
     
-    @PreAuthorize("hasRole('USER')")
+
+   @PreAuthorize("hasRole('USER')")
     @GetMapping("/getRecent")
     public ResponseEntity getRecent(@RequestParam int matchId,@RequestParam  int teamId) {
     	return liveScoreService.getRecent(matchId, teamId);

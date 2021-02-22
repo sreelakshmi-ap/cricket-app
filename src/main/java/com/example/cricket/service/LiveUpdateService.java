@@ -98,12 +98,14 @@ public class LiveUpdateService {
 						if (liveReq.getLiveUpdate().getBall_type().isEmpty()) {
 							liveReq.getLiveUpdate().setBall_type("Good ball");
 						}
+						
+						liveUpdateRepository.save(liveReq.getLiveUpdate());
 
 						TeamScoreUpdateValues(liveReq, currentMatch.get().getInnings());
 
 						PlayerScoreUpdateValues(liveReq);
 
-						liveUpdateRepository.save(liveReq.getLiveUpdate());
+						
 
 						return ResponseEntity.status(HttpStatus.OK)
 								.body(new LiveUpdateRequest(liveReq.getLiveUpdate()));

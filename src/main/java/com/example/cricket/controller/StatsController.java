@@ -43,8 +43,8 @@ public class StatsController {
         return statsService.getBestEconomy(tournamentId);
     }
 
-    
-    @PreAuthorize("hasRole('USER')")
+
+  @PreAuthorize("hasRole('USER')")
     @GetMapping("/getBestBowlingStrikeRate/{tournamentId}")
     public ResponseEntity getBestBowlingStrikeRate(@PathVariable int tournamentId){
         return statsService.getBestBowlingStrikeRate(tournamentId);
@@ -80,7 +80,8 @@ public class StatsController {
     	return statsService.getTopTenWicketTakers(tournamentId);
     }
 
-    @PreAuthorize("hasRole('USER')")
+
+   @PreAuthorize("hasRole('USER')")
     @GetMapping("/getBestBowling")
     public ResponseEntity<?> getBesBowling(@RequestParam int tournamentId)
     {
@@ -88,14 +89,16 @@ public class StatsController {
     }
 
 
-    @PreAuthorize("hasRole('USER')")
+
+   @PreAuthorize("hasRole('USER')")
     @GetMapping("/getBestBttingAverage")
     public ListAndMessageResponse getBestBattingAverage(@RequestParam int tournament_id){
     	return statsService.getBestBattingAverage(tournament_id);
     }
     
     //best bowling average= runs/wickets
-    @PreAuthorize("hasRole('USER')")
+
+   @PreAuthorize("hasRole('USER')")
     @GetMapping("/getBestBowlingAverage")
     public ResponseEntity<?> getBestBowlingAverage(@RequestParam int tournament_id){
     	return statsService.getBestBowlingAverage(tournament_id);

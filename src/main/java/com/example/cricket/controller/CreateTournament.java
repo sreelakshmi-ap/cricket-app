@@ -78,9 +78,11 @@ public class CreateTournament {
 	return new ListAndMessageResponse(umpireList, HttpStatus.OK, umpireList.size());
   }
    
+
    @PreAuthorize("hasRole('ADMIN')")
    @SuppressWarnings("rawtypes")
    @DeleteMapping("/deleteUmpireById")
+
 	   public MessageResponse deleteUmpireById(@RequestParam int umpire_id,int tournament_id) {
 		   Tournament_umpire_mapping mapping=repo.findUmpire(umpire_id,tournament_id);
 		   System.out.println(mapping.getMap_id());
