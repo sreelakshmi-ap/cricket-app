@@ -12,9 +12,12 @@ import com.example.cricket.response.Players;
 import com.example.cricket.response.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import java.util.List;
 
 
@@ -112,7 +115,8 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     		"GROUP BY player_id Order BY bowl_avg asc",nativeQuery = true)
     List<String> getBestBowlingAverage(int tournamentId);
 
-
+    @Transactional
+	@Modifying
     @Query(value = "update Cricket.player_score set on_crease=false where match_id=?1 and bowling=true",nativeQuery = true)
     void setOnCrease(int matchId);
 }
