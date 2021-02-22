@@ -129,6 +129,9 @@ public class UpdateScoreServiceImpl implements UpdateScoreService {
 		if (currentMatch.isPresent()) {
 			if (currentMatch.get().getStatus().equals("Live")) {
 				for (Playing player : playingList) {
+					if(player.isBowling()==true){
+						playerScoreRepository.setOnCrease(matchId);
+					}
 					PlayerScore score = playerScoreRepository.findByPlayerIdAndMatchId(player.getPlayerId(), matchId);
 					score.setBatting(player.isBatting());
 					score.setBowling(player.isBowling());

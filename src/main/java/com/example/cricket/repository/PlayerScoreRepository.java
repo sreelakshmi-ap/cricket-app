@@ -109,13 +109,10 @@ public interface PlayerScoreRepository extends JpaRepository<PlayerScore, Intege
     		"b1 ON p.player_id = b1.player_id \r\n" + 
     		"GROUP BY player_id Order BY bowl_avg asc",nativeQuery = true)
     List<String> getBestBowlingAverage(int tournamentId);
-    
-    
-    
-    
-    
 
 
+    @Query(value = "update Cricket.player_score set on_crease=false where match_id=?1 and bowling=true",nativeQuery = true)
+    void setOnCrease(int matchId);
 }
 
 
