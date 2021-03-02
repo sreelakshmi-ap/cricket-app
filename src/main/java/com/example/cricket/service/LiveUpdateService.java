@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cricket.model.LiveUpdate;
 import com.example.cricket.model.Matchs;
@@ -44,7 +45,8 @@ public class LiveUpdateService {
 	
 	@Autowired
 	BattingPartnershipService battingPartnershipService;
-
+	
+	@Transactional
 	public ResponseEntity<?> UpdateLiveScore(LiveUpdateRequest liveReq) {
 
 		Optional<Matchs> currentMatch = matchRepository.findByMatchId(liveReq.getLiveUpdate().getMatch_id());
